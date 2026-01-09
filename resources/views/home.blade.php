@@ -9,14 +9,14 @@
                 <span class="block">Bato National High School</span>
                 <span class="block text-blue-900">eDocument Request</span>
                 </h1>
-            
+
             <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-700">
                 Request and track your school documents online. Simple, fast, and secure—verify your email and submit your request in minutes.
             </p>
 
             <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
                 <a
-                    href="{{ route('otp.request', ['purpose' => 'submission']) }}"
+                    href="{{ route('request.select') }}"
                     class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-blue-800 px-8 py-3.5 text-base font-semibold text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:w-auto"
                 >
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

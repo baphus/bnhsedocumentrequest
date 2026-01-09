@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Request;
+use App\Models\RequestLog;
 use Illuminate\Http\Request as HttpRequest;
 
 class DashboardController extends Controller
@@ -12,6 +13,27 @@ class DashboardController extends Controller
      * Show admin dashboard
      */
     public function index(HttpRequest $request)
+    {
+        // Statistics
+        $stats = [
+            'total' => Request::count(),
+            'pending' => Request::where('status', 'pending')->count(),
+            'processing' => Request::where('status', 'processing')->count(),
+            'ready' => Request::where('status', 'ready')->count(),
+            'completed' => Request::where('status', 'completed')->count(),
+        ];
+
+        $requests = Request::with('documentType')->orderBy('created_at', 'desc')->take(5)->get();
+
+        $activities = RequestLog::with('user', 'request')->latest()->take(10)->get();
+
+        return view('admin.dashboard', compact('requests', 'stats', 'activities'));
+    }
+
+    /**
+     * Show requests table
+     */
+    public function requests(HttpRequest $request)
     {
         $status = $request->query('status', 'all');
         $search = $request->query('search');
@@ -31,16 +53,7 @@ class DashboardController extends Controller
 
         $requests = $query->paginate(20);
 
-        // Statistics
-        $stats = [
-            'total' => Request::count(),
-            'pending' => Request::where('status', 'pending')->count(),
-            'processing' => Request::where('status', 'processing')->count(),
-            'ready' => Request::where('status', 'ready')->count(),
-            'completed' => Request::where('status', 'completed')->count(),
-        ];
-
-        return view('admin.dashboard', compact('requests', 'stats', 'status', 'search'));
+        return view('admin.requests', compact('requests', 'status', 'search'));
     }
 
     /**

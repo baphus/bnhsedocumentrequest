@@ -13,6 +13,35 @@ use Carbon\Carbon;
 class RequestController extends Controller
 {
     /**
+     * Show document selection page (Step 1)
+     */
+    public function select()
+    {
+        $documents = Document::active()->orderBy('category')->orderBy('name')->get();
+        
+        // Group documents by category
+        $groupedDocuments = $documents->groupBy('category');
+        
+        return view('request.select', compact('groupedDocuments', 'documents'));
+    }
+
+    /**
+     * Store selected document and proceed to email verification
+     */
+    public function storeSelection(HttpRequest $request)
+    {
+        $validated = $request->validate([
+            'document_type_id' => 'required|exists:documents,id',
+        ]);
+
+        // Store selected document in session
+        session(['selected_document_id' => $validated['document_type_id']]);
+
+        // Redirect to email verification
+        return redirect()->route('otp.request', ['purpose' => 'submission']);
+    }
+
+    /**
      * Show the multi-step request form
      */
     public function create()
@@ -20,7 +49,15 @@ class RequestController extends Controller
         $documents = Document::active()->orderBy('name')->get();
         $tracks = Track::active()->orderBy('category')->orderBy('name')->get();
         
-        return view('request.create', compact('documents', 'tracks'));
+        // Get selected document from session if available
+        $selectedDocumentId = session('selected_document_id');
+        
+        // If document was selected, ensure it's in the documents list
+        if ($selectedDocumentId && !$documents->contains('id', $selectedDocumentId)) {
+            $selectedDocumentId = null;
+        }
+        
+        return view('request.create', compact('documents', 'tracks', 'selectedDocumentId'));
     }
 
     /**
@@ -85,8 +122,8 @@ class RequestController extends Controller
             \Log::error('Failed to send confirmation email: ' . $e->getMessage());
         }
 
-        // Clear OTP session data
-        session()->forget(['otp_verified', 'otp_verified_at', 'otp_email', 'otp_purpose']);
+        // Clear OTP and document selection session data
+        session()->forget(['otp_verified', 'otp_verified_at', 'otp_email', 'otp_purpose', 'selected_document_id']);
 
         return redirect()->route('request.success', ['tracking_id' => $documentRequest->tracking_id]);
     }

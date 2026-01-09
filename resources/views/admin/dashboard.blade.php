@@ -1,198 +1,216 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Request Management Dashboard') }}
-        </h2>
+        Dashboard
     </x-slot>
 
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <!-- Statistics Cards -->
-            <div class="grid grid-cols-1 md:grid-cols-5 gap-4 mb-6">
-                <a href="{{ route('admin.dashboard', ['status' => 'all']) }}" 
-                   class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 hover:shadow-md transition">
-                    <div class="text-sm text-gray-600 dark:text-gray-400">Total Requests</div>
-                    <div class="text-3xl font-bold text-gray-900 dark:text-white">{{ $stats['total'] }}</div>
-                </a>
-                <a href="{{ route('admin.dashboard', ['status' => 'pending']) }}" 
-                   class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 hover:shadow-md transition border-l-4 border-gray-500">
-                    <div class="text-sm text-gray-600 dark:text-gray-400">Pending</div>
-                    <div class="text-3xl font-bold text-gray-900 dark:text-white">{{ $stats['pending'] }}</div>
-                </a>
-                <a href="{{ route('admin.dashboard', ['status' => 'processing']) }}" 
-                   class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 hover:shadow-md transition border-l-4 border-blue-500">
-                    <div class="text-sm text-gray-600 dark:text-gray-400">Processing</div>
-                    <div class="text-3xl font-bold text-gray-900 dark:text-white">{{ $stats['processing'] }}</div>
-                </a>
-                <a href="{{ route('admin.dashboard', ['status' => 'ready']) }}" 
-                   class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 hover:shadow-md transition border-l-4 border-green-500">
-                    <div class="text-sm text-gray-600 dark:text-gray-400">Ready</div>
-                    <div class="text-3xl font-bold text-gray-900 dark:text-white">{{ $stats['ready'] }}</div>
-                </a>
-                <a href="{{ route('admin.dashboard', ['status' => 'completed']) }}" 
-                   class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-6 hover:shadow-md transition border-l-4 border-indigo-500">
-                    <div class="text-sm text-gray-600 dark:text-gray-400">Completed</div>
-                    <div class="text-3xl font-bold text-gray-900 dark:text-white">{{ $stats['completed'] }}</div>
-                </a>
+    @if (session('success'))
+        <div class="mb-6 p-4 bg-green-100 border border-green-200 text-green-700 rounded-lg">
+            <div class="flex items-start gap-3">
+                <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <span>{{ session('success') }}</span>
             </div>
+        </div>
+    @endif
 
-            @if (session('success'))
-                <div class="mb-4 p-4 bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300 rounded-lg">
-                    {{ session('success') }}
-                </div>
-            @endif
-
-            <!-- Filters and Search -->
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-6">
-                <div class="p-6">
-                    <form method="GET" action="{{ route('admin.dashboard') }}" class="flex gap-4">
-                        <input type="text" name="search" value="{{ $search }}" placeholder="Search by tracking ID, email, name..."
-                            class="flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
-                        <button type="submit" class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                            Search
-                        </button>
-                        @if($search || $status !== 'all')
-                            <a href="{{ route('admin.dashboard') }}" class="px-6 py-2 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition">
-                                Clear
-                            </a>
-                        @endif
-                    </form>
+    <!-- Greeting + Mini Calendar -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+        <!-- Greeting Card -->
+        <div class="lg:col-span-2">
+            <div class="bg-gradient-to-br from-bnhs-blue to-bnhs-blue-600 rounded-xl shadow-lg p-8 text-white">
+                <h2 class="text-3xl font-bold mb-2">
+                    @php
+                        $hour = date('H');
+                        if ($hour < 12) {
+                            echo 'Good Morning';
+                        } elseif ($hour < 18) {
+                            echo 'Good Afternoon';
+                        } else {
+                            echo 'Good Evening';
+                        }
+                    @endphp
+                    , {{ Auth::user()->name }}!
+                </h2>
+                <p class="text-bnhs-blue-100 mb-4">{{ now()->format('l, F j, Y') }}</p>
+                <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/20 rounded-full text-sm font-medium backdrop-blur-sm">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                    </svg>
+                    School Year {{ now()->format('Y') }}-{{ now()->addYear()->format('Y') }}
                 </div>
             </div>
+        </div>
 
-            <!-- Bulk Actions Form -->
-            <form method="POST" action="{{ route('admin.requests.bulk-update') }}" id="bulkForm">
-                @csrf
-                
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-4">
-                    <div class="p-4 flex gap-4 items-center">
-                        <span class="text-sm text-gray-600 dark:text-gray-400">Bulk Actions:</span>
-                        <select name="status" class="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg dark:bg-gray-700 dark:text-white">
-                            <option value="">Select Status</option>
-                            <option value="pending">Pending</option>
-                            <option value="processing">Processing</option>
-                            <option value="ready">Ready</option>
-                            <option value="completed">Completed</option>
-                        </select>
-                        <button type="submit" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition">
-                            Apply to Selected
-                        </button>
-                    </div>
+        <!-- Mini Calendar -->
+        <div class="bg-white rounded-xl shadow-lg p-6">
+            <div class="flex items-center justify-between mb-4">
+                <h3 class="font-bold text-gray-900">{{ now()->format('F Y') }}</h3>
+                <div class="flex gap-2">
+                    <button class="p-1 hover:bg-gray-100 rounded transition">
+                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                        </svg>
+                    </button>
+                    <button class="p-1 hover:bg-gray-100 rounded transition">
+                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                        </svg>
+                    </button>
                 </div>
-
-                <!-- Requests Table -->
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="overflow-x-auto">
-                        <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
-                            <thead class="bg-gray-50 dark:bg-gray-900">
-                                <tr>
-                                    <th class="px-6 py-3 text-left">
-                                        <input type="checkbox" id="selectAll" class="rounded">
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                        Tracking ID
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                        Requestor
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                        Document
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                        Status
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                        Date
-                                    </th>
-                                    <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                                        Actions
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody class="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
-                                @forelse($requests as $request)
-                                    <tr class="hover:bg-gray-50 dark:hover:bg-gray-700">
-                                        <td class="px-6 py-4">
-                                            <input type="checkbox" name="request_ids[]" value="{{ $request->id }}" class="rounded request-checkbox">
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm font-medium text-gray-900 dark:text-white">{{ $request->tracking_id }}</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <div class="text-sm text-gray-900 dark:text-white">{{ $request->full_name }}</div>
-                                            <div class="text-sm text-gray-500 dark:text-gray-400">{{ $request->email }}</div>
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            <div class="text-sm text-gray-900 dark:text-white">{{ $request->documentType->name }}</div>
-                                            <div class="text-sm text-gray-500 dark:text-gray-400">Qty: {{ $request->quantity }}</div>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap">
-                                            <span class="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full
-                                                @if($request->status === 'pending') bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-200
-                                                @elseif($request->status === 'processing') bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200
-                                                @elseif($request->status === 'ready') bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200
-                                                @elseif($request->status === 'completed') bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200
-                                                @endif">
-                                                {{ ucfirst($request->status) }}
-                                            </span>
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">
-                                            {{ $request->created_at->format('M d, Y') }}
-                                        </td>
-                                        <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                            <a href="{{ route('admin.requests.show', $request->id) }}" class="text-blue-600 hover:text-blue-900 dark:text-blue-400">
-                                                View Details
-                                            </a>
-                                        </td>
-                                    </tr>
-                                @empty
-                                    <tr>
-                                        <td colspan="7" class="px-6 py-12 text-center text-gray-500 dark:text-gray-400">
-                                            No requests found.
-                                        </td>
-                                    </tr>
-                                @endforelse
-                            </tbody>
-                        </table>
+            </div>
+            <div class="grid grid-cols-7 gap-1 text-center text-xs">
+                <div class="text-gray-500 font-semibold py-2">S</div>
+                <div class="text-gray-500 font-semibold py-2">M</div>
+                <div class="text-gray-500 font-semibold py-2">T</div>
+                <div class="text-gray-500 font-semibold py-2">W</div>
+                <div class="text-gray-500 font-semibold py-2">T</div>
+                <div class="text-gray-500 font-semibold py-2">F</div>
+                <div class="text-gray-500 font-semibold py-2">S</div>
+                @php
+                    $today = now()->day;
+                    $daysInMonth = now()->daysInMonth;
+                    $firstDayOfWeek = now()->startOfMonth()->dayOfWeek;
+                @endphp
+                @for($i = 0; $i < $firstDayOfWeek; $i++)
+                    <div class="py-2"></div>
+                @endfor
+                @for($day = 1; $day <= $daysInMonth; $day++)
+                    <div class="py-2 {{ $day == $today ? 'bg-bnhs-blue text-white rounded-full font-semibold' : 'text-gray-700' }}">
+                        {{ $day }}
                     </div>
-
-                    @if($requests->hasPages())
-                        <div class="px-6 py-4">
-                            {{ $requests->links() }}
-                        </div>
-                    @endif
-                </div>
-            </form>
+                @endfor
+            </div>
         </div>
     </div>
 
-    <script>
-        // Select all checkbox
-        document.getElementById('selectAll').addEventListener('change', function() {
-            const checkboxes = document.querySelectorAll('.request-checkbox');
-            checkboxes.forEach(checkbox => checkbox.checked = this.checked);
-        });
+    @if(Auth::user()->role === 'admin')
+        <!-- KPI Cards (Admins only) -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <!-- Total Requests -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-bnhs-blue">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600 mb-1">Total Requests</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ $stats['total'] }}</p>
+                    </div>
+                    <div class="w-12 h-12 bg-bnhs-blue-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-bnhs-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
 
-        // Bulk form validation
-        document.getElementById('bulkForm').addEventListener('submit', function(e) {
-            const checked = document.querySelectorAll('.request-checkbox:checked');
-            const status = this.querySelector('select[name="status"]').value;
-            
-            if (checked.length === 0) {
-                e.preventDefault();
-                alert('Please select at least one request.');
-                return;
-            }
-            
-            if (!status) {
-                e.preventDefault();
-                alert('Please select a status.');
-                return;
-            }
-            
-            if (!confirm(`Update ${checked.length} request(s) to "${status}" status?`)) {
-                e.preventDefault();
-            }
-        });
-    </script>
+            <!-- Pending Documents -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-bnhs-gold">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600 mb-1">Pending Documents</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ $stats['pending'] }}</p>
+                    </div>
+                    <div class="w-12 h-12 bg-bnhs-gold-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-bnhs-gold-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Fulfillment Rate -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600 mb-1">Fulfillment Rate</p>
+                        <p class="text-3xl font-bold text-gray-900">
+                            @php
+                                $fulfillmentRate = $stats['total'] > 0 ? round(($stats['completed'] / $stats['total']) * 100, 1) : 0;
+                            @endphp
+                            {{ $fulfillmentRate }}%
+                        </p>
+                    </div>
+                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Processing Documents -->
+            <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-600 mb-1">Processing</p>
+                        <p class="text-3xl font-bold text-gray-900">{{ $stats['processing'] }}</p>
+                    </div>
+                    <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+        <!-- Recent Requests -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden h-full">
+            <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                <h3 class="text-lg font-bold text-gray-900">Recent Requests</h3>
+                <a href="{{ route('admin.requests.index') }}" class="text-sm text-bnhs-blue hover:underline">View All</a>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4 max-h-[32rem] overflow-y-auto pr-2">
+                    @forelse($requests as $request)
+                        <div class="flex items-center justify-between pb-4 border-b border-gray-100 last:border-0 last:pb-0">
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900 truncate">{{ $request->full_name }}</p>
+                                <p class="text-xs text-gray-500">{{ $request->documentType->name }} • {{ $request->created_at->diffForHumans() }}</p>
+                            </div>
+                            <span class="ml-3 px-2 py-1 text-xs font-semibold rounded-full
+                                @if($request->status === 'pending') bg-gray-100 text-gray-800
+                                @elseif($request->status === 'processing') bg-blue-100 text-blue-800
+                                @elseif($request->status === 'ready') bg-green-100 text-green-800
+                                @elseif($request->status === 'completed') bg-purple-100 text-purple-800
+                                @endif
+                            ">
+                                {{ ucfirst($request->status) }}
+                            </span>
+                        </div>
+                    @empty
+                        <p class="text-sm text-gray-500 text-center py-4">No recent requests</p>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+
+        <!-- Activity Feed -->
+        <div class="bg-white rounded-xl shadow-lg overflow-hidden h-full">
+            <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                <h3 class="text-lg font-bold text-gray-900">Activity Feed</h3>
+            </div>
+            <div class="p-6">
+                <div class="space-y-4 max-h-[32rem] overflow-y-auto pr-2">
+                    @forelse($activities as $activity)
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-bnhs-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-4 h-4 text-bnhs-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium text-gray-900">{{ $activity->action }}</p>
+                                <p class="text-xs text-gray-500">{{ $activity->user->name ?? 'System' }} • {{ $activity->created_at->diffForHumans() }}</p>
+                            </div>
+                        </div>
+                    @empty
+                        <p class="text-sm text-gray-500 text-center py-4">No recent activities</p>
+                    @endforelse
+                </div>
+            </div>
+        </div>
+    </div>
 </x-app-layout>
+

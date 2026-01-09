@@ -28,7 +28,7 @@
         <!-- CTA Buttons -->
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <a
-                href="{{ route('otp.request', ['purpose' => 'submission']) }}"
+                href="{{ route('request.select') }}"
                 class="inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-bnhs-blue text-white rounded-lg font-semibold text-base shadow-lg hover:bg-bnhs-blue-600 transition-all duration-200 w-full sm:w-auto"
             >
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -237,22 +237,22 @@
         <div class="max-w-3xl mx-auto space-y-4 mb-12">
             <!-- FAQ 1 -->
             <div class="bg-white rounded-lg shadow">
-                <button 
+                <button
                     @click="openFaq = openFaq === 1 ? null : 1"
                     class="w-full flex items-center justify-between p-6 text-left"
                 >
                     <span class="text-lg font-semibold text-gray-900">How long does it take to process my request?</span>
-                    <svg 
+                    <svg
                         class="w-5 h-5 text-gray-500 transition-transform"
                         :class="{ 'rotate-180': openFaq === 1 }"
-                        fill="none" 
-                        stroke="currentColor" 
+                        fill="none"
+                        stroke="currentColor"
                         viewBox="0 0 24 24"
                     >
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
-                <div 
+                <div
                     x-show="openFaq === 1"
                     x-transition
                     class="px-6 pb-6"
@@ -264,22 +264,22 @@
 
             <!-- FAQ 2 -->
             <div class="bg-white rounded-lg shadow">
-                <button 
+                <button
                     @click="openFaq = openFaq === 2 ? null : 2"
                     class="w-full flex items-center justify-between p-6 text-left"
                 >
                     <span class="text-lg font-semibold text-gray-900">Do I need to create an account?</span>
-                    <svg 
+                    <svg
                         class="w-5 h-5 text-gray-500 transition-transform"
                         :class="{ 'rotate-180': openFaq === 2 }"
-                        fill="none" 
-                        stroke="currentColor" 
+                        fill="none"
+                        stroke="currentColor"
                         viewBox="0 0 24 24"
                     >
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
-                <div 
+                <div
                     x-show="openFaq === 2"
                     x-transition
                     class="px-6 pb-6"
@@ -291,22 +291,22 @@
 
             <!-- FAQ 3 -->
             <div class="bg-white rounded-lg shadow">
-                <button 
+                <button
                     @click="openFaq = openFaq === 3 ? null : 3"
                     class="w-full flex items-center justify-between p-6 text-left"
                 >
                     <span class="text-lg font-semibold text-gray-900">How do I track my request?</span>
-                    <svg 
+                    <svg
                         class="w-5 h-5 text-gray-500 transition-transform"
                         :class="{ 'rotate-180': openFaq === 3 }"
-                        fill="none" 
-                        stroke="currentColor" 
+                        fill="none"
+                        stroke="currentColor"
                         viewBox="0 0 24 24"
                     >
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
-                <div 
+                <div
                     x-show="openFaq === 3"
                     x-transition
                     class="px-6 pb-6"
@@ -318,22 +318,22 @@
 
             <!-- FAQ 4 -->
             <div class="bg-white rounded-lg shadow">
-                <button 
+                <button
                     @click="openFaq = openFaq === 4 ? null : 4"
                     class="w-full flex items-center justify-between p-6 text-left"
                 >
                     <span class="text-lg font-semibold text-gray-900">What if I lost my tracking ID?</span>
-                    <svg 
+                    <svg
                         class="w-5 h-5 text-gray-500 transition-transform"
                         :class="{ 'rotate-180': openFaq === 4 }"
-                        fill="none" 
-                        stroke="currentColor" 
+                        fill="none"
+                        stroke="currentColor"
                         viewBox="0 0 24 24"
                     >
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
-                <div 
+                <div
                     x-show="openFaq === 4"
                     x-transition
                     class="px-6 pb-6"

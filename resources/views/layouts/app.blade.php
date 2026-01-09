@@ -55,7 +55,7 @@
                     <!-- Dashboard -->
                     <a 
                         href="{{ route('dashboard') }}" 
-                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition {{ request()->routeIs('dashboard') ? 'bg-bnhs-blue-50 text-bnhs-blue border-l-4 border-bnhs-blue' : 'text-gray-700 hover:bg-gray-100' }}"
+                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition {{ request()->routeIs('dashboard') || request()->routeIs('admin.dashboard') ? 'bg-bnhs-blue-50 text-bnhs-blue border-l-4 border-bnhs-blue' : 'text-gray-700 hover:bg-gray-100' }}"
                         :title="sidebarCollapsed ? 'Dashboard' : ''"
                     >
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -67,8 +67,8 @@
                     <!-- Requests (Admin/Registrar) -->
                     @if(Auth::user()->role === 'admin' || Auth::user()->role === 'registrar')
                     <a 
-                        href="{{ route('admin.dashboard') }}" 
-                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition {{ request()->routeIs('admin.*') ? 'bg-bnhs-blue-50 text-bnhs-blue border-l-4 border-bnhs-blue' : 'text-gray-700 hover:bg-gray-100' }}"
+                        href="{{ route('admin.requests.index') }}" 
+                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition {{ request()->routeIs('admin.requests.*') ? 'bg-bnhs-blue-50 text-bnhs-blue border-l-4 border-bnhs-blue' : 'text-gray-700 hover:bg-gray-100' }}"
                         :title="sidebarCollapsed ? 'Requests' : ''"
                     >
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -81,8 +81,8 @@
                     <!-- Admin Only Sections -->
                     @if(Auth::user()->role === 'admin')
                     <a 
-                        href="#" 
-                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition text-gray-700 hover:bg-gray-100"
+                        href="{{ route('admin.users.index') }}" 
+                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition {{ request()->routeIs('admin.users.*') ? 'bg-bnhs-blue-50 text-bnhs-blue border-l-4 border-bnhs-blue' : 'text-gray-700 hover:bg-gray-100' }}"
                         :title="sidebarCollapsed ? 'Users' : ''"
                     >
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -92,8 +92,8 @@
                     </a>
 
                     <a 
-                        href="#" 
-                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition text-gray-700 hover:bg-gray-100"
+                        href="{{ route('admin.document-types.index') }}" 
+                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition {{ request()->routeIs('admin.document-types.*') ? 'bg-bnhs-blue-50 text-bnhs-blue border-l-4 border-bnhs-blue' : 'text-gray-700 hover:bg-gray-100' }}"
                         :title="sidebarCollapsed ? 'Document Types' : ''"
                     >
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -103,8 +103,8 @@
                     </a>
 
                     <a 
-                        href="#" 
-                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition text-gray-700 hover:bg-gray-100"
+                        href="{{ route('admin.tracks.index') }}" 
+                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition {{ request()->routeIs('admin.tracks.*') ? 'bg-bnhs-blue-50 text-bnhs-blue border-l-4 border-bnhs-blue' : 'text-gray-700 hover:bg-gray-100' }}"
                         :title="sidebarCollapsed ? 'Educational Tracks' : ''"
                     >
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,19 +114,8 @@
                     </a>
 
                     <a 
-                        href="#" 
-                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition text-gray-700 hover:bg-gray-100"
-                        :title="sidebarCollapsed ? 'Audit Logs' : ''"
-                    >
-                        <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                        </svg>
-                        <span x-show="!sidebarCollapsed" x-transition>Audit Logs</span>
-                    </a>
-
-                    <a 
-                        href="#" 
-                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition text-gray-700 hover:bg-gray-100"
+                        href="{{ route('admin.logs.index') }}" 
+                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition {{ request()->routeIs('admin.logs.*') ? 'bg-bnhs-blue-50 text-bnhs-blue border-l-4 border-bnhs-blue' : 'text-gray-700 hover:bg-gray-100' }}"
                         :title="sidebarCollapsed ? 'Activity Timeline' : ''"
                     >
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -136,8 +125,8 @@
                     </a>
 
                     <a 
-                        href="#" 
-                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition text-gray-700 hover:bg-gray-100"
+                        href="{{ route('admin.settings') }}" 
+                        class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition {{ request()->routeIs('admin.settings') ? 'bg-bnhs-blue-50 text-bnhs-blue border-l-4 border-bnhs-blue' : 'text-gray-700 hover:bg-gray-100' }}"
                         :title="sidebarCollapsed ? 'Settings' : ''"
                     >
                         <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">

@@ -72,14 +72,6 @@ class RequestObserver
             );
         }
 
-        // Log processor assignment
-        if ($request->isDirty('processed_by')) {
-            $processor = $request->processor;
-            $action = $processor 
-                ? "Assigned to {$processor->name}"
-                : "Processor unassigned";
-            RequestLog::log($request->id, $action, $userId);
-        }
     }
 
     /**

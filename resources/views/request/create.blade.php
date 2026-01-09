@@ -15,9 +15,9 @@
                     </div>
                     <span class="ml-2 text-sm font-medium text-gray-700 hidden sm:block">Select Document</span>
                 </div>
-                
+
                 <div class="w-12 sm:w-24 h-1 bg-green-500 mx-2"></div>
-                
+
                 <!-- Step 2: Verify Email -->
                 <div class="flex items-center">
                     <div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center">
@@ -27,9 +27,9 @@
                     </div>
                     <span class="ml-2 text-sm font-medium text-gray-700 hidden sm:block">Verify Email</span>
                 </div>
-                
+
                 <div class="w-12 sm:w-24 h-1 bg-bnhs-blue mx-2"></div>
-                
+
                 <!-- Step 3: Fill Form (Current) -->
                 <div class="flex items-center">
                     <div class="w-10 h-10 rounded-full bg-bnhs-blue text-white flex items-center justify-center font-semibold">
@@ -185,7 +185,7 @@
                                     class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                                     <option value="">Select Document</option>
                                     @foreach($documents as $document)
-                                        <option value="{{ $document->id }}" {{ old('document_type_id') == $document->id ? 'selected' : '' }}>
+                                        <option value="{{ $document->id }}" {{ (old('document_type_id', $selectedDocumentId ?? null) == $document->id) ? 'selected' : '' }}>
                                             {{ $document->name }}
                                         </option>
                                     @endforeach

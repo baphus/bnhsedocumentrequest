@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Request;
+use App\Models\RequestLog;
 use Illuminate\Http\Request as HttpRequest;
 use Carbon\Carbon;
 
@@ -43,7 +44,15 @@ class RequestManagementController extends Controller
             $documentRequest->processed_by = auth()->id();
         }
 
+        $oldStatus = $documentRequest->getOriginal('status');
         $documentRequest->save();
+
+        // Log the activity
+        RequestLog::create([
+            'user_id' => auth()->id(),
+            'request_id' => $documentRequest->id,
+            'action' => "Updated status from {$oldStatus} to {$documentRequest->status}",
+        ]);
 
         return redirect()->back()->with('success', 'Request updated successfully.');
     }
@@ -70,8 +79,16 @@ class RequestManagementController extends Controller
                     $documentRequest->processed_by = auth()->id();
                 }
                 
+                $oldStatus = $documentRequest->getOriginal('status');
                 $documentRequest->save();
                 $updated++;
+
+                // Log the activity
+                RequestLog::create([
+                    'user_id' => auth()->id(),
+                    'request_id' => $documentRequest->id,
+                    'action' => "Updated status from {$oldStatus} to {$documentRequest->status}",
+                ]);
             }
         }
 
@@ -87,6 +104,13 @@ class RequestManagementController extends Controller
         $trackingId = $request->tracking_id;
         
         $request->delete();
+
+        // Log the activity
+        RequestLog::create([
+            'user_id' => auth()->id(),
+            'request_id' => $id,
+            'action' => "Deleted request with tracking ID {$trackingId}",
+        ]);
 
         return redirect()->route('admin.dashboard')
             ->with('success', "Request {$trackingId} deleted successfully.");
