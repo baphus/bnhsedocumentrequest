@@ -43,8 +43,11 @@ class RequestSeeder extends Seeder
             $status = $statuses[array_rand($statuses)];
             $createdAt = Carbon::now()->subDays(rand(1, 30));
             $estimatedDays = rand(3, 7);
-            
+
+            $trackingId = Request::generateTrackingId();
+
             $request = [
+                'tracking_id' => $trackingId,
                 'email' => 'student' . ($i + 1) . '@example.com',
                 'contact_number' => '09' . rand(10, 99) . rand(1000000, 9999999),
                 'first_name' => $firstNames[array_rand($firstNames)],
@@ -67,7 +70,7 @@ class RequestSeeder extends Seeder
                 'created_at' => $createdAt,
                 'updated_at' => $createdAt->copy()->addHours(rand(1, 24)),
             ];
-            
+
             Request::create($request);
         }
     }
