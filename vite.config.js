@@ -9,7 +9,7 @@ export default defineConfig({
         }),
     ],
     build: {
-        manifest: true,
+        manifest: 'manifest.json',
         outDir: 'public/build',
         emptyOutDir: true,
         rollupOptions: {
@@ -17,6 +17,7 @@ export default defineConfig({
                 entryFileNames: 'assets/[name].js',
                 chunkFileNames: 'assets/[name].js',
                 assetFileNames: 'assets/[name].[ext]',
+                manifestFileNames: 'manifest.json',
             },
         },
     },
