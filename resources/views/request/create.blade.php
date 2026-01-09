@@ -1,21 +1,78 @@
 @extends('layouts.public')
 
 @section('content')
-<div class="py-12">
-    <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-6">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6">
+<div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-4xl mx-auto">
+        <!-- Progress Steps -->
+        <div class="mb-8">
+            <div class="flex items-center justify-center">
+                <!-- Step 1: Select Document -->
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <span class="ml-2 text-sm font-medium text-gray-700 hidden sm:block">Select Document</span>
+                </div>
+                
+                <div class="w-12 sm:w-24 h-1 bg-green-500 mx-2"></div>
+                
+                <!-- Step 2: Verify Email -->
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                        </svg>
+                    </div>
+                    <span class="ml-2 text-sm font-medium text-gray-700 hidden sm:block">Verify Email</span>
+                </div>
+                
+                <div class="w-12 sm:w-24 h-1 bg-bnhs-blue mx-2"></div>
+                
+                <!-- Step 3: Fill Form (Current) -->
+                <div class="flex items-center">
+                    <div class="w-10 h-10 rounded-full bg-bnhs-blue text-white flex items-center justify-center font-semibold">
+                        3
+                    </div>
+                    <span class="ml-2 text-sm font-medium text-bnhs-blue hidden sm:block">Fill Form</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Email Verified Badge -->
+        <div class="mb-6 flex justify-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-green-100 border border-green-200 text-green-800 rounded-full text-sm font-medium">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                Email Verified
+            </div>
+        </div>
+
+        <!-- Main Card -->
+        <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+            <div class="bg-bnhs-blue px-6 py-4">
+                <h2 class="text-2xl font-bold text-white">
                     Document Request Form
                 </h2>
+                <p class="text-bnhs-blue-100 text-sm mt-1">Complete all required fields to submit your request</p>
+            </div>
+
+            <div class="p-6 sm:p-8">
 
                 @if ($errors->any())
-                    <div class="mb-4 p-4 bg-red-100 dark:bg-red-900 text-red-700 dark:text-red-300 rounded-lg">
-                        <ul class="list-disc list-inside">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ $error }}</li>
-                            @endforeach
-                        </ul>
+                    <div class="mb-6 p-4 bg-red-100 border border-red-200 text-red-700 rounded-lg">
+                        <div class="flex items-start gap-3">
+                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                            <ul class="list-disc list-inside">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
                     </div>
                 @endif
 
@@ -24,57 +81,57 @@
 
                     <!-- Personal Information -->
                     <div class="mb-8">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Personal Information</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">Personal Information</h3>
                         <div class="grid md:grid-cols-3 gap-4 mb-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
                                     First Name <span class="text-red-500">*</span>
                                 </label>
                                 <input type="text" name="first_name" value="{{ old('first_name') }}" required
-                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Middle Name
                                 </label>
                                 <input type="text" name="middle_name" value="{{ old('middle_name') }}"
-                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Last Name <span class="text-red-500">*</span>
                                 </label>
                                 <input type="text" name="last_name" value="{{ old('last_name') }}" required
-                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                             </div>
                         </div>
                         <div>
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
                                 Contact Number <span class="text-red-500">*</span>
                             </label>
                             <input type="text" name="contact_number" value="{{ old('contact_number') }}" required
                                 placeholder="e.g., 09123456789"
-                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                         </div>
                     </div>
 
-                    <!-- Academic Information -->
+                    <!-- Student Information -->
                     <div class="mb-8">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Academic Information</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">Student Information</h3>
                         <div class="grid md:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
                                     LRN (12 digits) <span class="text-red-500">*</span>
                                 </label>
                                 <input type="text" name="lrn" value="{{ old('lrn') }}" required maxlength="12" pattern="[0-9]{12}"
-                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Grade Level <span class="text-red-500">*</span>
                                 </label>
                                 <select name="grade_level" required
-                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                                     <option value="">Select Grade Level</option>
                                     <option value="Grade 7" {{ old('grade_level') == 'Grade 7' ? 'selected' : '' }}>Grade 7</option>
                                     <option value="Grade 8" {{ old('grade_level') == 'Grade 8' ? 'selected' : '' }}>Grade 8</option>
@@ -85,18 +142,18 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Section
                                 </label>
                                 <input type="text" name="section" value="{{ old('section') }}"
-                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Track/Strand <span class="text-red-500">*</span>
                                 </label>
                                 <select name="track_strand" required
-                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                                     <option value="">Select Track/Strand</option>
                                     @foreach($tracks as $track)
                                         <option value="{{ $track->code }}" {{ old('track_strand') == $track->code ? 'selected' : '' }}>
@@ -106,26 +163,26 @@
                                 </select>
                             </div>
                             <div class="md:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
                                     School Year Last Attended <span class="text-red-500">*</span>
                                 </label>
                                 <input type="text" name="school_year_last_attended" value="{{ old('school_year_last_attended') }}"
                                     required placeholder="e.g., 2023-2024"
-                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Document Details -->
+                    <!-- Additional Information -->
                     <div class="mb-8">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Document Details</h3>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">Additional Information</h3>
                         <div class="grid md:grid-cols-2 gap-4">
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Document Type <span class="text-red-500">*</span>
                                 </label>
                                 <select name="document_type_id" required
-                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                                     <option value="">Select Document</option>
                                     @foreach($documents as $document)
                                         <option value="{{ $document->id }}" {{ old('document_type_id') == $document->id ? 'selected' : '' }}>
@@ -135,47 +192,57 @@
                                 </select>
                             </div>
                             <div>
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Quantity <span class="text-red-500">*</span>
                                 </label>
                                 <input type="number" name="quantity" value="{{ old('quantity', 1) }}" required min="1" max="10"
-                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                             </div>
                             <div class="md:col-span-2">
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Purpose <span class="text-red-500">*</span>
                                 </label>
-                                <textarea name="purpose" rows="3" required
-                                    class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">{{ old('purpose') }}</textarea>
+                                <textarea name="purpose" rows="3" required placeholder="e.g., For college admission, For employment, etc."
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">{{ old('purpose') }}</textarea>
                             </div>
                         </div>
                     </div>
 
                     <!-- Digital Signature -->
                     <div class="mb-8">
-                        <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Digital Signature <span class="text-red-500">*</span></h3>
-                        <div class="border-2 border-gray-300 dark:border-gray-600 rounded-lg p-4">
-                            <canvas id="signatureCanvas" width="600" height="200" class="border border-gray-300 dark:border-gray-600 rounded bg-white cursor-crosshair w-full"></canvas>
+                        <h3 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">
+                            Digital Signature <span class="text-red-500">*</span>
+                        </h3>
+                        <p class="text-sm text-gray-600 mb-4">Draw your signature in the box below using your mouse or touchscreen</p>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 bg-gray-50">
+                            <canvas id="signatureCanvas" width="600" height="200" class="border border-gray-300 rounded bg-white cursor-crosshair w-full"></canvas>
                             <input type="hidden" name="signature" id="signatureInput" required>
-                            <button type="button" onclick="clearSignature()" class="mt-2 text-sm text-red-600 hover:text-red-800">
-                                Clear Signature
-                            </button>
+                            <div class="flex justify-between items-center mt-3">
+                                <p class="text-xs text-gray-500">Sign above</p>
+                                <button type="button" onclick="clearSignature()" class="inline-flex items-center gap-1 text-sm text-red-600 hover:text-red-800 font-medium transition">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                    Clear Signature
+                                </button>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="flex gap-4">
-                        <button type="submit" class="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition font-semibold">
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="{{ route('home') }}" class="sm:order-1 text-center text-gray-600 hover:text-bnhs-blue transition py-3 px-6 font-medium">
+                            Start Over
+                        </a>
+                        <button type="submit" class="sm:order-2 sm:flex-1 bg-bnhs-blue text-white py-3 px-6 rounded-lg hover:bg-bnhs-blue-600 transition font-semibold shadow-lg">
                             Submit Request
                         </button>
-                        <a href="{{ route('home') }}" class="flex-1 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white py-3 px-6 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition font-semibold text-center">
-                            Cancel
-                        </a>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+
 
 <script>
     const canvas = document.getElementById('signatureCanvas');
