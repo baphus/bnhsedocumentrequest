@@ -2,7 +2,7 @@
     <x-slot name="header">
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-4">
-                <a href="{{ route('admin.dashboard') }}" class="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-bnhs-blue transition">
+                <a href="{{ route('admin.requests.index') }}" class="inline-flex items-center gap-2 text-sm text-gray-600 hover:text-bnhs-blue transition">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
                     </svg>
@@ -172,8 +172,8 @@
                 <div class="p-8 flex justify-center bg-slate-50">
                     <div class="bg-white p-4 rounded-xl shadow-inner border border-gray-200">
                         {{-- Directly echo the string. Most signature pads include the 'data:image/png;base64,' prefix --}}
-                        <img src="{{ $request->signature }}" 
-                            alt="Student Signature" 
+                        <img src="{{ $request->signature }}"
+                            alt="Student Signature"
                             class="max-h-48 w-auto mix-blend-multiply"
                             onerror="this.parentElement.innerHTML='<span class=\'text-red-500 text-sm\'>Invalid signature data</span>'">
                     </div>
@@ -252,7 +252,7 @@
                     </div>
                     <div>
                         <label class="block text-sm font-medium text-gray-700 mb-2">Estimated Completion Date</label>
-                        <input type="date" name="estimated_completion_date" 
+                        <input type="date" name="estimated_completion_date"
                             value="{{ $request->estimated_completion_date ? $request->estimated_completion_date->format('Y-m-d') : '' }}"
                             class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                     </div>

@@ -44,7 +44,9 @@ class RequestManagementController extends Controller
             ]);
         });
 
-        return redirect()->back()->with('success', 'Request updated successfully.');
+        // Always redirect to requests index after updating status for consistency
+        return redirect()->route('admin.requests.index')
+            ->with('success', 'Request updated successfully.');
     }
 
     /**
@@ -89,7 +91,8 @@ class RequestManagementController extends Controller
         // Example: foreach($ids as $id) { Notification::send(...) } 
         // Ensure your Notification/Mailable uses the 'ShouldQueue' interface.
 
-        return redirect()->back()->with('success', count($ids) . " requests updated.");
+    return redirect()->route('admin.requests.index')
+         ->with('success', count($ids) . " request(s) updated successfully.");
     }
 
     /**
@@ -98,20 +101,15 @@ class RequestManagementController extends Controller
     public function destroy($id)
     {
         $request = Request::findOrFail($id);
-        
-        DB::transaction(function () use ($request) {
-            $trackingId = $request->tracking_id;
-            $id = $request->id;
-            
-            $request->delete();
 
-            RequestLog::create([
-                'user_id' => Auth::id(),
-                'request_id' => $id,
-                'action' => "Permanent deletion of tracking ID: {$trackingId}",
-            ]);
-        });
+        // 1. Capture the ID before the record is deleted
+        $trackingId = $request->tracking_id;
 
-        return redirect()->route('admin.dashboard')->with('success', 'Request deleted.');
+        // 2. Perform the deletion (The Observer handles the logging)
+        $request->delete();
+
+        // 3. Use the variable you just created
+        return redirect()->route('admin.requests.index')
+            ->with('success', "Request {$trackingId} deleted successfully.");
     }
 }

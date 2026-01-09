@@ -56,14 +56,18 @@ class RequestObserver
         }
     }
     /**
-     * Handle the Request "deleted" event.
+     * Handle the Request "deleting" event.
      */
-    public function deleted(Request $request): void
+    public function deleting(Request $request): void
     {
-        RequestLog::log(
-            $request->id,
-            'Request deleted',
-            auth()->id()
-        );
+        // We log it BEFORE it is gone from the database
+        // Ensure RequestLog model doesn't strictly require the request_id 
+        // to exist in the requests table at the moment of commit
+        RequestLog::create([
+            'user_id' => auth()->id(),
+            'request_id' => $request->id,
+            'action' => "Deleted request with tracking ID: {$request->tracking_id}",
+            'created_at' => now(),
+        ]);
     }
 }

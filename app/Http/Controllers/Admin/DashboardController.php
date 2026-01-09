@@ -53,7 +53,7 @@ class DashboardController extends Controller
 
         $requests = $query->paginate(20);
 
-        return view('admin.requests', compact('requests', 'status', 'search'));
+        return view('admin.requests.index', compact('requests', 'status', 'search'));
     }
 
     /**
@@ -64,6 +64,6 @@ class DashboardController extends Controller
         $request = Request::with(['documentType', 'processor', 'logs.user'])
             ->findOrFail($id);
 
-        return view('admin.request-detail', compact('request'));
+        return view('admin.requests.show', compact('request'));
     }
 }
