@@ -27,24 +27,21 @@
 
 @push('scripts')
 <script>
-function refreshTable(button) {
-    button.classList.add('refreshing');
-    button.disabled = true;
+    // This makes the function available globally immediately
+    window.refreshTable = function(button) {
+        if (!window.Livewire) {
+            console.error('Livewire not loaded yet');
+            return;
+        }
 
-    Livewire.dispatch('$refresh');
+        button.disabled = true;
 
-    const tableComponent = Livewire.find(
-        document.querySelector('[wire\\:id]')?.getAttribute('wire:id')
-    );
+        // Rappasoft/Livewire 3 refresh
+        Livewire.dispatch('refreshDatatable');
 
-    if (tableComponent) {
-        tableComponent.call('$refresh');
-    }
-
-    setTimeout(() => {
-        button.classList.remove('refreshing');
-        button.disabled = false;
-    }, 1000);
-}
+        setTimeout(() => {
+            button.disabled = false;
+        }, 2000);
+    };
 </script>
 @endpush

@@ -28,7 +28,7 @@ class RequestsTable extends DataTableComponent
         $this->setPrimaryKey('id')
             ->setDefaultSort('created_at', 'desc')
             ->setSelectAllStatus(false)
-      ->setQueryStringEnabled()
+            ->setQueryStringEnabled()
             // 1. UI LAYOUT: Matches the image "Filters" dropdown and clean look
             ->setFilterLayoutPopover()
             ->setSelectAllStatus(false) // Only select rows displayed on the current page
@@ -52,7 +52,8 @@ class RequestsTable extends DataTableComponent
             ->setLoadingPlaceholderStatus(false)
             ->setOfflineIndicatorDisabled()
             ->setSearchDebounce(300)
-            ->setPageName('requests-table');
+            ->setPageName('requests-table')
+            ->setPaginationMethod('simple'); // This is much faster than the default for Heroku
     }
 
     public function columns(): array
