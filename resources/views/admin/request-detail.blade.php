@@ -87,6 +87,10 @@
                                 <dd class="text-base text-gray-900 dark:text-white">{{ $request->email }}</dd>
                             </div>
                             <div>
+                                <dt class="text-sm text-gray-600 dark:text-gray-400">Contact Number</dt>
+                                <dd class="text-base text-gray-900 dark:text-white">{{ $request->contact_number }}</dd>
+                            </div>
+                            <div>
                                 <dt class="text-sm text-gray-600 dark:text-gray-400">LRN</dt>
                                 <dd class="text-base text-gray-900 dark:text-white">{{ $request->lrn }}</dd>
                             </div>

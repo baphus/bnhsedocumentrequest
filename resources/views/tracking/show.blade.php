@@ -47,6 +47,10 @@
                         <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ $documentRequest->full_name }}</p>
                     </div>
                     <div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400">Contact Number</p>
+                        <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ $documentRequest->contact_number ?? 'N/A' }}</p>
+                    </div>
+                    <div>
                         <p class="text-sm text-gray-600 dark:text-gray-400">Quantity</p>
                         <p class="text-lg font-semibold text-gray-900 dark:text-white">{{ $documentRequest->quantity }}</p>
                     </div>

@@ -25,7 +25,7 @@
                     <!-- Personal Information -->
                     <div class="mb-8">
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-white mb-4">Personal Information</h3>
-                        <div class="grid md:grid-cols-3 gap-4">
+                        <div class="grid md:grid-cols-3 gap-4 mb-4">
                             <div>
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                     First Name <span class="text-red-500">*</span>
@@ -47,6 +47,14 @@
                                 <input type="text" name="last_name" value="{{ old('last_name') }}" required
                                     class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                             </div>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                                Contact Number <span class="text-red-500">*</span>
+                            </label>
+                            <input type="text" name="contact_number" value="{{ old('contact_number') }}" required
+                                placeholder="e.g., 09123456789"
+                                class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                         </div>
                     </div>
 
@@ -101,7 +109,7 @@
                                 <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                     School Year Last Attended <span class="text-red-500">*</span>
                                 </label>
-                                <input type="text" name="school_year_last_attended" value="{{ old('school_year_last_attended') }}" 
+                                <input type="text" name="school_year_last_attended" value="{{ old('school_year_last_attended') }}"
                                     required placeholder="e.g., 2023-2024"
                                     class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white">
                             </div>

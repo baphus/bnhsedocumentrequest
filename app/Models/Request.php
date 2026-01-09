@@ -15,6 +15,7 @@ class Request extends Model
     protected $fillable = [
         'tracking_id',
         'email',
+        'contact_number',
         'first_name',
         'middle_name',
         'last_name',

@@ -29,6 +29,7 @@ class RequestController extends Controller
     public function store(HttpRequest $request)
     {
         $validated = $request->validate([
+            'contact_number' => 'required|string|max:20',
             'first_name' => 'required|string|max:255',
             'middle_name' => 'nullable|string|max:255',
             'last_name' => 'required|string|max:255',
@@ -57,6 +58,7 @@ class RequestController extends Controller
         // Create the request
         $documentRequest = Request::create([
             'email' => $email,
+            'contact_number' => $validated['contact_number'],
             'first_name' => $validated['first_name'],
             'middle_name' => $validated['middle_name'],
             'last_name' => $validated['last_name'],
