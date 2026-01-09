@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             DocumentSeeder::class,
             TrackSeeder::class,
             UserSeeder::class,
+            RequestSeeder::class,
         ]);
     }
 }
