@@ -14,6 +14,10 @@ Route::get('/', function () {
     return view('home');
 })->name('home');
 
+Route::get('/how-to-request', function () {
+    return view('how-to-request');
+})->name('how-to-request');
+
 // OTP Routes
 Route::prefix('otp')->group(function () {
     Route::get('/request', [OtpController::class, 'showRequestForm'])->name('otp.request');
