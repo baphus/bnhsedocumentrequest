@@ -1,111 +1,50 @@
 @extends('layouts.public')
 
 @section('content')
-<div class="py-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <!-- Hero Section -->
-        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-8">
-            <div class="p-8 text-center">
-                <h1 class="text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                    E-Document Request System
+<!-- Hero Section -->
+<section class="relative min-h-screen overflow-hidden pt-16" style="background-image: url('/bg_view.png'); background-size: cover; background-position: center; background-attachment: fixed;">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
+        <div class="text-center">
+            <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-dark sm:text-5xl lg:text-6xl">
+                <span class="block">Bato National High School</span>
+                <span class="block text-blue-900">eDocument Request</span>
                 </h1>
-                <p class="text-xl text-gray-600 dark:text-gray-400 mb-8">
-                    Request official school documents online, anytime, anywhere.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="{{ route('otp.request', ['purpose' => 'submission']) }}" 
-                       class="inline-flex items-center justify-center px-6 py-3 bg-blue-600 text-white font-semibold rounded-lg hover:bg-blue-700 transition">
+            
+            <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-700">
+                Request and track your school documents online. Simple, fast, and secure—verify your email and submit your request in minutes.
+            </p>
+
+            <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+                <a
+                    href="{{ route('otp.request', ['purpose' => 'submission']) }}"
+                    class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-blue-800 px-8 py-3.5 text-base font-semibold text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:w-auto"
+                >
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
                         Request a Document
                     </a>
-                    <a href="{{ route('tracking.form') }}" 
-                       class="inline-flex items-center justify-center px-6 py-3 bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-white font-semibold rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition">
-                        Track My Request
-                    </a>
-                </div>
+                <a
+                    href="{{ route('tracking.form') }}"
+                    class="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-100 px-8 py-3.5 text-base font-semibold text-gray-900 dark:text-gray-800 shadow-sm transition hover:bg-gray-50 dark:hover:bg-gray-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:w-auto"
+                >
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                    </svg>
+                    Track Request
+                </a>
             </div>
-        </div>
 
-        <!-- How It Works -->
-        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg mb-8">
-            <div class="p-8">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
-                    How It Works
-                </h2>
-                <div class="grid md:grid-cols-4 gap-6">
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="text-2xl font-bold text-blue-600 dark:text-blue-300">1</span>
-                        </div>
-                        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Verify Email</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">
-                            Enter your email and verify with OTP code
-                        </p>
-                    </div>
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="text-2xl font-bold text-blue-600 dark:text-blue-300">2</span>
-                        </div>
-                        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Fill Form</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">
-                            Complete your information and request details
-                        </p>
-                    </div>
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="text-2xl font-bold text-blue-600 dark:text-blue-300">3</span>
-                        </div>
-                        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Get Tracking ID</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">
-                            Receive a unique tracking ID via email
-                        </p>
-                    </div>
-                    <div class="text-center">
-                        <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900 rounded-full flex items-center justify-center mx-auto mb-4">
-                            <span class="text-2xl font-bold text-blue-600 dark:text-blue-300">4</span>
-                        </div>
-                        <h3 class="font-semibold text-gray-900 dark:text-white mb-2">Track Progress</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">
-                            Monitor your request status online
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Available Documents -->
-        <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
-            <div class="p-8">
-                <h2 class="text-2xl font-bold text-gray-900 dark:text-white mb-6 text-center">
-                    Available Documents
-                </h2>
-                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                        <h3 class="font-semibold text-gray-900 dark:text-white">Form 137 (SF10)</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Academic Record</p>
-                    </div>
-                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                        <h3 class="font-semibold text-gray-900 dark:text-white">Diploma</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Graduation Certificate</p>
-                    </div>
-                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                        <h3 class="font-semibold text-gray-900 dark:text-white">Certificate of Enrollment</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Enrollment Verification</p>
-                    </div>
-                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                        <h3 class="font-semibold text-gray-900 dark:text-white">Good Moral Certificate</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Character Reference</p>
-                    </div>
-                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                        <h3 class="font-semibold text-gray-900 dark:text-white">Certificate of Grades</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Grade Report</p>
-                    </div>
-                    <div class="border border-gray-200 dark:border-gray-700 rounded-lg p-4">
-                        <h3 class="font-semibold text-gray-900 dark:text-white">Transcript of Records</h3>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Complete Academic Record</p>
-                    </div>
-                </div>
+            <!-- How to Request Guide Link -->
+            <div class="mt-8 text-center">
+                <a
+                    href="{{ route('how-to-request') }}"
+                    class="text-sm font-semibold text-blue-600 hover:text-blue-800 underline transition"
+                >
+                    📖 How to Request a Document?
+                </a>
             </div>
         </div>
     </div>
-</div>
+</section>
 @endsection

@@ -17,38 +17,49 @@
 <body class="font-sans antialiased bg-gray-50 dark:bg-gray-900">
     <div class="min-h-screen">
         <!-- Navigation -->
-        <nav class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between h-16">
-                    <div class="flex items-center">
-                        <a href="{{ route('home') }}" class="text-xl font-bold text-gray-900 dark:text-white">
-                            Bato National High School
+        <nav class="fixed top-0 z-50 w-full border-b border-white/50 bg-[#0F2A44] shadow-lg">
+            <div class="mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex h-16 items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <a href="{{ route('home') }}" class="flex items-center gap-3 transition">
+                            <img src="{{ asset('images/logo.png') }}" alt="BNHS Logo" class="h-12 w-auto" />
+                            <div class="hidden sm:block">
+                                <p class="text-xl font-semibold text-yellow-500">Bato National High School</p>
+                                <p class="text-xs text-gray-300">Toledo City, Cebu</p>
+                            </div>
                         </a>
                     </div>
-                    <div class="flex items-center space-x-4">
-                        <a href="{{ route('home') }}" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-                            Home
-                        </a>
-                        <a href="{{ route('tracking.form') }}" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-                            Track Request
-                        </a>
-                        <a href="{{ route('login') }}" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
-                            Staff Login
-                        </a>
+                    
+                    <div class="flex items-center gap-4">
+                        @auth
+                            <a
+                                href="{{ route('admin.dashboard') }}"
+                                class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white shadow-md transition hover:bg-blue-700"
+                            >
+                                Dashboard
+                            </a>
+                        @else
+                            <a
+                                href="{{ route('login') }}"
+                                class="text-sm font-medium text-gray-300 hover:text-yellow-500 border border-gray-300 rounded-lg px-4 py-2 transition"
+                            >
+                                Login
+                            </a>
+                        @endauth
                     </div>
                 </div>
             </div>
         </nav>
 
         <!-- Page Content -->
-        <main>
+        <main class="pt-16">
             @yield('content')
         </main>
 
         <!-- Footer -->
-        <footer class="bg-white dark:bg-gray-800 border-t border-gray-200 dark:border-gray-700 mt-12">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-                <p class="text-center text-gray-600 dark:text-gray-400 text-sm">
+        <footer class="py-2 fixed bottom-0 z-50 w-full border-t border-white/90 bg-[#0F2A44]">
+            <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+                <p class="text-center text-sm text-gray-300">
                     © {{ date('Y') }} Bato National High School. All rights reserved.
                 </p>
             </div>
