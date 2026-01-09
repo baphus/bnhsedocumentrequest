@@ -12,11 +12,11 @@
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
         <!-- Scripts -->
-        @livewireStyles
         @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @livewireStyles
     </head>
     <body class="font-sans antialiased">
-        <div x-data="{ 
+        <div x-data="{
             sidebarOpen: false,
             sidebarCollapsed: localStorage.getItem('sidebarCollapsed') === 'true',
             toggleSidebar() {
@@ -24,9 +24,9 @@
                 localStorage.setItem('sidebarCollapsed', this.sidebarCollapsed);
             }
         }" class="min-h-screen bg-gray-100">
-            
+
             <!-- Sidebar -->
-            <aside 
+            <aside
                 :class="sidebarCollapsed ? 'lg:w-20' : 'lg:w-64'"
                 class="fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-all duration-300 ease-in-out lg:translate-x-0"
                 :class="{ '-translate-x-full': !sidebarOpen }"
@@ -41,8 +41,8 @@
                             <p class="text-xs text-gray-600">eDocument</p>
                         </div>
                     </a>
-                    <button 
-                        @click="toggleSidebar()" 
+                    <button
+                        @click="toggleSidebar()"
                         class="hidden lg:block p-1.5 rounded-lg hover:bg-gray-100 transition"
                     >
                         <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -54,8 +54,8 @@
                 <!-- Navigation -->
                 <nav class="flex-1 px-3 py-4 space-y-1 overflow-y-auto">
                     <!-- Dashboard -->
-                    <a 
-                        href="{{ route('dashboard') }}" 
+                    <a
+                        href="{{ route('dashboard') }}"
                         class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition {{ request()->routeIs('dashboard') || request()->routeIs('admin.dashboard') ? 'bg-bnhs-blue-50 text-bnhs-blue border-l-4 border-bnhs-blue' : 'text-gray-700 hover:bg-gray-100' }}"
                         :title="sidebarCollapsed ? 'Dashboard' : ''"
                     >
@@ -67,8 +67,8 @@
 
                     <!-- Requests (Admin/Registrar) -->
                     @if(Auth::user()->role === 'admin' || Auth::user()->role === 'registrar')
-                    <a 
-                        href="{{ route('admin.requests.index') }}" 
+                    <a
+                        href="{{ route('admin.requests.index') }}"
                         class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition {{ request()->routeIs('admin.requests.*') ? 'bg-bnhs-blue-50 text-bnhs-blue border-l-4 border-bnhs-blue' : 'text-gray-700 hover:bg-gray-100' }}"
                         :title="sidebarCollapsed ? 'Requests' : ''"
                     >
@@ -81,8 +81,8 @@
 
                     <!-- Admin Only Sections -->
                     @if(Auth::user()->role === 'admin')
-                    <a 
-                        href="{{ route('admin.users.index') }}" 
+                    <a
+                        href="{{ route('admin.users.index') }}"
                         class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition {{ request()->routeIs('admin.users.*') ? 'bg-bnhs-blue-50 text-bnhs-blue border-l-4 border-bnhs-blue' : 'text-gray-700 hover:bg-gray-100' }}"
                         :title="sidebarCollapsed ? 'Users' : ''"
                     >
@@ -92,8 +92,8 @@
                         <span x-show="!sidebarCollapsed" x-transition>Users</span>
                     </a>
 
-                    <a 
-                        href="{{ route('admin.document-types.index') }}" 
+                    <a
+                        href="{{ route('admin.document-types.index') }}"
                         class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition {{ request()->routeIs('admin.document-types.*') ? 'bg-bnhs-blue-50 text-bnhs-blue border-l-4 border-bnhs-blue' : 'text-gray-700 hover:bg-gray-100' }}"
                         :title="sidebarCollapsed ? 'Document Types' : ''"
                     >
@@ -103,8 +103,8 @@
                         <span x-show="!sidebarCollapsed" x-transition>Document Types</span>
                     </a>
 
-                    <a 
-                        href="{{ route('admin.tracks.index') }}" 
+                    <a
+                        href="{{ route('admin.tracks.index') }}"
                         class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition {{ request()->routeIs('admin.tracks.*') ? 'bg-bnhs-blue-50 text-bnhs-blue border-l-4 border-bnhs-blue' : 'text-gray-700 hover:bg-gray-100' }}"
                         :title="sidebarCollapsed ? 'Educational Tracks' : ''"
                     >
@@ -114,8 +114,8 @@
                         <span x-show="!sidebarCollapsed" x-transition>Educational Tracks</span>
                     </a>
 
-                    <a 
-                        href="{{ route('admin.logs.index') }}" 
+                    <a
+                        href="{{ route('admin.logs.index') }}"
                         class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition {{ request()->routeIs('admin.logs.*') ? 'bg-bnhs-blue-50 text-bnhs-blue border-l-4 border-bnhs-blue' : 'text-gray-700 hover:bg-gray-100' }}"
                         :title="sidebarCollapsed ? 'Activity Timeline' : ''"
                     >
@@ -125,8 +125,8 @@
                         <span x-show="!sidebarCollapsed" x-transition>Activity Timeline</span>
                     </a>
 
-                    <a 
-                        href="{{ route('admin.settings') }}" 
+                    <a
+                        href="{{ route('admin.settings') }}"
                         class="flex items-center gap-3 px-3 py-2.5 text-sm font-medium rounded-lg transition {{ request()->routeIs('admin.settings') ? 'bg-bnhs-blue-50 text-bnhs-blue border-l-4 border-bnhs-blue' : 'text-gray-700 hover:bg-gray-100' }}"
                         :title="sidebarCollapsed ? 'Settings' : ''"
                     >
@@ -170,8 +170,8 @@
             </aside>
 
             <!-- Mobile Backdrop -->
-            <div 
-                x-show="sidebarOpen" 
+            <div
+                x-show="sidebarOpen"
                 x-transition:enter="transition-opacity ease-linear duration-300"
                 x-transition:enter-start="opacity-0"
                 x-transition:enter-end="opacity-100"
@@ -184,7 +184,7 @@
             ></div>
 
             <!-- Main Content -->
-            <div 
+            <div
                 :class="sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-64'"
                 class="transition-all duration-300"
             >
@@ -193,7 +193,7 @@
                     <div class="flex items-center justify-between h-full px-4 sm:px-6 lg:px-8">
                         <div class="flex items-center gap-4">
                             <!-- Mobile Menu Button -->
-                            <button 
+                            <button
                                 @click="sidebarOpen = true"
                                 class="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition"
                             >

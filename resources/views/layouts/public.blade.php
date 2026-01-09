@@ -13,7 +13,6 @@
 
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    @livewireStyles
 </head>
 <body class="font-sans antialiased">
     <div class="min-h-screen bg-gradient-to-br from-bnhs-blue-50 via-white to-bnhs-gold-50">
@@ -128,6 +127,5 @@
             </div>
         </div>
     </div>
-    @livewireScripts
 </body>
 </html>
