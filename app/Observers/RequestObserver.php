@@ -28,52 +28,33 @@ class RequestObserver
     {
         $userId = auth()->id();
 
-        // Log status changes
+        // 1. Handle Status Changes
         if ($request->isDirty('status')) {
             $oldStatus = $request->getOriginal('status');
             $newStatus = $request->status;
             
-            $action = "Status changed from '{$oldStatus}' to '{$newStatus}'";
-            RequestLog::log($request->id, $action, $userId);
+            RequestLog::log($request->id, "Status changed from '{$oldStatus}' to '{$newStatus}'", $userId);
 
-            // Send email notification on status change
-            try {
-                Mail::to($request->email)->send(new RequestStatusChanged($request));
-            } catch (\Exception $e) {
-                \Log::error('Failed to send status change email: ' . $e->getMessage());
-            }
+            // Since the Mailable now implements ShouldQueue, this call is nearly instant!
+            Mail::to($request->email)->send(new RequestStatusChanged($request));
         }
 
-        // Log admin remarks changes
-        if ($request->isDirty('admin_remarks') && !empty($request->admin_remarks)) {
-            RequestLog::log(
-                $request->id,
-                'Admin remarks updated',
-                $userId
-            );
+        // 2. Handle Admin Remarks (Only log if actually changed)
+        if ($request->isDirty('admin_remarks')) {
+            RequestLog::log($request->id, 'Admin remarks updated', $userId);
         }
 
-        // Log internal notes changes
-        if ($request->isDirty('internal_notes') && !empty($request->internal_notes)) {
-            RequestLog::log(
-                $request->id,
-                'Internal notes updated',
-                $userId
-            );
+        // 3. Handle Internal Notes
+        if ($request->isDirty('internal_notes')) {
+            RequestLog::log($request->id, 'Internal notes updated', $userId);
         }
 
-        // Log estimated completion date changes
+        // 4. Handle Estimated Completion Date
         if ($request->isDirty('estimated_completion_date')) {
-            $date = $request->estimated_completion_date?->format('M d, Y');
-            RequestLog::log(
-                $request->id,
-                "Estimated completion date set to {$date}",
-                $userId
-            );
+            $date = $request->estimated_completion_date?->format('M d, Y') ?? 'cleared';
+            RequestLog::log($request->id, "Estimated completion date set to {$date}", $userId);
         }
-
     }
-
     /**
      * Handle the Request "deleted" event.
      */

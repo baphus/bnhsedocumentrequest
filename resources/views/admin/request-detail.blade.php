@@ -164,13 +164,18 @@
 
             <!-- Digital Signature -->
             @if($request->signature)
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 mt-6">
+                <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center justify-between">
                     <h3 class="text-lg font-bold text-gray-900">Digital Signature</h3>
+                    <span class="text-[10px] bg-blue-100 text-blue-700 px-2 py-1 rounded uppercase font-bold">Stored as Base64</span>
                 </div>
-                <div class="p-6">
-                    <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 bg-gray-50">
-                        <img src="{{ $request->signature }}" alt="Signature" class="max-w-full h-auto mx-auto">
+                <div class="p-8 flex justify-center bg-slate-50">
+                    <div class="bg-white p-4 rounded-xl shadow-inner border border-gray-200">
+                        {{-- Directly echo the string. Most signature pads include the 'data:image/png;base64,' prefix --}}
+                        <img src="{{ $request->signature }}" 
+                            alt="Student Signature" 
+                            class="max-h-48 w-auto mix-blend-multiply"
+                            onerror="this.parentElement.innerHTML='<span class=\'text-red-500 text-sm\'>Invalid signature data</span>'">
                     </div>
                 </div>
             </div>

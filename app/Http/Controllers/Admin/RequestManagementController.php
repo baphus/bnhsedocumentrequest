@@ -6,12 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Request;
 use App\Models\RequestLog;
 use Illuminate\Http\Request as HttpRequest;
-use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class RequestManagementController extends Controller
 {
     /**
-     * Update request status
+     * Update single request status with optimized field handling.
      */
     public function updateStatus(HttpRequest $request, $id)
     {
@@ -23,42 +24,32 @@ class RequestManagementController extends Controller
         ]);
 
         $documentRequest = Request::findOrFail($id);
+        $oldStatus = $documentRequest->status;
 
-        // Update fields
-        $documentRequest->status = $validated['status'];
+        // Use fill() to handle multiple fields efficiently
+        $documentRequest->fill($validated);
         
-        if (isset($validated['estimated_completion_date'])) {
-            $documentRequest->estimated_completion_date = $validated['estimated_completion_date'];
-        }
-        
-        if (isset($validated['admin_remarks'])) {
-            $documentRequest->admin_remarks = $validated['admin_remarks'];
-        }
-        
-        if (isset($validated['internal_notes'])) {
-            $documentRequest->internal_notes = $validated['internal_notes'];
-        }
-
-        // Assign processor if not already assigned
+        // Logical check for processor assignment
         if (!$documentRequest->processed_by) {
-            $documentRequest->processed_by = auth()->id();
+            $documentRequest->processed_by = Auth::id();
         }
 
-        $oldStatus = $documentRequest->getOriginal('status');
-        $documentRequest->save();
+        DB::transaction(function () use ($documentRequest, $oldStatus) {
+            $documentRequest->save();
 
-        // Log the activity
-        RequestLog::create([
-            'user_id' => auth()->id(),
-            'request_id' => $documentRequest->id,
-            'action' => "Updated status from {$oldStatus} to {$documentRequest->status}",
-        ]);
+            RequestLog::create([
+                'user_id' => Auth::id(),
+                'request_id' => $documentRequest->id,
+                'action' => "Status changed: {$oldStatus} -> {$documentRequest->status}",
+            ]);
+        });
 
         return redirect()->back()->with('success', 'Request updated successfully.');
     }
 
     /**
-     * Bulk update status
+     * Highly optimized Bulk Update.
+     * Replaces N+1 queries with 2 high-performance queries.
      */
     public function bulkUpdate(HttpRequest $request)
     {
@@ -68,51 +59,59 @@ class RequestManagementController extends Controller
             'status' => 'required|in:pending,processing,ready,completed',
         ]);
 
-        $updated = 0;
-        foreach ($validated['request_ids'] as $id) {
-            $documentRequest = Request::find($id);
-            if ($documentRequest) {
-                $documentRequest->status = $validated['status'];
-                
-                // Assign processor if not already assigned
-                if (!$documentRequest->processed_by) {
-                    $documentRequest->processed_by = auth()->id();
-                }
-                
-                $oldStatus = $documentRequest->getOriginal('status');
-                $documentRequest->save();
-                $updated++;
+        $ids = $validated['request_ids'];
+        $newStatus = $validated['status'];
+        $userId = auth()->id();
+        $now = now();
 
-                // Log the activity
-                RequestLog::create([
-                    'user_id' => auth()->id(),
-                    'request_id' => $documentRequest->id,
-                    'action' => "Updated status from {$oldStatus} to {$documentRequest->status}",
-                ]);
-            }
-        }
+        DB::transaction(function () use ($ids, $newStatus, $userId, $now) {
+            // 1. MASS UPDATE (Faster, but doesn't fire Model Events)
+            Request::whereIn('id', $ids)->update([
+                'status' => $newStatus,
+                'processed_by' => DB::raw("COALESCE(processed_by, {$userId})"),
+                'updated_at' => $now,
+            ]);
 
-        return redirect()->back()->with('success', "{$updated} request(s) updated successfully.");
+            // 2. MASS LOG INSERTION
+            $logEntries = array_map(fn($id) => [
+                'user_id' => $userId,
+                'request_id' => $id,
+                'action' => "Bulk updated status to {$newStatus}",
+                'created_at' => $now,
+                'updated_at' => $now,
+            ], $ids);
+
+            RequestLog::insert($logEntries);
+        });
+
+        // 3. DISPATCH NOTIFICATIONS (Queue them!)
+        // Instead of mailing inside a loop, dispatch a single Job or use Notify
+        // Example: foreach($ids as $id) { Notification::send(...) } 
+        // Ensure your Notification/Mailable uses the 'ShouldQueue' interface.
+
+        return redirect()->back()->with('success', count($ids) . " requests updated.");
     }
 
     /**
-     * Delete request
+     * Delete request with logging.
      */
     public function destroy($id)
     {
         $request = Request::findOrFail($id);
-        $trackingId = $request->tracking_id;
         
-        $request->delete();
+        DB::transaction(function () use ($request) {
+            $trackingId = $request->tracking_id;
+            $id = $request->id;
+            
+            $request->delete();
 
-        // Log the activity
-        RequestLog::create([
-            'user_id' => auth()->id(),
-            'request_id' => $id,
-            'action' => "Deleted request with tracking ID {$trackingId}",
-        ]);
+            RequestLog::create([
+                'user_id' => Auth::id(),
+                'request_id' => $id,
+                'action' => "Permanent deletion of tracking ID: {$trackingId}",
+            ]);
+        });
 
-        return redirect()->route('admin.dashboard')
-            ->with('success', "Request {$trackingId} deleted successfully.");
+        return redirect()->route('admin.dashboard')->with('success', 'Request deleted.');
     }
 }

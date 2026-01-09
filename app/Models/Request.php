@@ -132,4 +132,12 @@ class Request extends Model
               ->orWhere('lrn', 'like', "%{$term}%");
         });
     }
+
+    /**
+     * Check if the signature is valid base64 image data
+     */
+    public function getHasSignatureAttribute()
+    {
+        return str_starts_with($this->signature, 'data:image');
+    }
 }

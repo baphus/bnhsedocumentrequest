@@ -78,12 +78,6 @@ Route::middleware(['auth'])->prefix('admin')->group(function () {
         return view('admin.tracks.index');
     })->name('admin.tracks.index');
 
-    Route::get('/audit-logs', function () {
-        if (auth()->user()->role !== 'admin') {
-            abort(403);
-        }
-        return view('admin.audit-logs.index');
-    })->name('admin.audit-logs.index');
 
     Route::get('/logs', function (\Illuminate\Http\Request $request) {
         if (auth()->user()->role !== 'admin') {
