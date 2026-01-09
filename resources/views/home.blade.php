@@ -2,10 +2,10 @@
 
 @section('content')
 <!-- Hero Section -->
-<section class="relative min-h-screen overflow-hidden pt-16" style="background-image: url('/bg_view.png'); background-size: cover; background-position: center; background-attachment: fixed;">
+<section class="relative min-h-screen overflow-hidden pt-16 flex items-center justify-center" style="background-image: url('/bg_view.png'); background-size: cover; background-position: center; background-attachment: fixed;">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
         <div class="text-center">
-            <h1 class="text-4xl font-bold tracking-tight text-gray-900 dark:text-dark sm:text-5xl lg:text-6xl">
+            <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-dark sm:text-5xl lg:text-6xl">
                 <span class="block">Bato National High School</span>
                 <span class="block text-blue-900">eDocument Request</span>
                 </h1>
