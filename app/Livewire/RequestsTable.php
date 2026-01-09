@@ -28,10 +28,11 @@ class RequestsTable extends DataTableComponent
         $this->setPrimaryKey('id')
             ->setDefaultSort('created_at', 'desc')
             ->setSelectAllStatus(false)
+      ->setQueryStringEnabled()
             // 1. UI LAYOUT: Matches the image "Filters" dropdown and clean look
-            ->setFilterLayoutPopover() 
+            ->setFilterLayoutPopover()
             ->setSelectAllStatus(false) // Only select rows displayed on the current page
-            
+
             // 2. TABLE STYLING: Matches the image's spacing and borders
             ->setTableAttributes([
                 'class' => 'min-w-full divide-y divide-gray-200 border-separate border-spacing-0'
@@ -46,11 +47,12 @@ class RequestsTable extends DataTableComponent
             ->setTdAttributes(fn (Column $column, $row, $colIndex, $rowIndex) => [
                 'class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-700 border-b border-gray-100',
             ])
-            
+
             // 3. OPERATIONAL SETTINGS
             ->setLoadingPlaceholderStatus(false)
             ->setOfflineIndicatorDisabled()
-            ->setSearchDebounce(300);
+            ->setSearchDebounce(300)
+            ->setPageName('requests-table');
     }
 
     public function columns(): array
@@ -70,7 +72,7 @@ class RequestsTable extends DataTableComponent
                     </div>
                 HTML)
                 ->html()
-                ->searchable(fn(Builder $query, $term) => 
+                ->searchable(fn(Builder $query, $term) =>
                     $query->orWhere('first_name', 'ilike', "%{$term}%")
                         ->orWhere('last_name', 'ilike', "%{$term}%")
                         ->orWhere('lrn', 'ilike', "%{$term}%")
@@ -174,7 +176,7 @@ class RequestsTable extends DataTableComponent
 
             foreach ($requests as $request) {
                 $oldStatus = $request->status;
-                
+
                 $request->update([
                     'status' => $status,
                     'processed_by' => $request->processed_by ?? auth()->id(),

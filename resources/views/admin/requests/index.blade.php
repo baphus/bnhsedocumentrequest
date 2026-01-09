@@ -19,14 +19,13 @@
             </button>
         </div>
 
-        <div class="p-6">
-            <div wire:key="requests-container"> {{-- Add a wire:key here --}}
+        <div class="p-6" wire:key="requests-container" >
             <livewire:requests-table theme="tailwind"/>
-            </div>
         </div>
     </div>
 </x-app-layout>
 
+@push('scripts')
 <script>
 function refreshTable(button) {
     button.classList.add('refreshing');
@@ -48,3 +47,4 @@ function refreshTable(button) {
     }, 1000);
 }
 </script>
+@endpush

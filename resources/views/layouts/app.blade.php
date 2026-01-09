@@ -14,7 +14,8 @@
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
-    </head>
+        @livewireTableStyles
+        </head>
     <body class="font-sans antialiased">
         <div x-data="{
             sidebarOpen: false,
@@ -242,5 +243,6 @@
             </div>
         </div>
         @livewireScripts
+        @livewireTableScripts
     </body>
 </html>
