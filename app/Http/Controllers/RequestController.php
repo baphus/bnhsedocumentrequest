@@ -51,6 +51,9 @@ class RequestController extends Controller
                 ->withErrors(['error' => 'Session expired. Please start over.']);
         }
 
+        // Normalize email to lowercase for consistency
+        $email = strtolower(trim($email));
+
         // Get document to calculate processing time
         $document = Document::findOrFail($validated['document_type_id']);
         $estimatedDate = Carbon::now()->addDays($document->processing_days);

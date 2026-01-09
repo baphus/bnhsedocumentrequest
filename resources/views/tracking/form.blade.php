@@ -10,7 +10,7 @@
                 </h2>
 
                 <p class="text-gray-600 dark:text-gray-400 mb-6">
-                    Enter your tracking ID to view the status of your document request.
+                    Enter your tracking code and the email address you used when submitting your request to view its status.
                 </p>
 
                 @if ($errors->any())
@@ -28,7 +28,7 @@
 
                     <div class="mb-4">
                         <label for="tracking_id" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                            Tracking ID
+                            Tracking Code
                         </label>
                         <input 
                             type="text" 
@@ -38,6 +38,21 @@
                             required 
                             placeholder="DOC-XXXXXX"
                             class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white uppercase"
+                        >
+                    </div>
+
+                    <div class="mb-6">
+                        <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                            Email Address
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            value="{{ old('email') }}"
+                            required 
+                            placeholder="your-email@example.com"
+                            class="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white"
                         >
                     </div>
 

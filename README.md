@@ -206,8 +206,8 @@ The system comes pre-seeded with:
 - `POST /otp/verify` - Verify OTP
 - `GET /request/create` - Request form (OTP protected)
 - `POST /request/store` - Submit request
-- `GET /tracking/form` - Tracking form (OTP protected)
-- `POST /tracking/track` - Track request
+- `GET /tracking/form` - Tracking form (no OTP required)
+- `POST /tracking/track` - Track request (requires tracking code + email)
 
 ### Admin Routes (Authentication Required)
 - `GET /admin/dashboard` - Dashboard
@@ -224,6 +224,8 @@ The system comes pre-seeded with:
 - One-time use
 - Rate-limited (3 requests per 10 minutes)
 - 5 failed verification attempts before lockout
+- Required for document submission only
+- **Not required for tracking** - users can track with tracking code + email
 
 ### Tracking ID Format
 - Format: `DOC-XXXXXX`

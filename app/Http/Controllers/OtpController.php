@@ -30,7 +30,7 @@ class OtpController extends Controller
             'purpose' => 'required|in:submission,tracking',
         ]);
 
-        $email = $request->email;
+        $email = strtolower(trim($request->email));
         $purpose = $request->purpose;
         $key = 'otp-send:' . $email . ':' . $purpose;
 

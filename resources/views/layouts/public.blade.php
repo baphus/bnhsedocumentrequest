@@ -29,7 +29,7 @@
                         <a href="{{ route('home') }}" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
                             Home
                         </a>
-                        <a href="{{ route('otp.request', ['purpose' => 'tracking']) }}" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
+                        <a href="{{ route('tracking.form') }}" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">
                             Track Request
                         </a>
                         <a href="{{ route('login') }}" class="text-gray-700 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">

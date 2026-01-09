@@ -22,26 +22,25 @@ class TrackingController extends Controller
     {
         $validated = $request->validate([
             'tracking_id' => 'required|string',
+            'email' => 'required|email',
         ]);
 
         $trackingId = strtoupper($validated['tracking_id']);
-        $documentRequest = Request::where('tracking_id', $trackingId)->first();
+        $email = strtolower(trim($validated['email']));
+
+        // Find request by tracking ID and email
+        $documentRequest = Request::where('tracking_id', $trackingId)
+            ->where('email', $email)
+            ->first();
 
         if (!$documentRequest) {
-            return back()->withErrors(['tracking_id' => 'No request found with this tracking ID.']);
-        }
-
-        // Verify email matches session
-        $email = session('otp_email');
-        if ($documentRequest->email !== $email) {
-            return back()->withErrors(['tracking_id' => 'Tracking ID does not match verified email.']);
+            return back()->withErrors([
+                'tracking_id' => 'No request found with this tracking code and email combination. Please verify your information.',
+            ])->withInput();
         }
 
         // Load relationships
         $documentRequest->load(['documentType', 'processor', 'logs.user']);
-
-        // Clear OTP session after successful tracking
-        session()->forget(['otp_verified', 'otp_verified_at', 'otp_email', 'otp_purpose']);
 
         return view('tracking.show', compact('documentRequest'));
     }

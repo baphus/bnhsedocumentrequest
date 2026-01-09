@@ -31,11 +31,9 @@ Route::middleware([VerifyOtp::class . ':submission'])->group(function () {
 
 Route::get('/request/success/{tracking_id}', [RequestController::class, 'success'])->name('request.success');
 
-// Tracking Routes (OTP Protected)
-Route::middleware([VerifyOtp::class . ':tracking'])->group(function () {
-    Route::get('/tracking/form', [TrackingController::class, 'form'])->name('tracking.form');
-    Route::post('/tracking/track', [TrackingController::class, 'track'])->name('tracking.track');
-});
+// Tracking Routes (No OTP Required)
+Route::get('/tracking/form', [TrackingController::class, 'form'])->name('tracking.form');
+Route::post('/tracking/track', [TrackingController::class, 'track'])->name('tracking.track');
 
 // Admin/Registrar Routes (Authentication Required)
 Route::middleware(['auth'])->prefix('admin')->group(function () {

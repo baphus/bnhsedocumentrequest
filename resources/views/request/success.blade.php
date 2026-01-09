@@ -68,7 +68,7 @@
 
                 <!-- Action Buttons -->
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="{{ route('otp.request', ['purpose' => 'tracking']) }}" 
+                    <a href="{{ route('tracking.form') }}" 
                        class="flex-1 bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition font-semibold">
                         Track This Request
                     </a>
