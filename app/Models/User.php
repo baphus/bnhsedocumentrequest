@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'status',
+        'last_login_at',
     ];
 
     /**
@@ -42,7 +45,32 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'last_login_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Check if user is admin
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
+    }
+
+    /**
+     * Check if user is registrar
+     */
+    public function isRegistrar(): bool
+    {
+        return $this->role === 'registrar';
+    }
+
+    /**
+     * Requests processed by this user
+     */
+    public function processedRequests()
+    {
+        return $this->hasMany(Request::class, 'processed_by');
     }
 }
