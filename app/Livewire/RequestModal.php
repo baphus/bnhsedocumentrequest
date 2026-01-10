@@ -1,0 +1,107 @@
+<?php
+
+namespace App\Livewire;
+
+use App\Models\Request;
+use App\Models\Document;
+use App\Models\Track;
+use Livewire\Component;
+use Livewire\Attributes\On;
+use App\Livewire\Forms\RequestForm;
+use Illuminate\Support\Facades\Auth;
+
+class RequestModal extends Component
+{
+    public bool $isOpen = false;
+    public ?int $requestId = null;
+    public RequestForm $form;
+
+    #[On('openRequestModal')]
+    public function openModal($requestId = null)
+    {
+        $this->resetValidation();
+        $this->form->reset();
+        $this->requestId = null;
+
+        if ($requestId) {
+            if (is_array($requestId)) {
+                $requestId = $requestId['requestId'] ?? null;
+            }
+
+            $this->requestId = $requestId;
+            $request = Request::find($requestId);
+            if ($request) {
+                $this->form->email = $request->email;
+                $this->form->contact_number = $request->contact_number;
+                $this->form->first_name = $request->first_name;
+                $this->form->middle_name = $request->middle_name;
+                $this->form->last_name = $request->last_name;
+                $this->form->lrn = $request->lrn;
+                $this->form->grade_level = $request->grade_level;
+                $this->form->section = $request->section ?? '';
+                $this->form->track_strand = $request->track_strand ?? 'N/A';
+                $this->form->school_year_last_attended = $request->school_year_last_attended;
+                $this->form->document_type_id = $request->document_type_id;
+                $this->form->purpose = $request->purpose;
+                $this->form->quantity = $request->quantity;
+                $this->form->signature = $request->signature ?? 'N/A';
+            }
+        } else {
+            $this->form->signature = 'ADMIN_ADDED';
+        }
+
+        $this->isOpen = true;
+        $this->dispatch('open-modal', 'request-management-modal');
+    }
+
+    public function closeModal()
+    {
+        $this->isOpen = false;
+        $this->dispatch('close-modal', 'request-management-modal');
+    }
+
+    public function save()
+    {
+        $this->validate();
+
+        if (!$this->form->email) {
+            $this->addError('form.email', 'Email is required.');
+            return;
+        }
+
+        if ($this->requestId) {
+            $request = Request::findOrFail($this->requestId);
+            $request->update([
+                'email' => $this->form->email,
+                'contact_number' => $this->form->contact_number,
+                'first_name' => $this->form->first_name,
+                'middle_name' => $this->form->middle_name,
+                'last_name' => $this->form->last_name,
+                'lrn' => $this->form->lrn,
+                'grade_level' => $this->form->grade_level,
+                'section' => $this->form->section,
+                'track_strand' => $this->form->track_strand,
+                'school_year_last_attended' => $this->form->school_year_last_attended,
+                'document_type_id' => $this->form->document_type_id,
+                'purpose' => $this->form->purpose,
+                'quantity' => $this->form->quantity,
+            ]);
+            $message = 'Request updated successfully.';
+        } else {
+            $this->form->save();
+            $message = 'Request created successfully.';
+        }
+
+        $this->closeModal();
+        $this->dispatch('refreshDatatable');
+        $this->dispatch('notify', type: 'success', message: $message);
+    }
+
+    public function render()
+    {
+        return view('livewire.request-modal', [
+            'documents' => Document::active()->get(),
+            'tracks' => Track::active()->get(),
+        ]);
+    }
+}

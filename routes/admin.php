@@ -15,12 +15,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
-    
+
     // Shared: Both Admin and Registrar can access these
     Route::middleware(['role:admin,registrar'])->group(function () {
         // Dashboard
         Route::get('/dashboard', \App\Livewire\Pages\Dashboard::class)->name('dashboard');
-        
+
         // Request Management
         Route::prefix('requests')->name('requests.')->group(function () {
             Route::get('/', \App\Livewire\Pages\Requests\Index::class)->name('index');
@@ -33,17 +33,17 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Admin Only: Registrar is blocked here
     Route::middleware(['role:admin'])->group(function () {
         // User Management
-        Route::get('/users', fn () => view('admin.users.index'))->name('users.index');
-        
+        Route::get('/users', \App\Livewire\Pages\Users\Index::class)->name('users.index');
+
         // Document Types Management
-        Route::get('/document-types', fn () => view('admin.document-types.index'))->name('document-types.index');
-        
+        Route::get('/document-types', fn() => view('admin.document-types.index'))->name('document-types.index');
+
         // Tracks Management
-        Route::get('/tracks', fn () => view('admin.tracks.index'))->name('tracks.index');
-        
+        Route::get('/tracks', fn() => view('admin.tracks.index'))->name('tracks.index');
+
         // Settings
-        Route::get('/settings', fn () => view('admin.settings'))->name('settings');
-        
+        Route::get('/settings', fn() => view('admin.settings'))->name('settings');
+
         // Activity Logs
         Route::get('/logs', function (\Illuminate\Http\Request $request) {
             $date = $request->query('date');

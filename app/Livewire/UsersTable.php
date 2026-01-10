@@ -21,6 +21,16 @@ class UsersTable extends DataTableComponent
         $this->dispatch('refresh');
     }
 
+    public function editUser($userId = null)
+    {
+        $this->dispatch('openUserModal', userId: $userId);
+    }
+
+    public function deleteUser($userId = null)
+    {
+        $this->dispatch('openDeleteUserModal', userId: $userId);
+    }
+
     public function configure(): void
     {
         $this->setPrimaryKey('id')
@@ -40,6 +50,9 @@ class UsersTable extends DataTableComponent
             ->setTdAttributes(fn(Column $column, $row, $colIndex, $rowIndex) => [
                 'class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-700 border-b border-gray-100',
             ])
+            // 3. OPERATIONAL SETTINGS
+            ->setLoadingPlaceholderStatus(false)
+            ->setOfflineIndicatorDisabled()
             ->setSearchDebounce(300)
             ->setPageName('users-table');
     }
@@ -88,9 +101,9 @@ class UsersTable extends DataTableComponent
             Column::make('Last Login', 'last_login_at')
                 ->format(fn($value) => $value ? $value->diffForHumans() : 'Never')
                 ->sortable(),
-
-            Column::make('Actions')
-                ->label(fn($row) => view('admin.users.actions', ['user' => $row]))
+                
+            Column::make('Actions', 'id')
+                ->format(fn($value, $row) => view('livewire.pages.users.actions', ['userId' => $value, 'user' => $row]))
                 ->html(),
         ];
     }

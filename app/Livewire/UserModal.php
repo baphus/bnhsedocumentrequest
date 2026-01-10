@@ -42,6 +42,9 @@ class UserModal extends Component
         $this->reset(['name', 'email', 'password', 'role', 'status', 'userId']);
 
         if ($userId) {
+            if (is_array($userId)) {
+                $userId = $userId['userId'] ?? $userId['id'] ?? $userId[0] ?? null;
+            }
             $this->userId = $userId;
             $user = User::find($userId);
             if ($user) {
@@ -51,7 +54,6 @@ class UserModal extends Component
                 $this->status = $user->status;
             }
         }
-
         $this->isOpen = true;
         $this->dispatch('open-modal', 'user-management-modal');
     }
@@ -89,22 +91,6 @@ class UserModal extends Component
         $this->closeModal();
         $this->dispatch('refreshDatatable'); // Custom refresh for Rappasoft table
         $this->dispatch('notify', type: 'success', message: $message);
-    }
-
-    #[On('confirmDeleteUser')]
-    public function confirmDelete($userId)
-    {
-        if ($userId === Auth::id()) {
-            $this->dispatch('notify', type: 'error', message: 'You cannot delete yourself.');
-            return;
-        }
-
-        $user = User::find($userId);
-        if ($user) {
-            $user->delete();
-            $this->dispatch('refreshDatatable');
-            $this->dispatch('notify', type: 'success', message: 'User deleted successfully.');
-        }
     }
 
     public function render()
