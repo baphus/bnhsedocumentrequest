@@ -36,13 +36,10 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
         Route::get('/users', \App\Livewire\Pages\Users\Index::class)->name('users.index');
 
         // Document Types Management
-        Route::get('/document-types', fn() => view('admin.document-types.index'))->name('document-types.index');
-
-        // Tracks Management
-        Route::get('/tracks', fn() => view('admin.tracks.index'))->name('tracks.index');
+        Route::get('/document-types', \App\Livewire\Pages\DocumentTypes\Index::class)->name('document-types.index');
 
         // Settings
-        Route::get('/settings', fn() => view('admin.settings'))->name('settings');
+        Route::get('/settings', \App\Livewire\Pages\Settings\Index::class)->name('settings');
 
         // Activity Logs
         Route::get('/logs', function (\Illuminate\Http\Request $request) {

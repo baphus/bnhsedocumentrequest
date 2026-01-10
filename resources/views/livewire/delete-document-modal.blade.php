@@ -1,11 +1,11 @@
-<div x-on:close-modal.window="if($event.detail == 'delete-user-modal') $wire.set('isOpen', false)">
-    <x-modal name="delete-user-modal" :show="$isOpen" focusable>
+<div x-on:close-modal.window="if($event.detail == 'delete-document-modal') $wire.set('isOpen', false)">
+    <x-modal name="delete-document-modal" :show="$isOpen" focusable>
         <div class="p-6">
             <h2 class="text-lg font-bold text-gray-900 mb-4">
                 Confirm Deletion
             </h2>
 
-            @if($user)
+            @if($document)
             <div class="bg-red-50 border border-red-100 rounded-xl p-4 mb-6">
                 <div class="flex items-start gap-3">
                     <div class="p-2 bg-red-100 rounded-lg text-red-600">
@@ -14,25 +14,30 @@
                         </svg>
                     </div>
                     <div>
-                        <h3 class="font-bold text-red-900">User Summary</h3>
+                        <h3 class="font-bold text-red-900">Document Type Summary</h3>
                         <div class="mt-2 space-y-1 text-sm text-red-800">
-                            <p><span class="font-semibold text-red-900">Name:</span> {{ $user->name }}</p>
-                            <p><span class="font-semibold text-red-900">Email:</span> {{ $user->email }}</p>
-                            <p><span class="font-semibold text-red-900">Role:</span> {{ ucfirst($user->role) }}</p>
+                            <p><span class="font-semibold text-red-900">Name:</span> {{ $document->name }}</p>
+                            <p><span class="font-semibold text-red-900">Category:</span> {{ $document->category ?? 'N/A' }}</p>
                         </div>
                     </div>
                 </div>
             </div>
 
             <p class="text-gray-600 mb-6 font-medium">
-                Are you sure you want to delete the user <span class="text-red-600 font-bold underline">{{ $user->name }}</span>? This action cannot be undone and will permanently remove their access.
+                Are you sure you want to delete the document type <span class="text-red-600 font-bold underline">{{ $document->name }}</span>? This action cannot be undone.
             </p>
             @endif
 
             <div class="flex justify-end gap-3 mt-6">
-                <x-secondary-button wire:click="closeModal">Cancel</x-secondary-button>
-                <x-danger-button wire:click="delete">Delete User</x-danger-button>
+                <x-secondary-button wire:click="closeModal">
+                    Cancel
+                </x-secondary-button>
+
+                <x-danger-button wire:click="delete">
+                    Delete Document Type
+                </x-danger-button>
             </div>
         </div>
     </x-modal>
 </div>
+

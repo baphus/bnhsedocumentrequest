@@ -2,21 +2,31 @@
 
 namespace App\Livewire\Tables;
 
-use App\Models\Request as DocumentRequest;
+use App\Models\Document;
 use Illuminate\Database\Eloquent\Builder;
 use Rappasoft\LaravelLivewireTables\DataTableComponent;
 use Rappasoft\LaravelLivewireTables\Views\Column;
 use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Livewire\Attributes\On;
 
-class RequestsTable extends DataTableComponent
+class DocumentTable extends DataTableComponent
 {
-    protected $model = DocumentRequest::class;
+    protected $model = Document::class;
 
     #[On('refreshDatatable')]
     public function refresh()
     {
-        $this->dispatch('refresh');
+        // This is a dummy method to refresh the table from external components.
+    }
+
+    public function editDocument($documentId = null)
+    {
+        $this->dispatch('openDocumentModal', documentId: $documentId);
+    }
+
+    public function deleteDocument($documentId = null)
+    {
+        $this->dispatch('openDeleteDocumentModal', documentId: $documentId);
     }
 
     public function configure(): void
@@ -38,55 +48,43 @@ class RequestsTable extends DataTableComponent
             ->setTdAttributes(fn(Column $column, $row, $colIndex, $rowIndex) => [
                 'class' => 'px-6 py-4 whitespace-nowrap text-sm text-gray-700 border-b border-gray-100',
             ])
+            ->setLoadingPlaceholderStatus(false)
+            ->setOfflineIndicatorDisabled()
             ->setSearchDebounce(300)
-            ->setPageName('requests-table')
-            ->setPerPageAccepted([10, 25, 50, 100])
-            ->setDefaultPerPage(25);
+            ->setPageName('documents-table');
     }
 
     public function columns(): array
     {
         return [
-            Column::make('Tracking ID', 'tracking_id')
+            Column::make('Name', 'name')
                 ->searchable()
                 ->sortable()
-                ->format(fn($value) => "<span class='font-medium text-bnhs-blue'>{$value}</span>")
+                ->format(fn($value) => "<span class='font-medium text-gray-900'>{$value}</span>")
                 ->html(),
 
-            Column::make('Name', 'first_name')
-                ->searchable()
-                ->sortable()
-                ->format(fn($value, $row) => "<span class='font-medium text-gray-900'>{$row->full_name}</span>")
-                ->html(),
-
-            Column::make('Email', 'email')
+            Column::make('Category', 'category')
                 ->searchable()
                 ->sortable(),
-
-            Column::make('Document', 'document_type_id')
-                ->format(fn($value, $row) => $row->documentType->name ?? 'N/A')
+            
+            Column::make('Processing Days', 'processing_days')
                 ->sortable(),
 
-            Column::make('Status', 'status')
+            Column::make('Status', 'is_active')
                 ->format(function ($value) {
-                    $styles = match ($value) {
-                        'pending' => 'bg-gray-100 text-gray-800',
-                        'processing' => 'bg-blue-100 text-blue-800',
-                        'ready' => 'bg-green-100 text-green-800',
-                        'completed' => 'bg-purple-100 text-purple-800',
-                        default => 'bg-gray-100 text-gray-800',
-                    };
-                    return "<span class='inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium {$styles}'>" . ucfirst($value) . "</span>";
+                    $styles = $value ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800';
+                    $text = $value ? 'Active' : 'Inactive';
+                    return "<span class='inline-flex px-2.5 py-0.5 rounded-full text-xs font-medium {$styles}'>" . $text . "</span>";
                 })
                 ->html()
                 ->sortable(),
 
-            Column::make('Date', 'created_at')
+            Column::make('Created', 'created_at')
                 ->format(fn($value) => $value->format('M d, Y'))
                 ->sortable(),
-
+                
             Column::make('Actions', 'id')
-                ->format(fn($value, $row) => view('livewire.tables.requests-actions', ['request' => $row]))
+                ->format(fn($value, $row) => view('livewire.pages.document-types.actions', ['documentId' => $value])->render())
                 ->html(),
         ];
     }
@@ -94,17 +92,15 @@ class RequestsTable extends DataTableComponent
     public function filters(): array
     {
         return [
-            SelectFilter::make('Status')
+            SelectFilter::make('Status', 'is_active')
                 ->options([
-                    '' => 'All Status',
-                    'pending' => 'Pending',
-                    'processing' => 'Processing',
-                    'ready' => 'Ready',
-                    'completed' => 'Completed',
+                    '' => 'All',
+                    '1' => 'Active',
+                    '0' => 'Inactive',
                 ])
                 ->filter(function (Builder $query, string $value) {
                     if ($value !== '') {
-                        $query->where('status', $value);
+                        $query->where('is_active', $value);
                     }
                 }),
         ];
@@ -112,7 +108,6 @@ class RequestsTable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return DocumentRequest::query()
-            ->with(['documentType', 'processor']);
+        return Document::query();
     }
 }

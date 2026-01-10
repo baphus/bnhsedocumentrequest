@@ -16,9 +16,15 @@ class RequestModal extends Component
     public ?int $requestId = null;
     public RequestForm $form;
 
-    #[On('openRequestModal')]
+    public function mount()
+    {
+        $this->isOpen = false;
+    }    #[On('openRequestModal')]
     public function openModal($requestId = null)
     {
+        // Close delete modal if it's open
+        $this->dispatch('close-modal', 'delete-request-modal');
+        
         $this->resetValidation();
         $this->form->reset();
         $this->requestId = null;

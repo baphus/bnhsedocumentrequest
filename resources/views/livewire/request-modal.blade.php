@@ -1,5 +1,5 @@
 <div x-on:close-modal.window="if($event.detail == 'request-management-modal') $wire.set('isOpen', false)">
-    <x-modal name="request-management-modal" :show="$isOpen" focusable maxWidth="3xl">
+    <x-modal name="request-management-modal" :show="$isOpen" focusable maxWidth="2xl">
         <form wire:submit.prevent="save" class="p-6">
             <h2 class="text-lg font-medium text-gray-900">
                 {{ $requestId ? 'Edit Request' : 'Add New Request' }}
@@ -115,13 +115,8 @@
             </div>
 
             <div class="mt-6 flex justify-end gap-3 border-t pt-4">
-                <x-secondary-button wire:click="closeModal" type="button">
-                    Cancel
-                </x-secondary-button>
-
-                <x-primary-button class="bg-bnhs-blue hover:bg-bnhs-blue-600">
-                    {{ $requestId ? 'Update Request' : 'Create Request' }}
-                </x-primary-button>
+                <x-secondary-button wire:click="closeModal" type="button">Cancel</x-secondary-button>
+                <x-primary-button class="bg-bnhs-blue hover:bg-bnhs-blue-600">{{ $requestId ? 'Update Request' : 'Create Request' }}</x-primary-button>
             </div>
         </form>
     </x-modal>

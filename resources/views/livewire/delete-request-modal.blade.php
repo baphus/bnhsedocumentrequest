@@ -30,13 +30,8 @@
             @endif
 
             <div class="flex justify-end gap-3 mt-6">
-                <x-secondary-button wire:click="closeModal">
-                    Cancel
-                </x-secondary-button>
-
-                <x-danger-button wire:click="delete">
-                    Delete Request
-                </x-danger-button>
+                <x-secondary-button wire:click="closeModal">Cancel</x-secondary-button>
+                <x-danger-button wire:click="delete">Delete Request</x-danger-button>
             </div>
         </div>
     </x-modal>

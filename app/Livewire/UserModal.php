@@ -19,6 +19,11 @@ class UserModal extends Component
     public string $role = 'registrar';
     public string $status = 'active';
 
+    public function mount()
+    {
+        $this->isOpen = false;
+    }
+
     protected function rules()
     {
         return [
@@ -38,6 +43,9 @@ class UserModal extends Component
     #[On('openUserModal')]
     public function openModal($userId = null)
     {
+        // Close delete modal if it's open
+        $this->dispatch('close-modal', 'delete-user-modal');
+        
         $this->resetValidation();
         $this->reset(['name', 'email', 'password', 'role', 'status', 'userId']);
 

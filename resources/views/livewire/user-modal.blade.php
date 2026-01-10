@@ -1,5 +1,5 @@
 <div x-on:close-modal.window="if($event.detail == 'user-management-modal') $wire.set('isOpen', false)">
-    <x-modal name="user-management-modal" :show="$isOpen" focusable>
+    <x-modal name="user-management-modal" :show="$isOpen" focusable maxWidth="md">
         <form wire:submit.prevent="save" class="p-6">
             <h2 class="text-lg font-medium text-gray-900">
                 {{ $userId ? 'Edit User' : 'Add New User' }}
@@ -76,14 +76,9 @@
                 </div>
             </div>
 
-            <div class="mt-6 flex justify-end gap-3">
-                <x-secondary-button wire:click="closeModal" type="button">
-                    Cancel
-                </x-secondary-button>
-
-                <x-primary-button class="bg-bnhs-blue hover:bg-bnhs-blue-600">
-                    {{ $userId ? 'Update User' : 'Create User' }}
-                </x-primary-button>
+            <div class="mt-6 flex justify-end gap-3 border-t pt-4">
+                <x-secondary-button wire:click="closeModal" type="button">Cancel</x-secondary-button>
+                <x-primary-button class="bg-bnhs-blue hover:bg-bnhs-blue-600">{{ $userId ? 'Update User' : 'Create User' }}</x-primary-button>
             </div>
         </form>
     </x-modal>

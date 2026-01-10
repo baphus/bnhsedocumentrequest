@@ -12,9 +12,17 @@ class DeleteRequestModal extends Component
     public ?int $requestId = null;
     public ?Request $request = null;
 
+    public function mount()
+    {
+        $this->isOpen = false;
+    }
+
     #[On('openDeleteModal')]
     public function openModal($requestId)
     {
+        // Close request modal if it's open
+        $this->dispatch('close-modal', 'request-management-modal');
+        
         if (is_array($requestId)) {
             $requestId = $requestId['requestId'] ?? null;
         }
