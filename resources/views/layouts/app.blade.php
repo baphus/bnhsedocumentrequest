@@ -15,6 +15,11 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
         @livewireStyles
         @livewireTableStyles
+        <script>
+            document.addEventListener('livewire:init', () => {
+                console.log('Livewire 3 is officially booted and ready!');
+            });
+        </script>
         </head>
     <body class="font-sans antialiased">
         <div x-data="{

@@ -53,7 +53,11 @@ class RequestsTable extends DataTableComponent
             ->setOfflineIndicatorDisabled()
             ->setSearchDebounce(300)
             ->setPageName('requests-table')
-            ->setPaginationMethod('simple'); // This is much faster than the default for Heroku
+            ->setPaginationMethod('simple')
+            ->setLoadingPlaceholderEnabled()
+            ->setLoadingPlaceholderAttributes([
+                'class' => 'bg-slate-100 animate-pulse', // Tailwind pulse effect
+            ]);// This is much faster than the default for Heroku
     }
 
     public function columns(): array
@@ -128,9 +132,10 @@ class RequestsTable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return Request::query()
-            ->select('requests.*')
-            ->with(['documentType', 'processor']);
+        // Use the absolute path to your model
+        return \App\Models\Request::query()
+        ->select('requests.*')
+        ->with(['documentType', 'processor']);
     }
 
     public function filters(): array
