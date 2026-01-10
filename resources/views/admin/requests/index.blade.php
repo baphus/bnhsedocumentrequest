@@ -27,25 +27,24 @@
 
 @push('scripts')
 <script>
-    // Defining it directly on the window object makes it globally available
-    // regardless of where the script is placed.
-    window.refreshTable = function(button) {
-        if (typeof Livewire === 'undefined') {
-            console.error('Livewire is not yet loaded.');
-            return;
-        }
+function refreshTable(button) {
+    button.classList.add('refreshing');
+    button.disabled = true;
 
-        button.disabled = true;
-        button.style.opacity = '0.5';
+    Livewire.dispatch('$refresh');
 
-        // This is the specific event Rappasoft listens for
-        Livewire.dispatch('refreshDatatable');
+    const tableComponent = Livewire.find(
+        document.querySelector('[wire\\:id]')?.getAttribute('wire:id')
+    );
 
-        // Re-enable after 1 second
-        setTimeout(() => {
-            button.disabled = false;
-            button.style.opacity = '1';
-        }, 1000);
-    };
+    if (tableComponent) {
+        tableComponent.call('$refresh');
+    }
+
+    setTimeout(() => {
+        button.classList.remove('refreshing');
+        button.disabled = false;
+    }, 1000);
+}
 </script>
 @endpush
