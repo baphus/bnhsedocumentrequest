@@ -27,21 +27,25 @@
 
 @push('scripts')
 <script>
-    // This makes the function available globally immediately
+    // Defining it directly on the window object makes it globally available
+    // regardless of where the script is placed.
     window.refreshTable = function(button) {
-        if (!window.Livewire) {
-            console.error('Livewire not loaded yet');
+        if (typeof Livewire === 'undefined') {
+            console.error('Livewire is not yet loaded.');
             return;
         }
 
         button.disabled = true;
+        button.style.opacity = '0.5';
 
-        // Rappasoft/Livewire 3 refresh
+        // This is the specific event Rappasoft listens for
         Livewire.dispatch('refreshDatatable');
 
+        // Re-enable after 1 second
         setTimeout(() => {
             button.disabled = false;
-        }, 2000);
+            button.style.opacity = '1';
+        }, 1000);
     };
 </script>
 @endpush
