@@ -13,6 +13,7 @@ use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
+use App\Jobs\SendRequestStatusEmail;
 
 class RequestsTable extends DataTableComponent
 {
@@ -219,21 +220,33 @@ class RequestsTable extends DataTableComponent
 
         // Wrap in transaction for better data integrity
         DB::transaction(function () use ($ids, $status) {
-            $requests = Request::whereIn('id', $ids)->get();
+            $requests = Request::whereIn('id', $ids)->select('id', 'status', 'email')->get();
+            $logs = [];
+            $updatedRequestIds = [];
 
             foreach ($requests as $request) {
                 $oldStatus = $request->status;
 
-                $request->update([
-                    'status' => $status,
-                    'processed_by' => $request->processed_by ?? Auth::id(),
-                ]);
+                if ($oldStatus !== $status) {
+                    $request->status = $status;
+                    $request->processed_by = $request->processed_by ?? Auth::id();
+                    $request->save(); // Save individual models to trigger observers
+                    $updatedRequestIds[] = $request->id;
 
-                RequestLog::create([
-                    'user_id' => Auth::id(),
-                    'request_id' => $request->id,
-                    'action' => "Updated status from {$oldStatus} to {$status}",
-                ]);
+                    $logs[] = [
+                        'user_id' => Auth::id(),
+                        'request_id' => $request->id,
+                        'action' => "Updated status from {$oldStatus} to {$status}",
+                        'created_at' => now(),
+                    ];
+
+                    // Dispatch the email job for each request
+                    SendRequestStatusEmail::dispatch($request, $oldStatus, $status);
+                }
+            }
+
+            if (!empty($logs)) {
+                RequestLog::insert($logs);
             }
         });
 

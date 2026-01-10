@@ -35,7 +35,7 @@ class RequestModal extends Component
             }
 
             $this->requestId = $requestId;
-            $request = Request::find($requestId);
+            $request = Request::with(['documentType', 'processor', 'logs'])->find($requestId);
             if ($request) {
                 $this->form->email = $request->email;
                 $this->form->contact_number = $request->contact_number;
