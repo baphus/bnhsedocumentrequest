@@ -62,14 +62,23 @@ RUN echo 'server { \n\
 # Supervisor configuration
 RUN echo '[supervisord] \n\
 nodaemon=true \n\
+\n\
 [program:php-fpm] \n\
 command=php-fpm \n\
 autostart=true \n\
 autorestart=true \n\
+\n\
 [program:nginx] \n\
 command=nginx -g "daemon off;" \n\
 autostart=true \n\
-autorestart=true' > /etc/supervisor/conf.d/supervisord.conf
+autorestart=true \n\
+\n\
+[program:worker] \n\
+command=php /var/www/artisan queue:work --tries=3 --timeout=90 \n\
+autostart=true \n\
+autorestart=true \n\
+stopwaitsecs=3600' > /etc/supervisor/conf.d/supervisord.conf
+
 
 ENV PORT=10000
 EXPOSE 10000
