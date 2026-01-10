@@ -9,14 +9,24 @@ RUN npm run build
 # --- Stage 2: PHP Application ---
 FROM php:8.4-fpm-bookworm
 
-# Install system dependencies
+# Install system dependencies (including GD requirements)
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
     libicu-dev \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    libwebp-dev \
     nginx \
     supervisor \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Configure GD with support for multiple image formats
+RUN docker-php-ext-configure gd \
+    --with-freetype \
+    --with-jpeg \
+    --with-webp
 
 # Install PHP extensions
 RUN docker-php-ext-install pdo_pgsql intl zip bcmath gd pcntl opcache
