@@ -3,77 +3,39 @@
 @section('title', 'BNHS eDocument Request - Home')
 
 @section('content')
-<!-- Navigation Header -->
-<header class="fixed top-0 z-50 w-full bg-white/90 backdrop-blur-md shadow-md">
-    <nav class="w-full px-6 sm:px-8 lg:px-12">
-        <div class="flex h-16 items-center justify-between">
-            <!-- Logo & School Name -->
-            <div class="flex items-center gap-3">
-                <a href="{{ route('home') }}" class="flex items-center gap-3 transition">
-                    @if(file_exists(public_path('images/logo.png')))
-                        <img src="{{ asset('images/logo.png') }}" alt="BNHS Logo" class="h-10 w-auto" />
-                    @else
-                        <x-application-logo class="h-10 w-10 fill-current text-bnhs-blue" />
-                    @endif
-                    <div>
-                        <p class="text-sm font-bold text-gray-900">eDocument Request</p>
-                        <p class="text-xs text-bnhs-blue font-semibold">Bato National High School</p>
-                    </div>
-                </a>
-            </div>
-
-            <!-- Navigation Links -->
-            <div class="flex items-center gap-4">
-                @auth
-                    <a
-                        href="{{ route('admin.dashboard') }}"
-                        class="rounded-lg bg-bnhs-blue px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-bnhs-blue-600"
-                    >
-                        Dashboard
-                    </a>
-                @else
-                    <a
-                        href="{{ route('login') }}"
-                        class="text-sm font-medium text-gray-600 transition
-       px-4 py-1.5 rounded-lg border border-gray-300
-       hover:border-bnhs-blue hover:text-bnhs-blue"
-                    >
-                        Login
-                    </a>
-                @endauth
-            </div>
-        </div>
-    </nav>
-</header>
-
 <!-- Hero Section -->
-<section class="relative min-h-screen overflow-hidden pt-16 flex items-center justify-center" style="background-image: url('/bg_view.png'); background-size: cover; background-position: center; background-attachment: fixed;">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
+<section class="relative min-h-[calc(100vh-4rem)] overflow-hidden flex items-center justify-center">
+    <!-- Optimized Background -->
+    <div class="absolute inset-0 z-0">
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('/bg_view.png');"></div>
+        <div class="absolute inset-0 bg-white/60"></div>
+    </div>
+
+    <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20">
         <div class="text-center">
-            <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-dark sm:text-5xl lg:text-6xl">
-                <span class="block">Bato National High School</span>
-                <span class="block text-blue-900">eDocument Request</span>
+            <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl lg:text-7xl">
+                <span class="block mb-2">Bato National High School</span>
+                <span class="block text-bnhs-blue tracking-tight">eDocument Request</span>
             </h1>
 
-            <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-700">
+            <p class="mx-auto mt-8 max-w-2xl text-xl leading-relaxed text-gray-700 font-medium">
                 Request and track your school documents online. Simple, fast, and secure—verify your email and submit your request in minutes.
             </p>
 
-            <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
+            <div class="mt-12 flex flex-col items-center justify-center gap-6 sm:flex-row">
                 <a
                     href="{{ route('request.select') }}"
-                    class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-blue-800 px-8 py-3.5 text-base font-semibold text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:w-auto"
-                >
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    wire:navigate
+                    class="group inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-bnhs-blue px-10 py-4 text-lg font-bold text-white shadow-2xl shadow-bnhs-blue/30 transition-all hover:bg-bnhs-blue-600 hover:scale-105 active:scale-95 sm:w-auto">
+                    <svg class="h-6 w-6 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                     </svg>
                     Request a Document
                 </a>
                 <a
                     href="{{ route('tracking.form') }}"
-                    class="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-100 px-8 py-3.5 text-base font-semibold text-gray-900 dark:text-gray-500 shadow-sm transition hover:bg-gray-300 dark:hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:w-auto"
-                >
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    class="inline-flex w-full items-center justify-center gap-3 rounded-2xl border-2 border-gray-200 bg-white/80 backdrop-blur-md px-10 py-4 text-lg font-bold text-gray-900 shadow-xl transition-all hover:bg-gray-50 hover:border-bnhs-blue/30 hover:text-bnhs-blue sm:w-auto">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                     </svg>
                     Track Request
@@ -81,278 +43,17 @@
             </div>
 
             <!-- How to Request Guide Link -->
-            <div class="mt-8 text-center">
+            <div class="mt-10 text-center animate-bounce">
                 <a
                     href="{{ route('how-to-request') }}"
-                    class="text-sm font-semibold text-blue-600 hover:text-blue-800 underline transition"
-                >
-                    ➤ How to Request a Document?
+                    class="inline-flex items-center gap-2 text-sm font-bold text-bnhs-blue hover:text-bnhs-blue-600 underline decoration-2 underline-offset-4 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    How to Request a Document?
                 </a>
             </div>
         </div>
     </div>
 </section>
-
-<!-- Footer -->
-<footer class="border-t border-gray-200 bg-white py-2">
-    <div class="w-full px-6 sm:px-10 lg:px-16">
-        <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-            <!-- Logo & Info -->
-            <div class="flex items-center gap-3">
-                @if(file_exists(public_path('images/logo.png')))
-                    <img src="{{ asset('images/logo.png') }}" alt="BNHS Logo" class="h-12 w-auto" />
-                @else
-                    <x-application-logo class="h-12 w-12 fill-current text-bnhs-blue" />
-                @endif
-                <div>
-                    <p class="text-sm font-bold text-gray-900">Bato National High School</p>
-                    <p class="text-xs text-gray-600">DepEd Toledo City Division - Region 7</p>
-                </div>
-            </div>
-
-            <!-- Copyright -->
-            <div class="text-center md:text-right">
-                <p class="text-sm text-gray-600">
-                    &copy; {{ date('Y') }} Bato National High School. All rights reserved.
-                </p>
-                <p class="text-xs text-gray-500 mt-1">
-                    Need help? 
-                    <a href="#" class="text-bnhs-blue hover:underline" onclick="event.preventDefault(); document.getElementById('reportModal').classList.remove('hidden');">Report a Problem</a>
-                    <span class="mx-1">|</span>
-                    <a href="#" class="text-bnhs-blue hover:underline" onclick="event.preventDefault(); document.getElementById('contactModal').classList.remove('hidden');">Contact Information</a>
-                    <span class="mx-1">|</span>
-                    <a href="#" class="text-bnhs-blue hover:underline" onclick="event.preventDefault(); document.getElementById('faqModal').classList.remove('hidden');">Frequently Asked Questions</a>
-                </p>
-            </div>
-        </div>
-    </div>
-</footer>
-
-<!-- Report Problem Modal -->
-<div id="reportModal" class="hidden fixed inset-0 bg-gray-900/50 z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-xl shadow-xl max-w-md w-full p-6">
-        <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold text-gray-900">Report a Problem</h3>
-            <button onclick="document.getElementById('reportModal').classList.add('hidden')" class="text-gray-400 hover:text-gray-600">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
-        <form action="#" method="POST">
-            @csrf
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
-                    <input type="email" name="email" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue">
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Problem Description</label>
-                    <textarea name="description" rows="4" required class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue"></textarea>
-                </div>
-            </div>
-            <div class="flex gap-3 mt-6">
-                <button type="submit" class="flex-1 bg-bnhs-blue text-white px-4 py-2 rounded-lg hover:bg-bnhs-blue-600 font-semibold transition">
-                    Submit
-                </button>
-                <button type="button" onclick="document.getElementById('reportModal').classList.add('hidden')" class="flex-1 bg-gray-200 text-gray-900 px-4 py-2 rounded-lg hover:bg-gray-300 font-semibold transition">
-                    Cancel
-                </button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- Contact Information Modal -->
-<div id="contactModal" class="hidden fixed inset-0 bg-gray-900/50 z-50 flex items-center justify-center p-4">
-    <div class="bg-white rounded-xl shadow-xl max-w-2xl w-full p-6">
-        <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold text-gray-900">Contact Information</h3>
-            <button onclick="document.getElementById('contactModal').classList.add('hidden')" class="text-gray-400 hover:text-gray-600">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Email -->
-            <div class="flex items-start gap-3">
-                <div class="w-10 h-10 bg-bnhs-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-bnhs-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                    </svg>
-                </div>
-                <div>
-                    <h4 class="text-sm font-bold text-gray-900 mb-1">Email</h4>
-                    <p class="text-sm text-gray-600">bnhs@deped.gov.ph</p>
-                </div>
-            </div>
-
-            <!-- Phone -->
-            <div class="flex items-start gap-3">
-                <div class="w-10 h-10 bg-bnhs-gold-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-bnhs-gold-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
-                    </svg>
-                </div>
-                <div>
-                    <h4 class="text-sm font-bold text-gray-900 mb-1">Phone</h4>
-                    <p class="text-sm text-gray-600">(032) 123-4567</p>
-                </div>
-            </div>
-
-            <!-- Office Hours -->
-            <div class="flex items-start gap-3">
-                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                    </svg>
-                </div>
-                <div>
-                    <h4 class="text-sm font-bold text-gray-900 mb-1">Office Hours</h4>
-                    <p class="text-sm text-gray-600">Mon-Fri: 7:30AM-5:00PM</p>
-                </div>
-            </div>
-
-            <!-- Location -->
-            <div class="flex items-start gap-3">
-                <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center flex-shrink-0">
-                    <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                </div>
-                <div>
-                    <h4 class="text-sm font-bold text-gray-900 mb-1">Location</h4>
-                    <p class="text-sm text-gray-600">National Highway, Bato, Toledo City, Philippines, 6038</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Frequently Asked Questions Modal -->
-<div id="faqModal" class="hidden fixed inset-0 bg-gray-900/50 z-50 flex items-center justify-center p-4" x-data="{ openFaq: null }">
-    <div class="bg-white rounded-xl shadow-xl max-w-3xl w-full p-6 max-h-[90vh] overflow-y-auto">
-        <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold text-gray-900">Frequently Asked Questions</h3>
-            <button onclick="document.getElementById('faqModal').classList.add('hidden')" class="text-gray-400 hover:text-gray-600">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-            </button>
-        </div>
-
-        <div class="space-y-3">
-            <!-- FAQ 1 -->
-            <div class="border border-gray-200 rounded-lg">
-                <button
-                    @click="openFaq = openFaq === 1 ? null : 1"
-                    class="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition"
-                >
-                    <span class="text-sm font-semibold text-gray-900">How long does it take to process my request?</span>
-                    <svg
-                        class="w-5 h-5 text-gray-500 transition-transform"
-                        :class="{ 'rotate-180': openFaq === 1 }"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
-                <div
-                    x-show="openFaq === 1"
-                    x-transition
-                    class="px-4 pb-4 border-t border-gray-200"
-                    style="display: none;"
-                >
-                    <p class="text-sm text-gray-600 mt-2">Processing time varies depending on the document type. Most documents are ready within 3-5 business days. You'll receive email updates on your request status.</p>
-                </div>
-            </div>
-
-            <!-- FAQ 2 -->
-            <div class="border border-gray-200 rounded-lg">
-                <button
-                    @click="openFaq = openFaq === 2 ? null : 2"
-                    class="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition"
-                >
-                    <span class="text-sm font-semibold text-gray-900">Do I need to create an account?</span>
-                    <svg
-                        class="w-5 h-5 text-gray-500 transition-transform"
-                        :class="{ 'rotate-180': openFaq === 2 }"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
-                <div
-                    x-show="openFaq === 2"
-                    x-transition
-                    class="px-4 pb-4 border-t border-gray-200"
-                    style="display: none;"
-                >
-                    <p class="text-sm text-gray-600 mt-2">No account is required! Simply verify your email address and submit your request. You'll receive a tracking ID to monitor your request status.</p>
-                </div>
-            </div>
-
-            <!-- FAQ 3 -->
-            <div class="border border-gray-200 rounded-lg">
-                <button
-                    @click="openFaq = openFaq === 3 ? null : 3"
-                    class="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition"
-                >
-                    <span class="text-sm font-semibold text-gray-900">How do I track my request?</span>
-                    <svg
-                        class="w-5 h-5 text-gray-500 transition-transform"
-                        :class="{ 'rotate-180': openFaq === 3 }"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
-                <div
-                    x-show="openFaq === 3"
-                    x-transition
-                    class="px-4 pb-4 border-t border-gray-200"
-                    style="display: none;"
-                >
-                    <p class="text-sm text-gray-600 mt-2">Use the tracking ID provided after submission and your email address on the "Track Request" page to view your request status in real-time.</p>
-                </div>
-            </div>
-
-            <!-- FAQ 4 -->
-            <div class="border border-gray-200 rounded-lg">
-                <button
-                    @click="openFaq = openFaq === 4 ? null : 4"
-                    class="w-full flex items-center justify-between p-4 text-left hover:bg-gray-50 transition"
-                >
-                    <span class="text-sm font-semibold text-gray-900">What if I lost my tracking ID?</span>
-                    <svg
-                        class="w-5 h-5 text-gray-500 transition-transform"
-                        :class="{ 'rotate-180': openFaq === 4 }"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
-                    </svg>
-                </button>
-                <div
-                    x-show="openFaq === 4"
-                    x-transition
-                    class="px-4 pb-4 border-t border-gray-200"
-                    style="display: none;"
-                >
-                    <p class="text-sm text-gray-600 mt-2">Check your email - we sent the tracking ID to your verified email address. If you still can't find it, please contact the registrar's office.</p>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection

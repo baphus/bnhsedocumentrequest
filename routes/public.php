@@ -18,23 +18,18 @@ use Illuminate\Support\Facades\Route;
 
 // --- OTP Routes ---
 Route::prefix('otp')->name('otp.')->group(function () {
-    Route::get('/request', [OtpController::class, 'showRequestForm'])->name('request');
-    Route::post('/send', [OtpController::class, 'send'])->name('send');
-    Route::get('/verify', [OtpController::class, 'showVerifyForm'])->name('verify');
-    Route::post('/verify', [OtpController::class, 'verify'])->name('verify.submit');
-    Route::get('/resend', [OtpController::class, 'resend'])->name('resend');
+    Route::get('/request', \App\Livewire\Pages\Public\Otp\RequestOtp::class)->name('request');
+    Route::get('/verify', \App\Livewire\Pages\Public\Otp\VerifyOtp::class)->name('verify');
 });
 
 // --- Document Request Routes ---
 Route::prefix('request')->name('request.')->group(function () {
     // Selection page (no OTP required)
-    Route::get('/select', [RequestController::class, 'select'])->name('select');
-    Route::post('/select', [RequestController::class, 'storeSelection'])->name('select.store');
+    Route::get('/select', \App\Livewire\Pages\Public\Request\SelectDocument::class)->name('select');
     
     // Create and submit request (requires OTP verification)
     Route::middleware([VerifyOtp::class . ':submission'])->group(function () {
-        Route::get('/create', [RequestController::class, 'create'])->name('create');
-        Route::post('/store', [RequestController::class, 'store'])->name('store');
+        Route::get('/create', \App\Livewire\Pages\Public\Request\CreateRequest::class)->name('create');
     });
     
     // Success page (no authentication required)
@@ -43,6 +38,5 @@ Route::prefix('request')->name('request.')->group(function () {
 
 // --- Tracking Routes ---
 Route::prefix('tracking')->name('tracking.')->group(function () {
-    Route::get('/form', [TrackingController::class, 'form'])->name('form');
-    Route::post('/track', [TrackingController::class, 'track'])->name('track');
+    Route::get('/form', \App\Livewire\Pages\Public\Tracking\TrackRequest::class)->name('form');
 });

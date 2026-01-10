@@ -62,18 +62,18 @@
             <div class="p-6 sm:p-8">
 
                 @if ($errors->any())
-                    <div class="mb-6 p-4 bg-red-100 border border-red-200 text-red-700 rounded-lg">
-                        <div class="flex items-start gap-3">
-                            <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                            <ul class="list-disc list-inside">
-                                @foreach ($errors->all() as $error)
-                                    <li>{{ $error }}</li>
-                                @endforeach
-                            </ul>
-                        </div>
+                <div class="mb-6 p-4 bg-red-100 border border-red-200 text-red-700 rounded-lg">
+                    <div class="flex items-start gap-3">
+                        <svg class="w-5 h-5 flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <ul class="list-disc list-inside">
+                            @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
                     </div>
+                </div>
                 @endif
 
                 <form method="POST" action="{{ route('request.store') }}" id="requestForm">
@@ -156,9 +156,9 @@
                                     class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                                     <option value="">Select Track/Strand</option>
                                     @foreach($tracks as $track)
-                                        <option value="{{ $track->code }}" {{ old('track_strand') == $track->code ? 'selected' : '' }}>
-                                            {{ $track->name }}
-                                        </option>
+                                    <option value="{{ $track->code }}" {{ old('track_strand') == $track->code ? 'selected' : '' }}>
+                                        {{ $track->name }}
+                                    </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -185,9 +185,9 @@
                                     class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                                     <option value="">Select Document</option>
                                     @foreach($documents as $document)
-                                        <option value="{{ $document->id }}" {{ (old('document_type_id', $selectedDocumentId ?? null) == $document->id) ? 'selected' : '' }}>
-                                            {{ $document->name }}
-                                        </option>
+                                    <option value="{{ $document->id }}" {{ (old('document_type_id', $selectedDocumentId ?? null) == $document->id) ? 'selected' : '' }}>
+                                        {{ $document->name }}
+                                    </option>
                                     @endforeach
                                 </select>
                             </div>
@@ -195,15 +195,39 @@
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
                                     Quantity <span class="text-red-500">*</span>
                                 </label>
-                                <input type="number" name="quantity" value="{{ old('quantity', 1) }}" required min="1" max="10"
-                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
+                                <select name="quantity" required
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition text-sm font-bold text-bnhs-blue">
+                                    @for($i = 1; $i <= 10; $i++)
+                                        <option value="{{ $i }}" {{ old('quantity', 1) == $i ? 'selected' : '' }}>{{ $i }} {{ $i > 1 ? 'Copies' : 'Copy' }}</option>
+                                        @endfor
+                                </select>
                             </div>
-                            <div class="md:col-span-2">
+                            <div class="md:col-span-2" x-data="{ 
+                                showOther: {{ old('purpose') && !in_array(old('purpose'), ['Enrollment', 'Scholarship', 'Job Application', 'PRC/Board Exam', 'Passport/Travel', 'Transfer to Another School']) ? 'true' : 'false' }},
+                                presetPurposes: ['Enrollment', 'Scholarship', 'Job Application', 'PRC/Board Exam', 'Passport/Travel', 'Transfer to Another School']
+                            }">
                                 <label class="block text-sm font-medium text-gray-700 mb-2">
-                                    Purpose <span class="text-red-500">*</span>
+                                    Purpose of Request <span class="text-red-500">*</span>
                                 </label>
-                                <textarea name="purpose" rows="3" required placeholder="e.g., For college admission, For employment, etc."
-                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">{{ old('purpose') }}</textarea>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-2">
+                                    <template x-for="purpose in presetPurposes" :key="purpose">
+                                        <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition border-gray-200">
+                                            <input type="radio" name="purpose_preset" :value="purpose" @change="showOther = false; $refs.purposeText.value = purpose"
+                                                :checked="!showOther && $refs.purposeText.value === purpose" class="text-bnhs-blue focus:ring-bnhs-blue">
+                                            <span class="ml-2 text-sm text-gray-700" x-text="purpose"></span>
+                                        </label>
+                                    </template>
+                                    <label class="flex items-center p-3 border rounded-lg cursor-pointer hover:bg-gray-50 transition border-gray-200" :class="showOther ? 'border-bnhs-blue bg-blue-50' : ''">
+                                        <input type="radio" name="purpose_preset" value="other" :checked="showOther" @change="showOther = true; $refs.purposeText.value = ''; $nextTick(() => $refs.purposeText.focus())" class="text-bnhs-blue focus:ring-bnhs-blue">
+                                        <span class="ml-2 text-sm text-gray-700">Other</span>
+                                    </label>
+                                </div>
+                                <div x-show="showOther" x-transition class="mt-3">
+                                    <input type="text" name="purpose" x-ref="purposeText" value="{{ old('purpose') }}"
+                                        placeholder="Please specify your purpose..."
+                                        class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
+                                </div>
+                                <input type="hidden" name="purpose" x-ref="purposeText" value="{{ old('purpose') }}" x-show="!showOther">
                             </div>
                         </div>
                     </div>
@@ -249,9 +273,27 @@
     const ctx = canvas.getContext('2d');
     let isDrawing = false;
 
-    // Set canvas actual size
-    canvas.width = canvas.offsetWidth;
-    canvas.height = 200;
+    function resizeCanvas() {
+        const ratio = window.devicePixelRatio || 1;
+        const tempData = canvas.toDataURL();
+        canvas.width = canvas.offsetWidth * ratio;
+        canvas.height = 200 * ratio;
+        ctx.scale(ratio, ratio);
+
+        ctx.strokeStyle = '#0038a8';
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+
+        const image = new Image();
+        image.src = tempData;
+        image.onload = () => {
+            ctx.drawImage(image, 0, 0, canvas.offsetWidth, 200);
+        };
+    }
+
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
 
     canvas.addEventListener('mousedown', startDrawing);
     canvas.addEventListener('mousemove', draw);
@@ -260,7 +302,7 @@
 
     // Touch events
     canvas.addEventListener('touchstart', (e) => {
-        e.preventDefault();
+        if (e.cancelable) e.preventDefault();
         const touch = e.touches[0];
         const mouseEvent = new MouseEvent('mousedown', {
             clientX: touch.clientX,
@@ -270,7 +312,7 @@
     });
 
     canvas.addEventListener('touchmove', (e) => {
-        e.preventDefault();
+        if (e.cancelable) e.preventDefault();
         const touch = e.touches[0];
         const mouseEvent = new MouseEvent('mousemove', {
             clientX: touch.clientX,
@@ -280,7 +322,6 @@
     });
 
     canvas.addEventListener('touchend', (e) => {
-        e.preventDefault();
         const mouseEvent = new MouseEvent('mouseup', {});
         canvas.dispatchEvent(mouseEvent);
     });
@@ -288,6 +329,10 @@
     function startDrawing(e) {
         isDrawing = true;
         const rect = canvas.getBoundingClientRect();
+        ctx.strokeStyle = '#0038a8';
+        ctx.lineWidth = 2;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
         ctx.beginPath();
         ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
     }
@@ -296,13 +341,11 @@
         if (!isDrawing) return;
         const rect = canvas.getBoundingClientRect();
         ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
-        ctx.strokeStyle = '#000';
-        ctx.lineWidth = 2;
-        ctx.lineCap = 'round';
         ctx.stroke();
     }
 
     function stopDrawing() {
+        if (!isDrawing) return;
         isDrawing = false;
         // Save signature as base64
         document.getElementById('signatureInput').value = canvas.toDataURL();

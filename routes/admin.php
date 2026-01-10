@@ -19,13 +19,12 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     // Shared: Both Admin and Registrar can access these
     Route::middleware(['role:admin,registrar'])->group(function () {
         // Dashboard
-        Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('/dashboard', \App\Livewire\Pages\Dashboard::class)->name('dashboard');
         
         // Request Management
         Route::prefix('requests')->name('requests.')->group(function () {
-            Route::get('/', [DashboardController::class, 'requests'])->name('index');
-            Route::get('/{id}', [DashboardController::class, 'show'])->name('show');
-            Route::post('/{id}/update-status', [RequestManagementController::class, 'updateStatus'])->name('update-status');
+            Route::get('/', \App\Livewire\Pages\Requests\Index::class)->name('index');
+            Route::get('/{id}', \App\Livewire\Pages\Requests\Show::class)->name('show');
             Route::post('/bulk-update', [RequestManagementController::class, 'bulkUpdate'])->name('bulk-update');
             Route::delete('/{id}', [RequestManagementController::class, 'destroy'])->name('destroy');
         });
