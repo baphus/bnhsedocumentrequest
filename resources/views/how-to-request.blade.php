@@ -1,6 +1,6 @@
 @extends('layouts.public')
 
-@section('title', 'BNHS eDocument Request - Home')
+@section('title', 'How to Request a Document - BNHS eDocument Request')
 
 @section('content')
 <!-- Navigation Header -->
@@ -24,74 +24,134 @@
 
             <!-- Navigation Links -->
             <div class="flex items-center gap-4">
-                @auth
-                    <a
-                        href="{{ route('admin.dashboard') }}"
-                        class="rounded-lg bg-bnhs-blue px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-bnhs-blue-600"
-                    >
-                        Dashboard
-                    </a>
-                @else
-                    <a
-                        href="{{ route('login') }}"
-                        class="text-sm font-medium text-gray-600 transition
-       px-4 py-1.5 rounded-lg border border-gray-300
-       hover:border-bnhs-blue hover:text-bnhs-blue"
-                    >
-                        Login
-                    </a>
-                @endauth
+                <a
+                    href="{{ route('home') }}"
+                    class="text-sm font-medium text-gray-600 transition px-4 py-1.5 hover:text-bnhs-blue"
+                >
+                    ❮ Back to Home
+                </a>
             </div>
         </div>
     </nav>
 </header>
 
-<!-- Hero Section -->
-<section class="relative min-h-screen overflow-hidden pt-16 flex items-center justify-center" style="background-image: url('/bg_view.png'); background-size: cover; background-position: center; background-attachment: fixed;">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-10">
-        <div class="text-center">
-            <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 dark:text-dark sm:text-5xl lg:text-6xl">
-                <span class="block">Bato National High School</span>
-                <span class="block text-blue-900">eDocument Request</span>
+<main class="pt-24 pb-12">
+    <!-- Page Header Section -->
+    <section class="mb-16">
+        <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl sm:text-5xl font-bold text-gray-900 mb-4">
+                How to Request a Document
             </h1>
-
-            <p class="mx-auto mt-6 max-w-2xl text-lg leading-8 text-gray-700">
-                Request and track your school documents online. Simple, fast, and secure—verify your email and submit your request in minutes.
+            <p class="text-xl text-gray-600">
+                Follow these simple steps to get your school documents.
             </p>
-
-            <div class="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                <a
-                    href="{{ route('request.select') }}"
-                    class="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-blue-800 px-8 py-3.5 text-base font-semibold text-white shadow-sm transition hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:w-auto"
-                >
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-                    </svg>
-                    Request a Document
-                </a>
-                <a
-                    href="{{ route('tracking.form') }}"
-                    class="inline-flex w-full items-center justify-center gap-2 rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-100 px-8 py-3.5 text-base font-semibold text-gray-900 dark:text-gray-500 shadow-sm transition hover:bg-gray-300 dark:hover:bg-gray-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:w-auto"
-                >
-                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-                    </svg>
-                    Track Request
-                </a>
-            </div>
-
-            <!-- How to Request Guide Link -->
-            <div class="mt-8 text-center">
-                <a
-                    href="{{ route('how-to-request') }}"
-                    class="text-sm font-semibold text-blue-600 hover:text-blue-800 underline transition"
-                >
-                    ➤ How to Request a Document?
-                </a>
-            </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    @php
+        $steps = [
+            [
+                'number' => 1,
+                'title' => 'Select Document Type',
+                'description' => 'Choose which school document you need',
+                'image' => 'images/how-to-request/step-1.png',
+                'details' => [
+                    'Browse available documents',
+                    'Select from official, informal, or certified documents',
+                    'Click on your desired document',
+                ],
+            ],
+            [
+                'number' => 2,
+                'title' => 'Verify Your Email',
+                'description' => 'Confirm your identity with a one-time code',
+                'image' => 'images/how-to-request/step-2.png',
+                'details' => [
+                    'Enter your email address',
+                    'We’ll send you a verification code',
+                    'Check your inbox and enter the code',
+                ],
+            ],
+            [
+                'number' => 3,
+                'title' => 'Submit Your Request',
+                'description' => 'Fill out the request form with your details',
+                'image' => 'images/how-to-request/step-3.png',
+                'details' => [
+                    'Complete all required information',
+                    'You’ll receive a tracking ID',
+                    'Keep it for follow-up',
+                ],
+            ],
+            [
+                'number' => 4,
+                'title' => 'Receive Notification',
+                'description' => 'Get notified when your document is ready',
+                'image' => 'images/how-to-request/step-4.png',
+                'details' => [
+                    'We’ll email you when it’s prepared',
+                    'Check tracking for updates anytime',
+                    'Pick up at the registrar’s office',
+                ],
+            ],
+        ];
+    @endphp
+
+    <!-- Steps Section -->
+    <section class="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <div class="space-y-16">
+            @foreach ($steps as $index => $step)
+                <div
+                    class="flex flex-col md:flex-row items-center gap-10
+                    {{ $index % 2 === 1 ? 'md:flex-row-reverse' : '' }}"
+                >
+                    <!-- Step Image -->
+                    <div class="flex-1 flex justify-center">
+                        <div class="w-full max-w-sm">
+                            <img
+                                src="{{ asset($step['image']) }}"
+                                alt="{{ $step['title'] }}"
+                                loading="lazy"
+                                class="w-full rounded-2xl shadow-lg object-contain bg-white p-3"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Step Content -->
+                    <div class="flex-1">
+                        <div class="flex items-center gap-4 mb-4">
+                            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-bnhs-blue text-white text-xl font-bold">
+                                {{ $step['number'] }}
+                            </div>
+                            <h2 class="text-3xl font-bold text-gray-900">
+                                {{ $step['title'] }}
+                            </h2>
+                        </div>
+
+                        <p class="text-lg text-gray-600 mb-6">
+                            {{ $step['description'] }}
+                        </p>
+
+                        <ul class="space-y-3">
+                            @foreach ($step['details'] as $detail)
+                                <li class="flex items-start gap-3">
+                                    <svg class="h-6 w-6 text-bnhs-blue mt-0.5 flex-shrink-0"
+                                         fill="currentColor"
+                                         viewBox="0 0 20 20">
+                                        <path fill-rule="evenodd"
+                                              d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                              clip-rule="evenodd" />
+                                    </svg>
+                                    <span class="text-gray-700">{{ $detail }}</span>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </section>
+</main>
 
 <!-- Footer -->
 <footer class="border-t border-gray-200 bg-white py-2">
@@ -211,7 +271,7 @@
                 </div>
                 <div>
                     <h4 class="text-sm font-bold text-gray-900 mb-1">Office Hours</h4>
-                    <p class="text-sm text-gray-600">Mon-Fri: 7:30AM-5:00PM</p>
+                    <p class="text-sm text-gray-600">Mon-Fri: 8AM-5PM</p>
                 </div>
             </div>
 
