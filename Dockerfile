@@ -6,18 +6,19 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-# --- Stage 2: PHP Application (FrankenPHP) ---
-# To this (Debian version):
+# --- Stage 2: PHP Application (FrankenPHP Bookworm) ---
 FROM dunglas/frankenphp:1.3-php8.4-bookworm
 
-# Install necessary system libraries for Postgres and PHP extensions
-RUN apk add --no-cache \
+# 1. Install system dependencies (using apt-get for Debian)
+RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
-    icu-dev \
-    bash
+    libicu-dev \
+    bash \
+    libcap2-bin \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions required by Laravel 12
+# 2. Install PHP extensions (FrankenPHP comes with this helper)
 RUN install-php-extensions \
     pdo_pgsql \
     intl \
@@ -27,32 +28,27 @@ RUN install-php-extensions \
     pcntl \
     opcache
 
-# Set Working Directory
 WORKDIR /var/www
 
-# Copy application files
+# 3. Copy application files and assets
 COPY . .
-# Copy built assets from Stage 1
 COPY --from=assets-builder /app/public/build ./public/build
 
-# Install Composer dependencies (Production mode)
+# 4. Install Composer dependencies
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 RUN composer install --no-dev --optimize-autoloader
 
-# Set permissions for Laravel storage and cache
+# 5. Permissions Fixes for Render
 RUN chown -R www-data:www-data storage bootstrap/cache
-
-# Render uses a dynamic $PORT, usually 10000
-ENV PORT=10000
-EXPOSE 10000
-
-# Ensure the binary is executable
 RUN chmod +x /usr/local/bin/frankenphp
 
-# Give the binary permission to bind to ports (fixes some Render permission issues)
-RUN apt-get update && apt-get install -y libcap2-bin && \
-    setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp && \
-    apt-get clean && rm -rf /var/lib/apt/lists/*
+# Give FrankenPHP permission to bind to the port
+RUN setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp
 
-# Use the full path for the start command
+# 6. Final Setup
+ENV PORT=10000
+ENV SERVER_NAME=":10000"
+EXPOSE 10000
+
+# Use the full path and ensure we aren't overriding with an invalid dashboard command
 CMD ["/usr/local/bin/frankenphp", "php-server", "--listen", ":10000", "--root", "public/"]
