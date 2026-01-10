@@ -3,137 +3,197 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         <!-- Greeting Card -->
         <div class="lg:col-span-2">
-            <div class="bg-gradient-to-br from-bnhs-blue to-bnhs-blue-600 rounded-xl shadow-lg p-8 text-white">
-                <h2 class="text-3xl font-bold mb-2">
-                    @php
-                    $hour = date('H');
-                    if ($hour < 12) {
-                        echo 'Good Morning' ;
+            <div class="relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl shadow-xl p-8 text-white h-full flex flex-col justify-center">
+                <!-- Decorative circles -->
+                <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-white opacity-10 blur-3xl"></div>
+                <div class="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 rounded-full bg-indigo-500 opacity-20 blur-3xl"></div>
+                
+                <div class="relative z-10">
+                    <h2 class="text-4xl font-extrabold mb-3 tracking-tight">
+                        @php
+                        $hour = date('H');
+                        if ($hour < 12) {
+                            echo 'Good Morning';
                         } elseif ($hour < 18) {
-                        echo 'Good Afternoon' ;
+                            echo 'Good Afternoon';
                         } else {
-                        echo 'Good Evening' ;
+                            echo 'Good Evening';
                         }
-                        @endphp
-                        , {{ Auth::user()->name }}!
-                        </h2>
-                        <p class="text-bnhs-blue-100 mb-4">{{ now()->format('l, F j, Y') }}</p>
-                        <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/20 rounded-full text-sm font-medium backdrop-blur-sm">
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                            </svg>
-                            School Year {{ now()->format('Y') }}-{{ now()->addYear()->format('Y') }}
-                        </div>
+                        @endphp,
+                        <span class="text-blue-100">{{ Auth::user()->name }}!</span>
+                    </h2>
+                    <p class="text-blue-100 text-lg mb-6 flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        {{ now()->format('l, F j, Y') }}
+                    </p>
+                    <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 border border-white/20 rounded-full text-sm font-medium backdrop-blur-md shadow-sm">
+                        <svg class="w-4 h-4 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                        </svg>
+                        <span>School Year {{ now()->format('Y') }}-{{ now()->addYear()->format('Y') }}</span>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- Mini Calendar -->
-        <div class="bg-white rounded-xl shadow-lg p-6">
+        <div class="bg-white rounded-xl shadow-lg p-6 h-full flex flex-col">
+            @php
+                $date = \Carbon\Carbon::parse($currentMonth);
+                $daysInMonth = $date->daysInMonth;
+                $firstDayOfWeek = $date->copy()->startOfMonth()->dayOfWeek;
+                $isCurrentMonth = $date->isCurrentMonth();
+                $today = now()->day;
+            @endphp
             <div class="flex items-center justify-between mb-4">
-                <h3 class="font-bold text-gray-900">{{ now()->format('F Y') }}</h3>
+                <h3 class="font-bold text-gray-900 text-lg">{{ $date->format('F Y') }}</h3>
                 <div class="flex gap-2">
-                    <button class="p-1 hover:bg-gray-100 rounded transition">
-                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button wire:click="prevMonth" class="p-2 hover:bg-gray-100 rounded-lg transition text-gray-600 hover:text-bnhs-blue">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
                         </svg>
                     </button>
-                    <button class="p-1 hover:bg-gray-100 rounded transition">
-                        <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <button wire:click="nextMonth" class="p-2 hover:bg-gray-100 rounded-lg transition text-gray-600 hover:text-bnhs-blue">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
                         </svg>
                     </button>
                 </div>
             </div>
-            <div class="grid grid-cols-7 gap-1 text-center text-xs">
-                <div class="text-gray-500 font-semibold py-2">S</div>
-                <div class="text-gray-500 font-semibold py-2">M</div>
-                <div class="text-gray-500 font-semibold py-2">T</div>
-                <div class="text-gray-500 font-semibold py-2">W</div>
-                <div class="text-gray-500 font-semibold py-2">T</div>
-                <div class="text-gray-500 font-semibold py-2">F</div>
-                <div class="text-gray-500 font-semibold py-2">S</div>
-                @php
-                $today = now()->day;
-                $daysInMonth = now()->daysInMonth;
-                $firstDayOfWeek = now()->startOfMonth()->dayOfWeek;
-                @endphp
+            <div class="grid grid-cols-7 gap-1 text-center text-xs flex-1">
+                <div class="text-gray-400 font-bold py-2">S</div>
+                <div class="text-gray-400 font-bold py-2">M</div>
+                <div class="text-gray-400 font-bold py-2">T</div>
+                <div class="text-gray-400 font-bold py-2">W</div>
+                <div class="text-gray-400 font-bold py-2">T</div>
+                <div class="text-gray-400 font-bold py-2">F</div>
+                <div class="text-gray-400 font-bold py-2">S</div>
+                
                 @for($i = 0; $i < $firstDayOfWeek; $i++)
-                    <div class="py-2">
-            </div>
-            @endfor
-            @for($day = 1; $day <= $daysInMonth; $day++)
-                <div class="py-2 {{ $day == $today ? 'bg-bnhs-blue text-white rounded-full font-semibold' : 'text-gray-700' }}">
-                {{ $day }}
-        </div>
-        @endfor
-    </div>
-</div>
-</div>
-
-@if(Auth::user()->role === 'admin')
-<!-- KPI Cards (Admins only) -->
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-    <!-- Total Requests -->
-    <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-bnhs-blue">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-sm font-medium text-gray-600 mb-1">Total Requests</p>
-                <p class="text-3xl font-bold text-gray-900">{{ $this->stats['total'] }}</p>
-            </div>
-            <div class="w-12 h-12 bg-bnhs-blue-100 rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-bnhs-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                </svg>
+                    <div class="py-2"></div>
+                @endfor
+                
+                @for($day = 1; $day <= $daysInMonth; $day++)
+                    <div class="py-2 flex items-center justify-center">
+                        <span class="w-8 h-8 flex items-center justify-center rounded-full text-sm {{ ($isCurrentMonth && $day == $today) ? 'bg-bnhs-blue text-white font-bold shadow-md' : 'text-gray-700 hover:bg-gray-50' }}">
+                            {{ $day }}
+                        </span>
+                    </div>
+                @endfor
             </div>
         </div>
     </div>
 
-    <!-- Pending Documents -->
-    <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-bnhs-gold">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-sm font-medium text-gray-600 mb-1">Pending Documents</p>
-                <p class="text-3xl font-bold text-gray-900">{{ $this->stats['pending'] }}</p>
-            </div>
-            <div class="w-12 h-12 bg-bnhs-gold-100 rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-bnhs-gold-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+    @if(Auth::user()->role === 'admin')
+    <!-- KPI Cards (Admins only) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <!-- Total Requests -->
+        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-bnhs-blue transform hover:-translate-y-1 transition duration-200">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600 mb-1">Total Requests</p>
+                    <p class="text-3xl font-bold text-gray-900">{{ $this->stats['total'] }}</p>
+                </div>
+                <div class="w-12 h-12 bg-bnhs-blue-100 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-bnhs-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Fulfillment Rate -->
-    <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-sm font-medium text-gray-600 mb-1">Fulfillment Rate</p>
-                <p class="text-3xl font-bold text-gray-900">{{ $this->fulfillmentRate }}%</p>
-            </div>
-            <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+        <!-- Pending Documents -->
+        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-bnhs-gold transform hover:-translate-y-1 transition duration-200">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600 mb-1">Pending Documents</p>
+                    <p class="text-3xl font-bold text-gray-900">{{ $this->stats['pending'] }}</p>
+                </div>
+                <div class="w-12 h-12 bg-bnhs-gold-100 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-bnhs-gold-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Processing Documents -->
-    <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500">
-        <div class="flex items-center justify-between">
-            <div>
-                <p class="text-sm font-medium text-gray-600 mb-1">Processing</p>
-                <p class="text-3xl font-bold text-gray-900">{{ $this->stats['processing'] }}</p>
+        <!-- Fulfillment Rate -->
+        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500 transform hover:-translate-y-1 transition duration-200">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600 mb-1">Fulfillment Rate</p>
+                    <p class="text-3xl font-bold text-gray-900">{{ $this->fulfillmentRate }}%</p>
+                </div>
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
             </div>
-            <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                </svg>
+        </div>
+
+        <!-- Processing Documents -->
+        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500 transform hover:-translate-y-1 transition duration-200">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600 mb-1">Processing</p>
+                    <p class="text-3xl font-bold text-gray-900">{{ $this->stats['processing'] }}</p>
+                </div>
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                    </svg>
+                </div>
             </div>
         </div>
     </div>
-</div>
-@endif
+    @endif
+
+    @if(Auth::user()->role === 'registrar')
+    <!-- Registrar specific view -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+         <!-- New Requests Today -->
+         <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-bnhs-blue transform hover:-translate-y-1 transition duration-200">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600 mb-1">New Requests Today</p>
+                    <p class="text-3xl font-bold text-gray-900">{{ $this->stats['today'] }}</p>
+                </div>
+                <div class="w-12 h-12 bg-bnhs-blue-100 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-bnhs-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pending Documents -->
+        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-bnhs-gold transform hover:-translate-y-1 transition duration-200">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600 mb-1">Pending Documents</p>
+                    <p class="text-3xl font-bold text-gray-900">{{ $this->stats['pending'] }}</p>
+                </div>
+                <div class="w-12 h-12 bg-bnhs-gold-100 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-bnhs-gold-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Call to Action -->
+        <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-lg p-6 text-white flex flex-col justify-center items-center text-center transform hover:-translate-y-1 transition duration-200">
+            <h3 class="font-bold text-lg mb-2">Manage Requests</h3>
+            <p class="text-gray-400 text-sm mb-4">Review and process incoming document requests.</p>
+            <a href="{{ route('admin.requests.index') }}" wire:navigate class="px-6 py-2 bg-bnhs-blue hover:bg-bnhs-blue-600 rounded-lg font-semibold transition w-full">
+                View All Requests
+            </a>
+        </div>
+    </div>
+    @endif
 
 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
     <!-- Recent Requests -->

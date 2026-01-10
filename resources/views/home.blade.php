@@ -19,30 +19,30 @@
         <div class="absolute bottom-0 left-0 right-0 h-64 bg-gradient-to-t from-gray-50 via-gray-50/60 to-transparent"></div>
     </div>
 
-    <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 text-center">
-        <h1 class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl lg:text-7xl mb-8">
+    <div class="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12 sm:py-20 text-center">
+        <h1 class="text-3xl font-extrabold tracking-tight text-gray-900 sm:text-5xl lg:text-7xl mb-6 sm:mb-8">
             <span class="block mb-2">Bato National High School</span>
             <span class="block text-bnhs-blue tracking-tight">eDocument Request</span>
         </h1>
 
-        <p class="mx-auto mt-6 max-w-2xl text-xl leading-relaxed text-gray-700 font-medium">
+        <p class="mx-auto mt-4 sm:mt-6 max-w-2xl text-lg sm:text-xl leading-relaxed text-gray-700 font-medium">
             Request and track your school documents online. Simple, fast, and secure—verify your email and submit your request in minutes.
         </p>
 
-        <div class="mt-12 flex flex-col items-center justify-center gap-6 sm:flex-row">
+        <div class="mt-8 sm:mt-12 flex flex-col items-center justify-center gap-4 sm:gap-6 sm:flex-row">
             <a
                 href="{{ route('request.select') }}"
                 wire:navigate
-                class="group inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-bnhs-blue px-10 py-4 text-lg font-bold text-white shadow-2xl shadow-bnhs-blue/30 transition-all hover:bg-bnhs-blue-600 hover:scale-105 active:scale-95 sm:w-auto">
-                <svg class="h-6 w-6 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                class="group inline-flex w-full items-center justify-center gap-3 rounded-2xl bg-bnhs-blue px-6 py-3 sm:px-10 sm:py-4 text-base sm:text-lg font-bold text-white shadow-2xl shadow-bnhs-blue/30 transition-all hover:bg-bnhs-blue-600 hover:scale-105 active:scale-95 sm:w-auto">
+                <svg class="h-5 w-5 sm:h-6 sm:w-6 transition-transform group-hover:scale-110" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
                 </svg>
                 Request a Document
             </a>
             <a
                 href="{{ route('tracking.form') }}"
-                class="inline-flex w-full items-center justify-center gap-3 rounded-2xl border-2 border-gray-200 bg-white/80 backdrop-blur-md px-10 py-4 text-lg font-bold text-gray-900 shadow-xl transition-all hover:bg-gray-50 hover:border-bnhs-blue/30 hover:text-bnhs-blue sm:w-auto">
-                <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                class="inline-flex w-full items-center justify-center gap-3 rounded-2xl border-2 border-gray-200 bg-white/80 backdrop-blur-md px-6 py-3 sm:px-10 sm:py-4 text-base sm:text-lg font-bold text-gray-900 shadow-xl transition-all hover:bg-gray-50 hover:border-bnhs-blue/30 hover:text-bnhs-blue sm:w-auto">
+                <svg class="h-5 w-5 sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
                 </svg>
                 Track Request
@@ -52,13 +52,13 @@
 </section>
 
 <!-- How to Request Section -->
-<section class="py-20 bg-gray-50">
+<section class="py-12 sm:py-20 bg-gray-50">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
+        <div class="text-center mb-10 sm:mb-16">
+            <h2 class="text-2xl sm:text-4xl font-extrabold text-gray-900 tracking-tight">
                 How to <span class="text-bnhs-blue">Request</span> a Document
             </h2>
-            <p class="mt-4 text-xl text-gray-600 font-medium">
+            <p class="mt-3 sm:mt-4 text-lg sm:text-xl text-gray-600 font-medium">
                 Our streamlined process makes getting your school documents easier than ever.
             </p>
         </div>
@@ -100,9 +100,9 @@
         ];
         @endphp
 
-        <div class="grid grid-cols-1 gap-16 md:gap-24">
+        <div class="grid grid-cols-1 gap-12 sm:gap-16 md:gap-24">
             @foreach ($steps as $index => $step)
-            <div class="flex flex-col md:flex-row items-center gap-12 {{ $index % 2 === 1 ? 'md:flex-row-reverse' : '' }}">
+            <div class="flex flex-col md:flex-row items-center gap-8 sm:gap-12 {{ $index % 2 === 1 ? 'md:flex-row-reverse' : '' }}">
                 <!-- Image -->
                 <div class="flex-1 w-full">
                     <div class="relative group">
@@ -116,15 +116,15 @@
                 <!-- Content -->
                 <div class="flex-1 space-y-6 text-left">
                     <div class="flex items-center gap-4">
-                        <div class="flex h-14 w-14 items-center justify-center rounded-2xl bg-bnhs-blue text-white shadow-xl shadow-bnhs-blue/30 transform -rotate-6 group-hover:rotate-0 transition duration-300">
+                        <div class="flex h-12 w-12 sm:h-14 sm:w-14 items-center justify-center rounded-2xl bg-bnhs-blue text-white shadow-xl shadow-bnhs-blue/30 transform -rotate-6 group-hover:rotate-0 transition duration-300">
                             {!! $step['icon'] !!}
                         </div>
-                        <span class="text-6xl font-black text-gray-100 select-none absolute -z-10 transform -translate-x-4 -translate-y-4">0{{ $step['number'] }}</span>
+                        <span class="text-4xl sm:text-6xl font-black text-gray-100 select-none absolute -z-10 transform -translate-x-2 -translate-y-2 sm:-translate-x-4 sm:-translate-y-4">0{{ $step['number'] }}</span>
                     </div>
                     
                     <div>
-                        <h3 class="text-2xl font-bold text-gray-900 mb-2">{{ $step['title'] }}</h3>
-                        <p class="text-lg text-gray-600 leading-relaxed">{{ $step['description'] }}</p>
+                        <h3 class="text-xl sm:text-2xl font-bold text-gray-900 mb-2">{{ $step['title'] }}</h3>
+                        <p class="text-base sm:text-lg text-gray-600 leading-relaxed">{{ $step['description'] }}</p>
                     </div>
 
                     <ul class="space-y-3">
@@ -145,51 +145,51 @@
 </section>
 
 <!-- FAQs Section -->
-<section class="py-20 bg-white" x-data="{ openFaq: null }">
+<section class="py-12 sm:py-20 bg-white" x-data="{ openFaq: null }">
     <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12">
-            <h2 class="text-3xl font-extrabold text-gray-900 tracking-tight">Frequently Asked Questions</h2>
-            <p class="mt-4 text-lg text-gray-600">Common questions about the request process</p>
+        <div class="text-center mb-8 sm:mb-12">
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">Frequently Asked Questions</h2>
+            <p class="mt-3 sm:mt-4 text-base sm:text-lg text-gray-600">Common questions about the request process</p>
         </div>
 
         <div class="space-y-4">
             <div class="border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
-                <button @click="openFaq = openFaq === 1 ? null : 1" class="w-full flex items-center justify-between p-6 text-left bg-gray-50 hover:bg-gray-100 transition">
-                    <span class="font-bold text-gray-900 text-lg">How long does it take to process my request?</span>
+                <button @click="openFaq = openFaq === 1 ? null : 1" class="w-full flex items-center justify-between p-4 sm:p-6 text-left bg-gray-50 hover:bg-gray-100 transition">
+                    <span class="font-bold text-gray-900 text-base sm:text-lg">How long does it take to process my request?</span>
                     <svg class="w-6 h-6 text-gray-500 transition-transform duration-300" :class="{ 'rotate-180': openFaq === 1 }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
                 <div x-show="openFaq === 1" x-collapse>
-                    <div class="p-6 text-base text-gray-600 bg-white leading-relaxed border-t border-gray-100">
+                    <div class="p-4 sm:p-6 text-sm sm:text-base text-gray-600 bg-white leading-relaxed border-t border-gray-100">
                         Processing time varies by document. Most are ready within 3-5 business days. You will receive an email notification when it is ready.
                     </div>
                 </div>
             </div>
 
             <div class="border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
-                <button @click="openFaq = openFaq === 2 ? null : 2" class="w-full flex items-center justify-between p-6 text-left bg-gray-50 hover:bg-gray-100 transition">
-                    <span class="font-bold text-gray-900 text-lg">Do I need to create an account?</span>
+                <button @click="openFaq = openFaq === 2 ? null : 2" class="w-full flex items-center justify-between p-4 sm:p-6 text-left bg-gray-50 hover:bg-gray-100 transition">
+                    <span class="font-bold text-gray-900 text-base sm:text-lg">Do I need to create an account?</span>
                     <svg class="w-6 h-6 text-gray-500 transition-transform duration-300" :class="{ 'rotate-180': openFaq === 2 }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
                 <div x-show="openFaq === 2" x-collapse>
-                    <div class="p-6 text-base text-gray-600 bg-white leading-relaxed border-t border-gray-100">
+                    <div class="p-4 sm:p-6 text-sm sm:text-base text-gray-600 bg-white leading-relaxed border-t border-gray-100">
                         No account required. Every request is verified via a One-Time Password (OTP) sent to your email address.
                     </div>
                 </div>
             </div>
 
             <div class="border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
-                <button @click="openFaq = openFaq === 3 ? null : 3" class="w-full flex items-center justify-between p-6 text-left bg-gray-50 hover:bg-gray-100 transition">
-                    <span class="font-bold text-gray-900 text-lg">How do I track my request?</span>
+                <button @click="openFaq = openFaq === 3 ? null : 3" class="w-full flex items-center justify-between p-4 sm:p-6 text-left bg-gray-50 hover:bg-gray-100 transition">
+                    <span class="font-bold text-gray-900 text-base sm:text-lg">How do I track my request?</span>
                     <svg class="w-6 h-6 text-gray-500 transition-transform duration-300" :class="{ 'rotate-180': openFaq === 3 }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
                     </svg>
                 </button>
                 <div x-show="openFaq === 3" x-collapse>
-                    <div class="p-6 text-base text-gray-600 bg-white leading-relaxed border-t border-gray-100">
+                    <div class="p-4 sm:p-6 text-sm sm:text-base text-gray-600 bg-white leading-relaxed border-t border-gray-100">
                         After submission, you'll receive a Tracking ID. Enter this ID and your email on our "Track Request" page to see real-time status.
                     </div>
                 </div>

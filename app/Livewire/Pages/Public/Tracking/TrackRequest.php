@@ -19,6 +19,16 @@ class TrackRequest extends Component
     public ?DocumentRequest $documentRequest = null;
     public bool $showResults = false;
 
+    public function mount()
+    {
+        $this->tracking_id = request()->query('tracking_id', '');
+        $this->email = request()->query('email', '');
+
+        if ($this->tracking_id && $this->email) {
+            $this->track();
+        }
+    }
+
     public function track()
     {
         $this->validate();
