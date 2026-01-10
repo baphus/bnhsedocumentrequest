@@ -1,4 +1,4 @@
-# Stage 1: Build Assets
+# --- Stage 1: Build Assets (Vite/NPM) ---
 FROM node:20-alpine AS assets-builder
 WORKDIR /app
 COPY package*.json ./
@@ -6,59 +6,44 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-# Stage 2: PHP Application
-FROM php:8.4-fpm
+# --- Stage 2: PHP Application (FrankenPHP) ---
+FROM dunglas/frankenphp:1.3-php8.4-alpine
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
+# Install necessary system libraries for Postgres and PHP extensions
+RUN apk add --no-cache \
     libpq-dev \
-    zip \
-    unzip \
     libzip-dev \
-    libicu-dev \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev
+    icu-dev \
+    bash
 
-# Clear cache
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
+# Install PHP extensions required by Laravel 12
+RUN install-php-extensions \
+    pdo_pgsql \
+    intl \
+    zip \
+    bcmath \
+    gd \
+    pcntl \
+    opcache
 
-# Configure and install PHP extensions
-RUN docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_pgsql mbstring exif pcntl bcmath gd zip intl
-
-# Get latest Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-
-# Set working directory
+# Set Working Directory
 WORKDIR /var/www
 
-# Copy composer files first for caching
-COPY composer.json composer.lock ./
-
-# Install dependencies without scripts/autoloader first
-RUN composer install --no-dev --no-scripts --no-autoloader --prefer-dist
-
-# Copy existing application directory contents
+# Copy application files
 COPY . .
-
-# Copy built assets from assets-builder
+# Copy built assets from Stage 1
 COPY --from=assets-builder /app/public/build ./public/build
 
-# Finish composer install (runs autoloader and scripts)
-# We set dummy env vars to avoid script failures during build
-RUN APP_ENV=production APP_KEY=base64:$(openssl rand -base64 32) \
-    composer install --no-dev --optimize-autoloader
+# Install Composer dependencies (Production mode)
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN composer install --no-dev --optimize-autoloader
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/storage /var/www/bootstrap/cache
+# Set permissions for Laravel storage and cache
+RUN chown -R www-data:www-data storage bootstrap/cache
 
-# Change current user to www-data
-USER www-data
+# Render uses a dynamic $PORT, usually 10000
+ENV PORT=10000
+EXPOSE 10000
 
-EXPOSE 9000
-CMD ["php-fpm"]
+# Start FrankenPHP in "Worker Mode" for high performance
+CMD ["frankenphp", "php-server", "--listen", ":10000", "--root", "public/"]
