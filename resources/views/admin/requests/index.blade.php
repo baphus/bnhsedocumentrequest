@@ -1,9 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-bold text-xl text-white leading-tight">
-            Document Requests
-        </h2>
-    </x-slot>
 
     <div class="bg-white rounded-lg shadow border border-slate-200 overflow-hidden">
         <div class="px-6 py-4 border-b border-slate-200 flex justify-between items-center">

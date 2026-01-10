@@ -54,48 +54,24 @@
             :class="sidebarCollapsed ? 'lg:ml-20' : 'lg:ml-64'"
             class="transition-all duration-300 min-h-screen flex flex-col">
 
-            <!-- Top Bar -->
-            <header class="sticky top-0 z-30 h-16 bg-white/80 backdrop-blur-md border-b border-gray-100">
-                <div class="flex items-center justify-between h-full px-4 sm:px-6 lg:px-8">
-                    <div class="flex items-center gap-4">
-                        <!-- Mobile Menu Button -->
-                        <button
-                            @click="sidebarOpen = true"
-                            class="lg:hidden p-2 rounded-xl hover:bg-gray-100 transition shadow-sm border border-gray-100">
-                            <svg class="w-6 h-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                            </svg>
-                        </button>
-
-                        <!-- Mobile Logo -->
-                        <div class="lg:hidden flex items-center gap-2">
-                            <img src="{{ asset('images/logo.png') }}" alt="BNHS Logo" class="w-8 h-8 object-contain" />
-                        </div>
-
-                        <!-- Page Title -->
-                        @isset($header)
-                        <h1 class="text-lg font-bold text-gray-900 tracking-tight ml-2 lg:ml-0">
-                            {{ $header }}
-                        </h1>
-                        @endisset
-                    </div>
-
-                    <!-- Right side of header (Empty for now as requested) -->
-                    <div class="flex items-center gap-3">
-                        <!-- We can add notifications here later if needed -->
-                    </div>
-                </div>
-            </header>
+            <!-- Mobile Menu Toggle (Floating) -->
+            <div class="lg:hidden fixed top-6 left-6 z-40">
+                <button
+                    @click="sidebarOpen = true"
+                    class="p-3 bg-white/90 backdrop-blur shadow-xl rounded-2xl border border-gray-100 text-bnhs-blue hover:scale-110 active:scale-95 transition-all duration-300">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
 
             <!-- Page Content -->
             <main class="flex-1 p-4 sm:p-6 lg:p-8">
-                <div class="max-w-7xl mx-auto">
-                    @if(isset($slot))
-                    {{ $slot }}
-                    @else
-                    @yield('content')
-                    @endif
-                </div>
+                @if(isset($slot))
+                {{ $slot }}
+                @else
+                @yield('content')
+                @endif
             </main>
             <!-- Footer -->
             <footer class="border-t border-gray-200 py-4">

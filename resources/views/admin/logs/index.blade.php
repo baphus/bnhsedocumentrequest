@@ -1,7 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-bold text-gray-900">Activity Timeline</h2>
-    </x-slot>
 
     <!-- Filter Bar -->
     <div class="bg-white rounded-xl shadow-lg mb-6">

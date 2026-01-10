@@ -1,7 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-        <h2 class="text-xl font-bold text-gray-900">Settings</h2>
-    </x-slot>
 
     <div class="space-y-6">
         <!-- General Settings -->

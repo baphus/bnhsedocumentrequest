@@ -34,12 +34,17 @@ class Show extends Component
         }
     }
 
+    public function closeStatusModal()
+    {
+        $this->showStatusModal = false;
+    }
+
     public function updateStatus()
     {
         $this->form->update();
         $this->request->refresh();
         $this->showStatusModal = false;
-        
+
         $this->dispatch('notify', type: 'success', message: 'Request status updated successfully.');
         $this->dispatch('refreshDatatable');
     }
