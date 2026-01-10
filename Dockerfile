@@ -2,67 +2,66 @@
 FROM node:20-alpine AS assets-builder
 WORKDIR /app
 COPY package*.json ./
-RUN npm ci --only=production
+RUN npm install
 COPY . .
 RUN npm run build
 
 # --- Stage 2: PHP Application ---
-FROM dunglas/frankenphp:1.3-php8.4-bookworm
+FROM php:8.4-fpm-bookworm
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     libpq-dev \
     libzip-dev \
     libicu-dev \
-    bash \
-    git \
-    unzip \
+    nginx \
+    supervisor \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Install PHP extensions required for Laravel
-RUN install-php-extensions \
-    pdo_pgsql \
-    intl \
-    zip \
-    bcmath \
-    gd \
-    pcntl \
-    opcache \
-    curl \
-    mbstring \
-    xml
+# Install PHP extensions
+RUN docker-php-ext-install pdo_pgsql intl zip bcmath gd pcntl opcache
 
-# Set working directory
 WORKDIR /var/www
+
+COPY . .
+COPY --from=assets-builder /app/public/build ./public/build
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN composer install --no-dev --optimize-autoloader
 
-# Copy composer files and install dependencies
-COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-interaction
+# Permissions
+RUN chown -R www-data:www-data storage bootstrap/cache
 
-# Copy application files
-COPY . .
+# Nginx configuration
+RUN echo 'server { \n\
+    listen 10000; \n\
+    root /var/www/public; \n\
+    index index.php; \n\
+    location / { \n\
+        try_files $uri $uri/ /index.php?$query_string; \n\
+    } \n\
+    location ~ \.php$ { \n\
+        fastcgi_pass 127.0.0.1:9000; \n\
+        fastcgi_index index.php; \n\
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; \n\
+        include fastcgi_params; \n\
+    } \n\
+}' > /etc/nginx/sites-available/default
 
-# Copy built assets from previous stage
-COPY --from=assets-builder /app/public/build ./public/build
+# Supervisor configuration
+RUN echo '[supervisord] \n\
+nodaemon=true \n\
+[program:php-fpm] \n\
+command=php-fpm \n\
+autostart=true \n\
+autorestart=true \n\
+[program:nginx] \n\
+command=nginx -g "daemon off;" \n\
+autostart=true \n\
+autorestart=true' > /etc/supervisor/conf.d/supervisord.conf
 
-# Set proper permissions
-RUN chown -R www-data:www-data storage bootstrap/cache public
-RUN chmod -R 775 storage bootstrap/cache public
-RUN chmod +x /usr/local/bin/frankenphp
-
-# Render-specific configuration
 ENV PORT=10000
-ENV SERVER_NAME=":10000"
-ENV APP_ENV=production
-ENV APP_DEBUG=false
 EXPOSE 10000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-    CMD curl -f http://localhost:10000/ || exit 1
-
-# Start FrankenPHP server
-ENTRYPOINT ["/usr/local/bin/frankenphp", "php-server", "--listen", ":10000", "--root", "public/"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
