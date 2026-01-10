@@ -249,5 +249,6 @@
         </div>
         @livewireScripts
         @livewireTableScripts
+        @stack('scripts')
     </body>
 </html>
