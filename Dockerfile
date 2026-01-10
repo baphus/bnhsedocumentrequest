@@ -7,7 +7,8 @@ COPY . .
 RUN npm run build
 
 # --- Stage 2: PHP Application (FrankenPHP) ---
-FROM dunglas/frankenphp:1.3-php8.4-alpine
+# To this (Debian version):
+FROM dunglas/frankenphp:1.3-php8.4-bookworm
 
 # Install necessary system libraries for Postgres and PHP extensions
 RUN apk add --no-cache \
@@ -45,5 +46,13 @@ RUN chown -R www-data:www-data storage bootstrap/cache
 ENV PORT=10000
 EXPOSE 10000
 
-# Start FrankenPHP in "Worker Mode" for high performance
-CMD ["frankenphp", "php-server", "--listen", ":10000", "--root", "public/"]
+# Ensure the binary is executable
+RUN chmod +x /usr/local/bin/frankenphp
+
+# Give the binary permission to bind to ports (fixes some Render permission issues)
+RUN apt-get update && apt-get install -y libcap2-bin && \
+    setcap CAP_NET_BIND_SERVICE=+eip /usr/local/bin/frankenphp && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Use the full path for the start command
+CMD ["/usr/local/bin/frankenphp", "php-server", "--listen", ":10000", "--root", "public/"]
