@@ -77,7 +77,11 @@ autorestart=true \n\
 command=php /var/www/artisan queue:work --tries=3 --timeout=90 \n\
 autostart=true \n\
 autorestart=true \n\
-stopwaitsecs=3600' > /etc/supervisor/conf.d/supervisord.conf
+stopwaitsecs=3600 \n\
+stdout_logfile=/dev/stdout \n\
+stdout_logfile_maxbytes=0 \n\
+stderr_logfile=/dev/stderr \n\
+stderr_logfile_maxbytes=0' > /etc/supervisor/conf.d/supervisord.conf
 
 
 ENV PORT=10000
