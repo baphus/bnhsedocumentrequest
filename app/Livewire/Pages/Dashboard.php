@@ -33,13 +33,22 @@ class Dashboard extends Component
     #[Computed]
     public function stats()
     {
+        $counts = DocumentRequest::query()
+            ->selectRaw("COUNT(*) as total")
+            ->selectRaw("COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending")
+            ->selectRaw("COUNT(CASE WHEN status = 'processing' THEN 1 END) as processing")
+            ->selectRaw("COUNT(CASE WHEN status = 'ready' THEN 1 END) as ready")
+            ->selectRaw("COUNT(CASE WHEN status = 'completed' THEN 1 END) as completed")
+            ->selectRaw("COUNT(CASE WHEN created_at >= ? THEN 1 END) as today", [now()->startOfDay()])
+            ->first();
+
         return [
-            'total' => DocumentRequest::count(),
-            'pending' => DocumentRequest::where('status', 'pending')->count(),
-            'processing' => DocumentRequest::where('status', 'processing')->count(),
-            'ready' => DocumentRequest::where('status', 'ready')->count(),
-            'completed' => DocumentRequest::where('status', 'completed')->count(),
-            'today' => DocumentRequest::whereDate('created_at', Carbon::today())->count(),
+            'total' => (int) ($counts->total ?? 0),
+            'pending' => (int) ($counts->pending ?? 0),
+            'processing' => (int) ($counts->processing ?? 0),
+            'ready' => (int) ($counts->ready ?? 0),
+            'completed' => (int) ($counts->completed ?? 0),
+            'today' => (int) ($counts->today ?? 0),
         ];
     }
 
@@ -47,7 +56,7 @@ class Dashboard extends Component
     public function recentRequests()
     {
         return DocumentRequest::with('documentType')
-            ->orderBy('created_at', 'desc')
+            ->latest()
             ->take(5)
             ->get();
     }
@@ -55,7 +64,7 @@ class Dashboard extends Component
     #[Computed]
     public function recentActivities()
     {
-        return RequestLog::with(['user', 'request'])
+        return RequestLog::with('user')
             ->where('action', '!=', 'Request submitted')
             ->latest()
             ->take(10)

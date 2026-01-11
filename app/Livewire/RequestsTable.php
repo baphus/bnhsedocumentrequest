@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
 use App\Jobs\SendRequestStatusEmail;
+use Illuminate\Support\Carbon;
 
 class RequestsTable extends DataTableComponent
 {
@@ -30,11 +31,10 @@ class RequestsTable extends DataTableComponent
     {
         $this->setPrimaryKey('id')
             ->setDefaultSort('created_at', 'desc')
-            ->setSelectAllStatus(false)
             ->setQueryStringEnabled()
             // 1. UI LAYOUT: Matches the image "Filters" dropdown and clean look
             ->setFilterLayoutPopover()
-            ->setSelectAllStatus(false) // Only select rows displayed on the current page
+            ->setSelectAllStatus(false)
 
             // 2. TABLE STYLING: Matches the image's spacing and borders
             ->setTableAttributes([
@@ -148,10 +148,23 @@ class RequestsTable extends DataTableComponent
 
     public function builder(): Builder
     {
-        // Use the absolute path to your model
         return \App\Models\Request::query()
-            ->select('requests.*')
-            ->with(['documentType', 'processor']);
+            ->select([
+                'requests.id',
+                'requests.tracking_id',
+                'requests.first_name',
+                'requests.middle_name',
+                'requests.last_name',
+                'requests.lrn',
+                'requests.grade_level',
+                'requests.section',
+                'requests.track_strand',
+                'requests.document_type_id',
+                'requests.quantity',
+                'requests.status',
+                'requests.created_at',
+            ])
+            ->with(['documentType:id,name']);
     }
 
     public function filters(): array
@@ -167,7 +180,10 @@ class RequestsTable extends DataTableComponent
 
             DateFilter::make('Requested On')
                 ->filter(function (Builder $query, string $value) {
-                    $query->whereDate('requests.created_at', $value);
+                    $query->whereBetween('requests.created_at', [
+                        Carbon::parse($value)->startOfDay(),
+                        Carbon::parse($value)->endOfDay(),
+                    ]);
                 }),
         ];
     }
@@ -239,5 +255,32 @@ class RequestsTable extends DataTableComponent
 
         $this->clearSelected();
         $this->dispatch('notify', type: 'success', message: 'Selected requests updated successfully.');
+    }
+
+    public function setAllSelected(): void
+    {
+        // Ensure we are in "partial selection" mode
+        $this->setSelectAllDisabled();
+
+        // Use the already populated paginated items from the library
+        $pageIds = array_map(fn($id) => (string) $id, $this->paginationCurrentItems);
+        
+        // Get currently selected IDs
+        $currentSelected = $this->getSelected();
+
+        // Check if all items on the current page are already selected
+        $intersect = array_intersect($pageIds, $currentSelected);
+        $allPageSelected = count($intersect) === count($pageIds) && count($pageIds) > 0;
+
+        $newSelected = [];
+        if ($allPageSelected) {
+            // Deselect all items on the current page
+            $newSelected = array_values(array_diff($currentSelected, $pageIds));
+        } else {
+            // Select all items on the current page (without duplicating)
+            $newSelected = array_values(array_unique(array_merge($currentSelected, $pageIds)));
+        }
+
+        $this->setSelected($newSelected);
     }
 }

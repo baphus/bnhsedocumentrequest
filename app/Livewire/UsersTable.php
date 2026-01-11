@@ -139,6 +139,6 @@ class UsersTable extends DataTableComponent
 
     public function builder(): Builder
     {
-        return User::query();
+        return User::query()->select(['id', 'name', 'email', 'role', 'status', 'created_at', 'last_login_at']);
     }
 }
