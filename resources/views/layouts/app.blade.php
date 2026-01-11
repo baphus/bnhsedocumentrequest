@@ -52,7 +52,7 @@
             <!-- Mobile Menu Toggle (Floating) -->
             <div class="lg:hidden fixed top-6 left-6 z-40">
                 <button
-                    @click="sidebarOpen = true"
+                    @click.stop="sidebarOpen = true"
                     class="p-3 bg-white/90 backdrop-blur shadow-xl rounded-2xl border border-gray-100 text-bnhs-blue hover:scale-110 active:scale-95 transition-all duration-300">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 12h16M4 18h16" />

@@ -28,18 +28,6 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
             Route::post('/bulk-update', [RequestManagementController::class, 'bulkUpdate'])->name('bulk-update');
             Route::delete('/{id}', [RequestManagementController::class, 'destroy'])->name('destroy');
         });
-    });
-
-    // Admin Only: Registrar is blocked here
-    Route::middleware(['role:admin'])->group(function () {
-        // User Management
-        Route::get('/users', \App\Livewire\Pages\Users\Index::class)->name('users.index');
-
-        // Document Types Management
-        Route::get('/document-types', \App\Livewire\Pages\DocumentTypes\Index::class)->name('document-types.index');
-
-        // Settings
-        Route::get('/settings', \App\Livewire\Pages\Settings\Index::class)->name('settings');
 
         // Activity Logs
         Route::get('/logs', function (\Illuminate\Http\Request $request) {
@@ -89,5 +77,17 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
             $logs = $logsQuery->paginate(20)->withQueryString();
             return view('admin.logs.index', compact('logs', 'startDate', 'endDate', 'search', 'role', 'sort'));
         })->name('logs.index');
+    });
+
+    // Admin Only: Registrar is blocked here
+    Route::middleware(['role:admin'])->group(function () {
+        // User Management
+        Route::get('/users', \App\Livewire\Pages\Users\Index::class)->name('users.index');
+
+        // Document Types Management
+        Route::get('/document-types', \App\Livewire\Pages\DocumentTypes\Index::class)->name('document-types.index');
+
+        // Settings
+        Route::get('/settings', \App\Livewire\Pages\Settings\Index::class)->name('settings');
     });
 });

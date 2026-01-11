@@ -1,9 +1,13 @@
 @props(['collapsed' => false])
 
 <aside
-    :class="sidebarCollapsed ? 'lg:w-20' : 'lg:w-64'"
-    class="fixed inset-y-0 left-0 z-50 bg-white shadow-xl transform transition-all duration-300 ease-in-out lg:translate-x-0 border-r border-gray-100 flex flex-col"
-    :class="{ '-translate-x-full': !sidebarOpen }"
+    class="fixed inset-y-0 left-0 z-50 bg-white shadow-xl transform transition-all duration-300 ease-in-out w-64 lg:translate-x-0 border-r border-gray-100 flex flex-col"
+    :class="{
+        'lg:w-20': sidebarCollapsed,
+        'lg:w-64': !sidebarCollapsed,
+        'translate-x-0': sidebarOpen,
+        '-translate-x-full': !sidebarOpen
+    }"
     @click.away="sidebarOpen = false">
 
     <!-- Logo Section -->
@@ -54,7 +58,7 @@
         ['route' => 'admin.requests.index', 'icon' => 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', 'label' => 'Requests', 'active' => request()->routeIs('admin.requests.*'), 'roles' => ['admin', 'registrar']],
         ['route' => 'admin.users.index', 'icon' => 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z', 'label' => 'Users', 'active' => request()->routeIs('admin.users.*'), 'roles' => ['admin']],
         ['route' => 'admin.document-types.index', 'icon' => 'M7 21H17A2 2 0 0019 19V9.414a1 1 0 00-.293-.707L13.293 3.293A1 1 0 0012.586 3H7a2 2 0 00-2 2V19a2 2 0 002 2z', 'label' => 'Doc Types', 'active' => request()->routeIs('admin.document-types.*'), 'roles' => ['admin']],
-        ['route' => 'admin.logs.index', 'icon' => 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', 'label' => 'Timeline', 'active' => request()->routeIs('admin.logs.*'), 'roles' => ['admin']],
+        ['route' => 'admin.logs.index', 'icon' => 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', 'label' => 'Timeline', 'active' => request()->routeIs('admin.logs.*'), 'roles' => ['admin', 'registrar']],
         ['route' => 'admin.settings', 'icon' => 'M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z', 'label' => 'Settings', 'active' => request()->routeIs('admin.settings'), 'roles' => ['admin']],
         ];
         @endphp
