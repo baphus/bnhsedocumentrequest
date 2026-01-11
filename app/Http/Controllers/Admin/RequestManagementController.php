@@ -34,15 +34,7 @@ class RequestManagementController extends Controller
             $documentRequest->processed_by = Auth::id();
         }
 
-        DB::transaction(function () use ($documentRequest, $oldStatus) {
-            $documentRequest->save();
-
-            RequestLog::create([
-                'user_id' => Auth::id(),
-                'request_id' => $documentRequest->id,
-                'action' => "Status changed: {$oldStatus} -> {$documentRequest->status}",
-            ]);
-        });
+        $documentRequest->save();
 
         // Always redirect to requests index after updating status for consistency
         return redirect()->route('admin.requests.index')

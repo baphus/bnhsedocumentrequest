@@ -63,15 +63,31 @@
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
                             <p class="text-xs text-gray-500 mb-1">Full Name</p>
-                            <p class="text-base font-medium text-gray-900">{{ $request->full_name }}</p>
+                            @if ($isEditing)
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                    <input type="text" wire:model="first_name" placeholder="First Name" class="form-input">
+                                    <input type="text" wire:model="middle_name" placeholder="Middle Name" class="form-input">
+                                    <input type="text" wire:model="last_name" placeholder="Last Name" class="form-input">
+                                </div>
+                            @else
+                                <p class="text-base font-medium text-gray-900">{{ $request->full_name }}</p>
+                            @endif
                         </div>
                         <div>
                             <p class="text-xs text-gray-500 mb-1">Email Address</p>
-                            <p class="text-base text-gray-900">{{ $request->email }}</p>
+                            @if ($isEditing)
+                                <input type="email" wire:model="email" class="form-input">
+                            @else
+                                <p class="text-base text-gray-900">{{ $request->email }}</p>
+                            @endif
                         </div>
                         <div>
                             <p class="text-xs text-gray-500 mb-1">Contact Number</p>
-                            <p class="text-base text-gray-900">{{ $request->contact_number }}</p>
+                            @if ($isEditing)
+                                <input type="text" wire:model="contact_number" class="form-input">
+                            @else
+                                <p class="text-base text-gray-900">{{ $request->contact_number }}</p>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -86,27 +102,112 @@
                     <div class="grid md:grid-cols-2 gap-6">
                         <div>
                             <p class="text-xs text-gray-500 mb-1">LRN</p>
-                            <p class="text-base font-medium text-gray-900 font-mono">{{ $request->lrn }}</p>
+                             @if ($isEditing)
+                                <input type="text" wire:model="lrn" class="form-input">
+                            @else
+                                <p class="text-base font-medium text-gray-900 font-mono">{{ $request->lrn }}</p>
+                            @endif
                         </div>
                         <div>
                             <p class="text-xs text-gray-500 mb-1">Grade Level</p>
-                            <p class="text-base text-gray-900">{{ $request->grade_level }}</p>
+                            @if ($isEditing)
+                                <input type="text" wire:model="grade_level" class="form-input">
+                            @else
+                                <p class="text-base text-gray-900">{{ $request->grade_level }}</p>
+                            @endif
                         </div>
-                        @if($request->section)
+                        @if($request->section || $isEditing)
                         <div>
                             <p class="text-xs text-gray-500 mb-1">Section</p>
-                            <p class="text-base text-gray-900">{{ $request->section }}</p>
+                            @if ($isEditing)
+                                <input type="text" wire:model="section" class="form-input">
+                            @else
+                                <p class="text-base text-gray-900">{{ $request->section }}</p>
+                            @endif
                         </div>
                         @endif
                         <div>
                             <p class="text-xs text-gray-500 mb-1">Track/Strand</p>
-                            <p class="text-base text-gray-900">{{ $request->track_strand }}</p>
+                            @if ($isEditing)
+                                <input type="text" wire:model="track_strand" class="form-input">
+                            @else
+                                <p class="text-base text-gray-900">{{ $request->track_strand }}</p>
+                            @endif
                         </div>
                         <div>
                             <p class="text-xs text-gray-500 mb-1">School Year Last Attended</p>
-                            <p class="text-base text-gray-900">{{ $request->school_year_last_attended }}</p>
+                            @if ($isEditing)
+                                <input type="text" wire:model="school_year_last_attended" class="form-input">
+                            @else
+                                <p class="text-base text-gray-900">{{ $request->school_year_last_attended }}</p>
+                            @endif
                         </div>
                     </div>
+                </div>
+            </div>
+
+            <!-- Digital Signature -->
+            @if($request->signature)
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 mt-6">
+                <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center justify-between">
+                    <h3 class="text-lg font-bold text-gray-900">Digital Signature</h3>
+                    <span class="text-[10px] bg-blue-100 text-blue-700 px-2 py-1 rounded uppercase font-bold">Stored as Base64</span>
+                </div>
+                <div class="p-8 flex justify-center bg-slate-50">
+                    <div class="bg-white p-4 rounded-xl shadow-inner border border-gray-200">
+                        <img src="{{ $request->signature }}"
+                            alt="Student Signature"
+                            class="max-h-48 w-auto mix-blend-multiply"
+                            onerror="this.parentElement.innerHTML='<span class=\'text-red-500 text-sm\'>Invalid signature data</span>'">
+                    </div>
+                </div>
+            </div>
+            @endif
+        </div>
+
+        <!-- Sidebar -->
+        <div class="space-y-6">
+            <!-- Actions Card -->
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-900">Actions</h3>
+                </div>
+                <div class="p-6 space-y-4">
+                    @if ($isEditing)
+                        <x-button wire:click="save" variant="primary" class="w-full">
+                            Save Changes
+                        </x-button>
+                        <x-button wire:click="toggleEditing" variant="outline" class="w-full">
+                            Cancel
+                        </x-button>
+                    @else
+                        <!-- Update Status Button -->
+                        <x-button
+                            wire:click="$dispatch('openUpdateStatusModal', { requestId: {{ $request->id }} })"
+                            variant="primary"
+                            class="w-full"
+                        >
+                            Update Status
+                        </x-button>
+
+                        <x-button wire:click="toggleEditing" variant="outline" class="w-full">
+                            Edit Request
+                        </x-button>
+
+                        @if(auth()->user()->role === 'admin')
+                        <form method="POST" action="{{ route('admin.requests.destroy', $request->id) }}" onsubmit="return confirm('Are you sure you want to delete this request? This action cannot be undone.');">
+                            @csrf
+                            @method('DELETE')
+                            <x-button
+                                type="submit"
+                                variant="danger"
+                                class="w-full"
+                            >
+                                Delete Request
+                            </x-button>
+                        </form>
+                        @endif
+                    @endif
                 </div>
             </div>
 
@@ -139,58 +240,6 @@
                             <p class="text-sm text-gray-500">No activity recorded yet.</p>
                         @endforelse
                     </div>
-                </div>
-            </div>
-
-            <!-- Digital Signature -->
-            @if($request->signature)
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100 mt-6">
-                <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-                    <h3 class="text-lg font-bold text-gray-900">Digital Signature</h3>
-                    <span class="text-[10px] bg-blue-100 text-blue-700 px-2 py-1 rounded uppercase font-bold">Stored as Base64</span>
-                </div>
-                <div class="p-8 flex justify-center bg-slate-50">
-                    <div class="bg-white p-4 rounded-xl shadow-inner border border-gray-200">
-                        <img src="{{ $request->signature }}"
-                            alt="Student Signature"
-                            class="max-h-48 w-auto mix-blend-multiply"
-                            onerror="this.parentElement.innerHTML='<span class=\'text-red-500 text-sm\'>Invalid signature data</span>'">
-                    </div>
-                </div>
-            </div>
-            @endif
-        </div>
-
-        <!-- Sidebar -->
-        <div class="space-y-6">
-            <!-- Actions Card -->
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
-                <div class="bg-gray-50 px-6 py-4 border-b border-gray-200">
-                    <h3 class="text-lg font-bold text-gray-900">Actions</h3>
-                </div>
-                <div class="p-6 space-y-4">
-                    <!-- Update Status Button -->
-                    <x-button
-                        wire:click="$dispatch('openUpdateStatusModal', { requestId: {{ $request->id }} })"
-                        variant="primary"
-                        class="w-full"
-                    >
-                        Update Status
-                    </x-button>
-
-                    @if(auth()->user()->role === 'admin')
-                    <form method="POST" action="{{ route('admin.requests.destroy', $request->id) }}" onsubmit="return confirm('Are you sure you want to delete this request? This action cannot be undone.');">
-                        @csrf
-                        @method('DELETE')
-                        <x-button
-                            type="submit"
-                            variant="danger"
-                            class="w-full"
-                        >
-                            Delete Request
-                        </x-button>
-                    </form>
-                    @endif
                 </div>
             </div>
 

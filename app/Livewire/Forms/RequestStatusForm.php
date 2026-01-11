@@ -29,19 +29,17 @@ class RequestStatusForm extends Form
 
         $request = DocumentRequest::findOrFail($this->requestId);
         
-        $oldStatus = $request->status;
-        $request->update([
+        $data = [
             'status' => $this->status,
-        ]);
+        ];
 
-        // Create log entry if status changed
-        if ($oldStatus !== $this->status) {
-            $request->logs()->create([
-                'user_id' => auth()->id(),
-                'action' => "Status changed from {$oldStatus} to {$this->status}",
-                'remarks' => $this->remarks,
-            ]);
+        // Only update remarks if provided (or maybe we should overwrite? Use logic based on requirement)
+        // Assuming we want to update admin_remarks if user typed something
+        if (!empty($this->remarks)) {
+            $data['admin_remarks'] = $this->remarks;
         }
+
+        $request->update($data);
 
         return $request->fresh();
     }

@@ -21,6 +21,17 @@
         </div>
         <div class="flex items-center gap-3">
             <button
+                x-data="{}"
+                x-on:click="$dispatch('openRequestModal')"
+                class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-lg hover:bg-blue-700 transition border border-blue-700 disabled:opacity-50">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                    <path d="M12 5l0 14"></path>
+                    <path d="M5 12l14 0"></path>
+                </svg>
+                Add Request
+            </button>
+            <button
                 x-data="{ refreshing: false }"
                 x-on:click="refreshing = true; $dispatch('refreshDatatable'); setTimeout(() => refreshing = false, 1000)"
                 :disabled="refreshing"

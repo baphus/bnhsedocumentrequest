@@ -43,11 +43,51 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
 
         // Activity Logs
         Route::get('/logs', function (\Illuminate\Http\Request $request) {
-            $date = $request->query('date');
-            $logsQuery = \App\Models\RequestLog::with(['user', 'request.documentType'])->latest();
-            if ($date) $logsQuery->whereDate('created_at', $date);
+            $startDate = $request->query('start_date');
+            $endDate = $request->query('end_date');
+            $search = $request->query('search');
+            $role = $request->query('role');
+            $sort = $request->query('sort', 'desc'); // default to newest
+
+            $logsQuery = \App\Models\RequestLog::with(['user', 'request.documentType']);
+
+            // Sort
+            $logsQuery->orderBy('created_at', $sort === 'asc' ? 'asc' : 'desc');
+
+            // Date Filters
+            if ($startDate) {
+                $logsQuery->whereDate('created_at', '>=', $startDate);
+            }
+            if ($endDate) {
+                $logsQuery->whereDate('created_at', '<=', $endDate);
+            }
+
+            if ($search) {
+                $logsQuery->where(function($q) use ($search) {
+                    $q->where('action', 'like', "%{$search}%")
+                      ->orWhereHas('user', function($u) use ($search) {
+                          $u->where('name', 'like', "%{$search}%");
+                      })
+                      ->orWhereHas('request', function($r) use ($search) {
+                          $r->where('tracking_id', 'like', "%{$search}%")
+                            ->orWhere('first_name', 'like', "%{$search}%")
+                            ->orWhere('last_name', 'like', "%{$search}%");
+                      });
+                });
+            }
+
+            if ($role) {
+                if ($role === 'student') {
+                    $logsQuery->whereNull('user_id');
+                } else {
+                    $logsQuery->whereHas('user', function($q) use ($role) {
+                        $q->where('role', $role);
+                    });
+                }
+            }
+
             $logs = $logsQuery->paginate(20)->withQueryString();
-            return view('admin.logs.index', compact('logs', 'date'));
+            return view('admin.logs.index', compact('logs', 'startDate', 'endDate', 'search', 'role', 'sort'));
         })->name('logs.index');
     });
 });

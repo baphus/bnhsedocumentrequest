@@ -11,14 +11,21 @@
 
             <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
                 <!-- First Name -->
-                <div>
+                <div class="md:col-span-1">
                     <x-input-label for="first_name" value="First Name" />
                     <x-text-input id="first_name" type="text" class="mt-1 block w-full" wire:model="form.first_name" required />
                     <x-input-error :messages="$errors->get('form.first_name')" class="mt-2" />
                 </div>
 
+                <!-- Middle Name -->
+                <div class="md:col-span-1">
+                    <x-input-label for="middle_name" value="Middle Name" />
+                    <x-text-input id="middle_name" type="text" class="mt-1 block w-full" wire:model="form.middle_name" />
+                    <x-input-error :messages="$errors->get('form.middle_name')" class="mt-2" />
+                </div>
+
                 <!-- Last Name -->
-                <div>
+                <div class="md:col-span-2">
                     <x-input-label for="last_name" value="Last Name" />
                     <x-text-input id="last_name" type="text" class="mt-1 block w-full" wire:model="form.last_name" required />
                     <x-input-error :messages="$errors->get('form.last_name')" class="mt-2" />

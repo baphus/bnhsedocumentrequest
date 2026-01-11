@@ -220,33 +220,20 @@ class RequestsTable extends DataTableComponent
 
         // Wrap in transaction for better data integrity
         DB::transaction(function () use ($ids, $status) {
-            $requests = Request::whereIn('id', $ids)->select('id', 'status', 'email')->get();
-            $logs = [];
-            $updatedRequestIds = [];
+            $requests = Request::whereIn('id', $ids)->get();
 
             foreach ($requests as $request) {
-                $oldStatus = $request->status;
-
-                if ($oldStatus !== $status) {
+                if ($request->status !== $status) {
                     $request->status = $status;
-                    $request->processed_by = $request->processed_by ?? Auth::id();
-                    $request->save(); // Save individual models to trigger observers
-                    $updatedRequestIds[] = $request->id;
-
-                    $logs[] = [
-                        'user_id' => Auth::id(),
-                        'request_id' => $request->id,
-                        'action' => "Updated status from {$oldStatus} to {$status}",
-                        'created_at' => now(),
-                    ];
-
-                    // Dispatch the email job for each request
-                    SendRequestStatusEmail::dispatch($request, $oldStatus, $status);
+                    // Assign processor if not already set
+                    if (!$request->processed_by) {
+                        $request->processed_by = Auth::id();
+                    }
+                    // Saving triggers RequestObserver which handles:
+                    // 1. Logging the status change
+                    // 2. Sending the email notification
+                    $request->save(); 
                 }
-            }
-
-            if (!empty($logs)) {
-                RequestLog::insert($logs);
             }
         });
 
