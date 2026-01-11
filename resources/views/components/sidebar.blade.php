@@ -9,7 +9,7 @@
     <!-- Logo Section -->
     <div class="flex items-center justify-between h-20 px-4 mb-2">
         <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 transition-all duration-300" :class="sidebarCollapsed ? 'justify-center w-full' : ''">
-            <img src="{{ asset('images/logo.png') }}" alt="BNHS Logo" class="w-12 h-12 object-contain" />
+            <img src="https://res.cloudinary.com/dc3cbupaq/image/upload/v1768134861/Untitled_design_7_z0gxhq.png" alt="BNHS Logo" class="w-12 h-12 object-contain" />
             <div x-show="!sidebarCollapsed" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 -translate-x-2" x-transition:enter-end="opacity-100 translate-x-0" class="flex flex-col">
                 <span class="text-sm font-black text-bnhs-blue leading-tight tracking-tight">BNHS</span>
                 <span class="text-xs font-medium text-gray-500 uppercase tracking-widest leading-none">eDocument</span>

@@ -1,1 +1,1 @@
-<img src="{{ asset('images/logo.png') }}" {{ $attributes->merge(['alt' => 'BNHS Logo']) }}>
+<img src="https://res.cloudinary.com/dc3cbupaq/image/upload/v1768134861/Untitled_design_7_z0gxhq.png" {{ $attributes->merge(['alt' => 'BNHS Logo']) }}>

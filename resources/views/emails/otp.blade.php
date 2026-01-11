@@ -8,7 +8,7 @@
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
     <div style="background: #f8f9fa; padding: 30px; border-radius: 10px;">
         <div style="text-align: center; margin-bottom: 20px;">
-            <img src="https://res.cloudinary.com/dc3cbupaq/image/upload/v1768131525/bato-logo_wo3eqa.png" alt="BNHS Logo" style="height: 100px; width: auto;">
+            <img src="https://res.cloudinary.com/dc3cbupaq/image/upload/v1768134861/Untitled_design_7_z0gxhq.png" alt="BNHS Logo" style="height: 100px; width: auto;">
         </div>
         <h1 style="color: #2563eb; margin-top: 0; text-align: center;">Bato National High School</h1>
         <h2 style="color: #1f2937;">Your OTP Code</h2>
