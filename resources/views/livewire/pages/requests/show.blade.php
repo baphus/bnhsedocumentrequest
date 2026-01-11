@@ -307,7 +307,7 @@
                     </div>
                     
                     <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Remarks (Optional)</label>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Remarks</label>
                         <textarea wire:model="form.remarks" rows="3" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition"></textarea>
                         @error('form.remarks') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
                     </div>

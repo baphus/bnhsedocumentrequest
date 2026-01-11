@@ -9,30 +9,45 @@
                 {{ $requestId ? 'Update the request details below.' : 'Fill in the details to manually create a new document request.' }}
             </p>
 
-            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
                 <!-- First Name -->
-                <div class="md:col-span-1">
+                <div>
                     <x-input-label for="first_name" value="First Name" />
                     <x-text-input id="first_name" type="text" class="mt-1 block w-full" wire:model="form.first_name" required />
                     <x-input-error :messages="$errors->get('form.first_name')" class="mt-2" />
                 </div>
 
                 <!-- Middle Name -->
-                <div class="md:col-span-1">
+                <div>
                     <x-input-label for="middle_name" value="Middle Name" />
                     <x-text-input id="middle_name" type="text" class="mt-1 block w-full" wire:model="form.middle_name" />
                     <x-input-error :messages="$errors->get('form.middle_name')" class="mt-2" />
                 </div>
 
                 <!-- Last Name -->
-                <div class="md:col-span-2">
+                <div>
                     <x-input-label for="last_name" value="Last Name" />
                     <x-text-input id="last_name" type="text" class="mt-1 block w-full" wire:model="form.last_name" required />
                     <x-input-error :messages="$errors->get('form.last_name')" class="mt-2" />
                 </div>
 
-                <!-- Email -->
+                <!-- Suffix -->
                 <div>
+                    <x-input-label for="suffix" value="Suffix" />
+                    <select id="suffix" wire:model="form.suffix" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-bnhs-blue focus:border-bnhs-blue">
+                        <option value="">None</option>
+                        <option value="Jr.">Jr.</option>
+                        <option value="Sr.">Sr.</option>
+                        <option value="II">II</option>
+                        <option value="III">III</option>
+                        <option value="IV">IV</option>
+                        <option value="V">V</option>
+                    </select>
+                    <x-input-error :messages="$errors->get('form.suffix')" class="mt-2" />
+                </div>
+
+                <!-- Email -->
+                <div class="md:col-span-2">
                     <x-input-label for="email" value="Email" />
                     <x-text-input id="email" type="email" class="mt-1 block w-full" wire:model="form.email" required
                         placeholder="Required for tracking notifications" />

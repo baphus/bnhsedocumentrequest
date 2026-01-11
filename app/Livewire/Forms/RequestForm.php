@@ -22,6 +22,9 @@ class RequestForm extends Form
     #[Validate('required|string|max:255')]
     public string $last_name = '';
 
+    #[Validate('nullable|string|max:10')]
+    public string $suffix = '';
+
     #[Validate('required|string|size:12')]
     public string $lrn = '';
 
@@ -75,6 +78,7 @@ class RequestForm extends Form
             'first_name' => $this->first_name,
             'middle_name' => $this->middle_name,
             'last_name' => $this->last_name,
+            'suffix' => $this->suffix,
             'lrn' => $this->lrn,
             'grade_level' => $this->grade_level,
             'section' => $this->section,
@@ -95,6 +99,7 @@ class RequestForm extends Form
         $this->first_name = '';
         $this->middle_name = '';
         $this->last_name = '';
+        $this->suffix = '';
         $this->lrn = '';
         $this->grade_level = '';
         $this->section = '';

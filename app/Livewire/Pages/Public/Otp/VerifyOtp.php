@@ -67,8 +67,41 @@ class VerifyOtp extends Component
 
     public function resend()
     {
-        // Redirect to request page to resend
-        return $this->redirect(route('otp.request', ['purpose' => $this->purpose]), navigate: true);
+        // Resend OTP without redirecting back to email input
+        $email = $this->email ?? Session::get('otp_email');
+
+        if (!$email) {
+            return $this->redirect(route('otp.request', ['purpose' => $this->purpose]))
+                ->with('error', 'Please request an OTP first.');
+        }
+
+        $key = 'otp-send:' . $email . ':' . $this->purpose;
+
+        // Rate limiting: 3 attempts per 10 minutes
+        if (RateLimiter::tooManyAttempts($key, 3)) {
+            $seconds = RateLimiter::availableIn($key);
+            $this->addError('code', 'Too many OTP requests. Please try again in ' . ceil($seconds / 60) . ' minutes.');
+            return;
+        }
+
+        RateLimiter::hit($key, 600); // 10 minutes
+
+        $otp = Otp::generate($email, $this->purpose);
+
+        try {
+            \Illuminate\Support\Facades\Mail::to($email)->send(new \App\Mail\OtpMail($otp, $this->purpose));
+        } catch (\Exception $e) {
+            \Log::error('Failed to resend OTP email: ' . $e->getMessage());
+            $this->addError('code', 'Failed to resend OTP. Please try again.');
+            return;
+        }
+
+        Session::put([
+            'otp_email' => $email,
+            'otp_purpose' => $this->purpose,
+        ]);
+
+        $this->dispatch('notify', type: 'success', message: 'A new OTP has been sent to your email.');
     }
 
     public function render()

@@ -47,7 +47,7 @@
     <!-- Table Container -->
     <div class="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
         <div class="p-6" wire:key="requests-container">
-            <livewire:requests-table theme="tailwind" />
+            <livewire:tables.requests-table theme="tailwind" />
         </div>
     </div>
 

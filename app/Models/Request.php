@@ -19,6 +19,7 @@ class Request extends Model
         'first_name',
         'middle_name',
         'last_name',
+        'suffix',
         'lrn',
         'grade_level',
         'section',
@@ -70,7 +71,9 @@ class Request extends Model
      */
     public function getFullNameAttribute(): string
     {
-        return trim("{$this->first_name} {$this->middle_name} {$this->last_name}");
+        $middleInitial = !empty($this->middle_name) ? strtoupper(substr($this->middle_name, 0, 1)) . '.' : '';
+        $suffix = !empty($this->suffix) ? ' ' . $this->suffix : '';
+        return trim("{$this->last_name}, {$this->first_name} {$middleInitial}{$suffix}");
     }
 
     /**

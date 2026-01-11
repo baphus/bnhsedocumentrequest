@@ -13,7 +13,7 @@
         <h1 style="color: #2563eb; margin-top: 0; text-align: center;">Bato National High School</h1>
         <h2 style="color: #1f2937;">Document Request Confirmed</h2>
         
-        <p>Dear {{ $request->first_name }} {{ $request->last_name }},</p>
+        <p>Dear {{ $request->first_name }} {{ $request->last_name }} {{ $request->suffix }},</p>
         
         <p>Your document request has been successfully submitted and received. We will process your request as soon as possible.</p>
         

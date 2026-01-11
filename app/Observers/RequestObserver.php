@@ -27,6 +27,7 @@ class RequestObserver
     public function updated(Request $request): void
     {
         $userId = auth()->id();
+        \Illuminate\Support\Facades\Log::info("RequestObserver updated fired for ID: {$request->id}. Is Dirty Status: " . ($request->isDirty('status') ? 'Yes' : 'No'));
 
         // 1. Handle Status Changes
         if ($request->isDirty('status')) {

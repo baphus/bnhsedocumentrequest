@@ -43,6 +43,7 @@ class RequestModal extends Component
                 $this->form->first_name = $request->first_name;
                 $this->form->middle_name = $request->middle_name;
                 $this->form->last_name = $request->last_name;
+                $this->form->suffix = $request->suffix ?? '';
                 $this->form->lrn = $request->lrn;
                 $this->form->grade_level = $request->grade_level;
                 $this->form->section = $request->section ?? '';
@@ -84,6 +85,7 @@ class RequestModal extends Component
                 'first_name' => $this->form->first_name,
                 'middle_name' => $this->form->middle_name,
                 'last_name' => $this->form->last_name,
+                'suffix' => $this->form->suffix,
                 'lrn' => $this->form->lrn,
                 'grade_level' => $this->form->grade_level,
                 'section' => $this->form->section,

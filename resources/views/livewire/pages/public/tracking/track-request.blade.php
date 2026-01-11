@@ -199,7 +199,7 @@
                             <div class="space-y-3">
                                 <div>
                                     <p class="text-xs text-gray-500 mb-1">Full Name</p>
-                                    <p class="text-sm font-medium text-gray-900">{{ $documentRequest->full_name }}</p>
+                                    <p class="text-sm font-medium text-gray-900">{{ $documentRequest->first_name }} {{ $documentRequest->middle_name }} {{ $documentRequest->last_name }} {{ $documentRequest->suffix }}</p>
                                 </div>
                                 <div>
                                     <p class="text-xs text-gray-500 mb-1">Email Address</p>

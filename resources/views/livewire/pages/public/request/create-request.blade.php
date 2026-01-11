@@ -63,7 +63,7 @@
                     <!-- Personal Information -->
                     <div class="mb-8">
                         <h3 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">Personal Information</h3>
-                        <div class="grid md:grid-cols-3 gap-4 mb-4">
+                        <div class="grid md:grid-cols-4 gap-4 mb-4">
                             <div>
                                 <x-input-label for="form.first_name" value="First Name *" />
                                 <x-text-input wire:model.blur="form.first_name" class="mt-1 block w-full" required />
@@ -79,8 +79,21 @@
                                 <x-text-input wire:model.blur="form.last_name" class="mt-1 block w-full" required />
                                 <x-input-error :messages="$errors->get('form.last_name')" class="mt-2" />
                             </div>
+                            <div>
+                                <x-input-label for="form.suffix" value="Suffix" />
+                                <select wire:model.blur="form.suffix" class="mt-1 block w-full border-gray-300 rounded-lg focus:ring-bnhs-blue focus:border-bnhs-blue">
+                                    <option value="">None</option>
+                                    <option value="Jr.">Jr.</option>
+                                    <option value="Sr.">Sr.</option>
+                                    <option value="II">II</option>
+                                    <option value="III">III</option>
+                                    <option value="IV">IV</option>
+                                    <option value="V">V</option>
+                                </select>
+                                <x-input-error :messages="$errors->get('form.suffix')" class="mt-2" />
+                            </div>
                         </div>
-                        <div>
+                        <div class="mt-4">
                             <x-input-label for="form.contact_number" value="Contact Number *" />
                             <x-text-input wire:model.blur="form.contact_number" class="mt-1 block w-full" placeholder="e.g., 09123456789" required />
                             <x-input-error :messages="$errors->get('form.contact_number')" class="mt-2" />
