@@ -1,5 +1,11 @@
 <div class="min-h-screen py-12 px-4 sm:px-6 lg:px-8">
-    <div class="max-w-4xl mx-auto">
+    <div class="max-w-4xl mx-auto"
+        x-data="{
+            selectedDocId: @entangle('selectedDocumentId'),
+            quantity: @entangle('quantity'),
+            documents: {{ \App\Models\Document::active()->get()->mapWithKeys(fn($d) => [$d->id => ['name' => $d->name, 'processing_days' => $d->processing_days]])->toJson() }}
+        }"
+    >
         <!-- Progress Steps -->
         <div class="mb-8">
             <div class="flex items-center justify-center">
@@ -92,7 +98,7 @@
                                     <input
                                         type="radio"
                                         name="selectedDocumentId"
-                                        wire:model.live="selectedDocumentId"
+                                        x-model="selectedDocId"
                                         value="{{ $document->id }}"
                                         class="peer sr-only"
                                         required>
@@ -153,8 +159,7 @@
                     </div>
                     @endforelse
 
-                    @if($this->selectedDocumentId)
-                    <div class="fixed bottom-0 left-0 right-0 px-4 pt-4 pb-6 bg-white border-t border-gray-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-50 sm:static sm:bg-transparent sm:border-0 sm:shadow-none sm:p-0 sm:mt-8">
+                    <div x-show="selectedDocId" x-transition x-cloak class="fixed bottom-0 left-0 right-0 px-4 pt-4 pb-6 bg-white border-t border-gray-200 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.1)] z-50 sm:static sm:bg-transparent sm:border-0 sm:shadow-none sm:p-0 sm:mt-8">
                         <div class="max-w-4xl mx-auto sm:bg-bnhs-blue-50 sm:border sm:border-bnhs-blue-200 sm:rounded-xl sm:p-6">
                             <div class="flex flex-col sm:flex-row items-center justify-between gap-4">
                                 <div class="hidden sm:flex items-center gap-4">
@@ -165,9 +170,7 @@
                                     </div>
                                     <div>
                                         <p class="text-xs text-bnhs-blue font-bold uppercase tracking-wider mb-1">Selected Document</p>
-                                        <h4 class="text-lg font-bold text-gray-900 leading-tight">
-                                            {{ \App\Models\Document::find($this->selectedDocumentId)?->name }}
-                                        </h4>
+                                        <h4 class="text-lg font-bold text-gray-900 leading-tight" x-text="documents[selectedDocId]?.name"></h4>
                                     </div>
                                 </div>
                                 
@@ -176,9 +179,7 @@
                                     <div class="block sm:hidden mb-3">
                                         <div class="flex items-center gap-2">
                                             <p class="text-xs text-gray-500 font-medium uppercase tracking-wider">Selected:</p>
-                                            <h4 class="text-sm font-bold text-bnhs-blue truncate flex-1">
-                                                {{ \App\Models\Document::find($this->selectedDocumentId)?->name }}
-                                            </h4>
+                                            <h4 class="text-sm font-bold text-bnhs-blue truncate flex-1" x-text="documents[selectedDocId]?.name"></h4>
                                         </div>
                                     </div>
 
@@ -186,18 +187,18 @@
                                         <div class="flex items-center bg-white border border-gray-300 rounded-lg overflow-hidden shadow-sm flex-shrink-0">
                                             <button 
                                                 type="button" 
-                                                wire:click="$set('quantity', {{ max(1, $quantity - 1) }})"
+                                                @click="if(quantity > 1) quantity--"
                                                 class="w-10 h-10 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border-r border-gray-300 text-gray-600 transition-colors disabled:opacity-50"
-                                                {{ $quantity <= 1 ? 'disabled' : '' }}
+                                                :disabled="quantity <= 1"
                                             >
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" /></svg>
                                             </button>
-                                            <span class="w-10 text-center font-bold text-gray-900 text-base">{{ $quantity }}</span>
+                                            <span class="w-10 text-center font-bold text-gray-900 text-base" x-text="quantity"></span>
                                             <button 
                                                 type="button" 
-                                                wire:click="$set('quantity', {{ min(10, $quantity + 1) }})"
+                                                @click="if(quantity < 10) quantity++"
                                                 class="w-10 h-10 flex items-center justify-center bg-gray-50 hover:bg-gray-100 border-l border-gray-300 text-gray-600 transition-colors disabled:opacity-50"
-                                                {{ $quantity >= 10 ? 'disabled' : '' }}
+                                                :disabled="quantity >= 10"
                                             >
                                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" /></svg>
                                             </button>
@@ -226,9 +227,8 @@
                         </div>
                     </div>
                     <!-- Spacer for fixed bottom bar on mobile -->
-                    <div class="h-32 sm:hidden"></div>
-                    @endif
-
+                    <div x-show="selectedDocId" class="h-32 sm:hidden"></div>
+                    
                     @error('selectedDocumentId')
                     <x-alert type="error" class="mt-4">
                         {{ $message }}
@@ -236,8 +236,7 @@
                     @enderror
 
                     <!-- Default Continue Button (Visible when no document is selected) -->
-                    @if(!$this->selectedDocumentId)
-                    <div class="mt-8 flex justify-end border-t border-gray-100 pt-6">
+                    <div x-show="!selectedDocId" class="mt-8 flex justify-end border-t border-gray-100 pt-6">
                         <div class="flex flex-col items-end gap-2 w-full sm:w-auto">
                             <span class="text-sm text-gray-500 hidden sm:block">Please select a document to proceed</span>
                             <button
@@ -251,7 +250,6 @@
                             </button>
                         </div>
                     </div>
-                    @endif
                 </div>
 
             </div>

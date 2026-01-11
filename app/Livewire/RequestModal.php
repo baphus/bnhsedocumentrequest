@@ -35,7 +35,8 @@ class RequestModal extends Component
             }
 
             $this->requestId = $requestId;
-            $request = Request::with(['documentType', 'processor', 'logs'])->find($requestId);
+            // Removed 'logs' relation as it is not used in the form
+            $request = Request::with(['documentType', 'processor'])->find($requestId);
             if ($request) {
                 $this->form->email = $request->email;
                 $this->form->contact_number = $request->contact_number;

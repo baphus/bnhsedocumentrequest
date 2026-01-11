@@ -56,7 +56,7 @@
                 <!-- Grade Level -->
                 <div>
                     <x-input-label for="grade_level" value="Grade Level" />
-                    <select id="grade_level" wire:model.live="form.grade_level" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-bnhs-blue focus:border-bnhs-blue">
+                    <select id="grade_level" wire:model="form.grade_level" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-bnhs-blue focus:border-bnhs-blue">
                         <option value="">Select Grade Level</option>
                         <option value="Grade 7">Grade 7</option>
                         <option value="Grade 8">Grade 8</option>

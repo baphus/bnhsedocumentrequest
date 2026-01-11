@@ -9,7 +9,7 @@
 <div class="text-center py-12 px-4">
     @if($icon)
         <div class="mx-auto w-16 h-16 text-gray-400 mb-4">
-            {{ $icon }}
+            {!! $icon !!}
         </div>
     @else
         <svg class="mx-auto h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
