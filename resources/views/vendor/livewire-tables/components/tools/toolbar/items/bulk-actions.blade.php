@@ -68,6 +68,7 @@
                         @foreach ($this->getBulkActions() as $action => $title)
                             <button
                                 wire:click="{{ $action }}"
+                                wire:loading.attr="disabled"
                                 @if($this->hasConfirmationMessage($action))
                                     wire:confirm="{{ $this->getBulkActionConfirmMessage($action) }}"
                                 @endif
@@ -83,7 +84,8 @@
                                     ->except(['default','default-styling','default-colors']) 
                                 }}
                             >
-                                <span>{{ $title }}</span>
+                                <span wire:loading.remove wire:target="{{ $action }}">{{ $title }}</span>
+                                <span wire:loading wire:target="{{ $action }}">Please wait...</span>
                             </button>
                         @endforeach
                     </div>

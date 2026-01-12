@@ -65,17 +65,6 @@ class RequestManagementController extends Controller
                 'processed_by' => DB::raw("COALESCE(processed_by, {$userId})"),
                 'updated_at' => $now,
             ]);
-
-            // 2. MASS LOG INSERTION
-            $logEntries = array_map(fn($id) => [
-                'user_id' => $userId,
-                'request_id' => $id,
-                'action' => "Bulk updated status to {$newStatus}",
-                'created_at' => $now,
-                'updated_at' => $now,
-            ], $ids);
-
-            RequestLog::insert($logEntries);
         });
 
         // 3. DISPATCH NOTIFICATIONS (Queue them!)

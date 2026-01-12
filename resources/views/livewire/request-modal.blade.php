@@ -138,7 +138,10 @@
 
             <div class="mt-6 flex justify-end gap-3 border-t pt-4">
                 <x-secondary-button wire:click="closeModal" type="button">Cancel</x-secondary-button>
-                <x-primary-button class="bg-bnhs-blue hover:bg-bnhs-blue-600">{{ $requestId ? 'Update Request' : 'Create Request' }}</x-primary-button>
+                <x-primary-button class="bg-bnhs-blue hover:bg-bnhs-blue-600" wire:loading.attr="disabled" wire:target="save">
+                    <span wire:loading.remove wire:target="save">{{ $requestId ? 'Update Request' : 'Create Request' }}</span>
+                    <span wire:loading wire:target="save">{{ $requestId ? 'Updating...' : 'Creating...' }}</span>
+                </x-primary-button>
             </div>
         </form>
     </x-modal>

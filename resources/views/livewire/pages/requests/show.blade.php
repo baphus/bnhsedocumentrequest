@@ -174,8 +174,9 @@
                 </div>
                 <div class="p-6 space-y-4">
                     @if ($isEditing)
-                        <x-button wire:click="save" variant="primary" class="w-full">
-                            Save Changes
+                        <x-button wire:click="save" variant="primary" class="w-full" wire:loading.attr="disabled" wire:target="save">
+                            <span wire:loading.remove wire:target="save">Save Changes</span>
+                            <span wire:loading wire:target="save">Saving...</span>
                         </x-button>
                         <x-button wire:click="toggleEditing" variant="outline" class="w-full">
                             Cancel
@@ -323,8 +324,11 @@
                         <x-button
                             type="submit"
                             variant="primary"
+                            wire:loading.attr="disabled"
+                            wire:target="updateStatus"
                         >
-                            Update Status
+                            <span wire:loading.remove wire:target="updateStatus">Update Status</span>
+                            <span wire:loading wire:target="updateStatus">Updating...</span>
                         </x-button>
                     </div>
                 </form>
