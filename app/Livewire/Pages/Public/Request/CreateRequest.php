@@ -92,7 +92,7 @@ class CreateRequest extends Component
 
             // Send confirmation email
             try {
-                Mail::to($this->form->email)->send(new RequestConfirmation($documentRequest));
+                Mail::to($this->form->email)->queue(new RequestConfirmation($documentRequest));
             } catch (\Exception $e) {
                 Log::error('Failed to send confirmation email: ' . $e->getMessage());
             }
