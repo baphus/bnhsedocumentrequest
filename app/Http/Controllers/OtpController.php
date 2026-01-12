@@ -68,15 +68,10 @@ class OtpController extends Controller
      */
     public function showVerifyForm(Request $request)
     {
-        $purpose = $request->query('purpose', 'submission');
-        $email = session('otp_email');
-
-        if (!$email) {
-            return redirect()->route('otp.request', ['purpose' => $purpose])
-                ->withErrors(['error' => 'Please request an OTP first.']);
-        }
-
-        return view('otp.verify', compact('purpose', 'email'));
+        // DEPRECATED: This now uses a Livewire component.
+        // See App\Livewire\Pages\Public\Otp\VerifyOtp.php
+        // and routes/public.php
+        return redirect()->route('otp.verify', ['purpose' => $request->query('purpose', 'submission')]);
     }
 
     /**
@@ -84,47 +79,9 @@ class OtpController extends Controller
      */
     public function verify(Request $request)
     {
-        $request->validate([
-            'code' => 'required|string|size:6',
-            'purpose' => 'required|in:submission,tracking',
-        ]);
-
-        $email = session('otp_email');
-        $code = $request->code;
-        $purpose = $request->purpose;
-
-        if (!$email) {
-            return redirect()->route('otp.request', ['purpose' => $purpose])
-                ->withErrors(['error' => 'Session expired. Please request a new OTP.']);
-        }
-
-        $key = 'otp-verify:' . $email . ':' . $purpose;
-
-        // Rate limiting: 5 failed attempts
-        if (RateLimiter::tooManyAttempts($key, 5)) {
-            return back()->withErrors(['code' => 'Too many failed attempts. Please request a new OTP.']);
-        }
-
-        // Verify OTP
-        if (Otp::verify($email, $code, $purpose)) {
-            RateLimiter::clear($key);
-            
-            session([
-                'otp_verified' => true,
-                'otp_verified_at' => now(),
-            ]);
-
-            // Redirect based on purpose
-            if ($purpose === 'submission') {
-                return redirect()->route('request.create');
-            } else {
-                return redirect()->route('tracking.form');
-            }
-        }
-
-        RateLimiter::hit($key, 300); // 5 minutes lockout
-
-        return back()->withErrors(['code' => 'Invalid or expired OTP code.']);
+        // DEPRECATED: This logic is now handled in the Livewire component.
+        // See App\Livewire\Pages\Public\Otp\VerifyOtp.php
+        abort(404);
     }
 
     /**
@@ -132,13 +89,8 @@ class OtpController extends Controller
      */
     public function resend(Request $request)
     {
-        $email = session('otp_email');
-        $purpose = $request->query('purpose', 'submission');
-
-        if (!$email) {
-            return redirect()->route('otp.request', ['purpose' => $purpose]);
-        }
-
-        return $this->send($request->merge(['email' => $email, 'purpose' => $purpose]));
+        // DEPRECATED: This logic is now handled in the Livewire component.
+        // See App\Livewire\Pages\Public\Otp\VerifyOtp.php
+        abort(404);
     }
 }
