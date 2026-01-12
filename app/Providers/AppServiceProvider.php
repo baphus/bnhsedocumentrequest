@@ -25,7 +25,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Log::info('AppServiceProvider booted.');
-        Request::observe(RequestObserver::class);
+        // Observer is registered via the model attribute `#[ObservedBy]` on App\Models\Request
+        // to avoid double-registration do not call Request::observe() here.
 
         // Force HTTPS in production (for Heroku and other platforms)
         if ($this->app->environment('production')) {
