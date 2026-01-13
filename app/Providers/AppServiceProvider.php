@@ -8,6 +8,8 @@ use Livewire\Livewire;
 use App\Models\Request;
 use App\Observers\RequestObserver;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
+use App\Models\Setting;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -35,5 +37,10 @@ class AppServiceProvider extends ServiceProvider
 
         // Register Livewire components from subdirectories
         Livewire::component('document-table', \App\Livewire\Tables\DocumentTable::class);
+
+        if (Schema::hasTable('settings')) {
+            $settings = Setting::all()->keyBy('key');
+            config(['settings' => $settings]);
+        }
     }
 }

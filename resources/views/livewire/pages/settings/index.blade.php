@@ -26,22 +26,41 @@
             <h3 class="text-lg font-bold text-gray-900">General Settings</h3>
         </div>
         <div class="p-6">
-            <form class="space-y-6">
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">School Name</label>
-                    <input type="text" value="Bato National High School" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
+            <form wire:submit.prevent="save" class="space-y-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label for="from_email" class="font-medium text-gray-700">From Email</label>
+                        <p class="text-sm text-gray-500">This is the email address that will be used when sending emails to users.</p>
+                        <input wire:model="from_email" id="from_email" name="from_email" type="email" autocomplete="email" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
+                    </div>
+                    <div class="space-y-2">
+                        <label for="maintenance_mode" class="font-medium text-gray-700">Maintenance Mode</label>
+                        <p class="text-sm text-gray-500">Enable maintenance mode to disable the website for users.</p>
+                        <div class="relative flex items-start mt-2">
+                            <div class="flex items-center h-5">
+                                <input wire:model="maintenance_mode" id="maintenance_mode" name="maintenance_mode" type="checkbox" class="focus:ring-bnhs-blue h-4 w-4 text-bnhs-blue border-gray-300 rounded">
+                            </div>
+                            <div class="ml-3 text-sm">
+                                <label for="maintenance_mode" class="font-medium text-gray-700">Enable</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Email Address</label>
-                    <input type="email" value="bnhs@deped.gov.ph" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
+
+                <div class="flex justify-end gap-4 pt-6 border-t border-gray-200">
+                    <button type="button" class="px-6 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-semibold">
+                        Cancel
+                    </button>
+                    <button type="submit" wire:loading.attr="disabled" wire:target="save" class="px-6 py-2.5 bg-bnhs-blue text-white rounded-lg hover:bg-bnhs-blue-600 transition font-semibold flex items-center gap-2">
+                        <span wire:loading.remove wire:target="save">Save Changes</span>
+                        <span wire:loading wire:target="save">
+                            <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                        </span>
+                    </button>
                 </div>
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">Contact Number</label>
-                    <input type="text" value="(032) 123-4567" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
-                </div>
-                <button type="submit" class="px-6 py-2.5 bg-bnhs-blue text-white rounded-lg hover:bg-bnhs-blue-600 transition font-semibold">
-                    Save Changes
-                </button>
             </form>
         </div>
     </div>

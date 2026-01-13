@@ -68,6 +68,11 @@
                                 <span class="group-hover:translate-x-1 transition-transform">Report a Problem</span>
                             </button>
                         </li>
+                        <li>
+                            <a href="{{ route('login') }}" class="text-sm text-gray-600 hover:text-bnhs-blue transition flex items-center gap-2 group">
+                                <span class="group-hover:translate-x-1 transition-transform">Login</span>
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>

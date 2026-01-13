@@ -15,7 +15,19 @@ use Illuminate\Support\Facades\Route;
 */
 
 // --- Public Pages ---
-Route::get('/', fn () => view('home'))->name('home');
+use App\Models\Setting;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Schema;
+
+Route::get('/', function () {
+    if (Schema::hasTable('settings')) {
+        $maintenanceMode = Setting::where('key', 'maintenance_mode')->first();
+        if ($maintenanceMode && $maintenanceMode->value === 'true') {
+            return response()->view('errors.503', [], 503);
+        }
+    }
+    return view('home');
+})->name('home');
 Route::get('/how-to-request', fn () => view('how-to-request'))->name('how-to-request');
 
 // --- Dashboard Redirect ---

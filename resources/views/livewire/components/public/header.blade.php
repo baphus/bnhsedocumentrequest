@@ -15,35 +15,7 @@
                     </a>
                 </div>
 
-                <!-- Navigation Links -->
-                <div class="flex items-center gap-4">
-                    @if(request()->routeIs('home'))
-                    @auth
-                    <a
-                        href="{{ route('admin.dashboard') }}"
-                        class="rounded-lg bg-bnhs-blue px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-bnhs-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bnhs-blue">
-                        Dashboard
-                    </a>
-                    @else
-                    <a
-                        href="{{ route('login') }}"
-                        class="text-sm font-medium text-gray-600 transition px-4 py-1.5 rounded-lg border border-gray-300 hover:border-bnhs-blue hover:text-bnhs-blue focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-bnhs-blue">
-                        Login
-                    </a>
-                    @endauth
-                    @else
-                    <a
-                        href="{{ route('home') }}"
-                        wire:navigate
-                        class="text-sm font-medium text-gray-600 transition px-4 py-1.5 hover:text-bnhs-blue flex items-center gap-1">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                        </svg>
-                        <span class="hidden sm:inline">Back to Home</span>
-                        <span class="sm:hidden">Home</span>
-                    </a>
-                    @endif
-                </div>
+
             </div>
         </nav>
     </header>

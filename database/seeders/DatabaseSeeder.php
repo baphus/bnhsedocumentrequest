@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class, // Ensure users are created first
             TrackSeeder::class,
             RequestSeeder::class,
+            SettingsSeeder::class,
         ]);
     }
 }

@@ -74,4 +74,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Request::class, 'processed_by');
     }
+
+    /**
+     * Check if user is admin (bypass maintenance mode)
+     */
+    public function is_admin(): bool
+    {
+        return $this->is_admin === 1;
+    }
 }
