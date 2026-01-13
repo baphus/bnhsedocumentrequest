@@ -48,7 +48,7 @@ RUN chmod -R 775 storage bootstrap/cache
 # Nginx configuration
 RUN rm -f /etc/nginx/sites-enabled/default
 RUN echo 'server { \n\
-    listen 10000; \n\
+    listen 3000; \n\
     root /var/www/public; \n\
     index index.php; \n\
     location / { \n\
@@ -95,7 +95,7 @@ stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0' > /etc/supervisor/conf.d/supervisord.conf
 
 
-ENV PORT=10000
-EXPOSE 10000
+ENV PORT=3000
+EXPOSE 3000
 
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
