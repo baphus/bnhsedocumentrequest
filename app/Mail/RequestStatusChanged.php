@@ -4,12 +4,13 @@ namespace App\Mail;
 
 use App\Models\Request;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue; // Add this
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class RequestStatusChanged extends Mailable
+class RequestStatusChanged extends Mailable implements ShouldQueue // Add this
 {
     use Queueable, SerializesModels;
 

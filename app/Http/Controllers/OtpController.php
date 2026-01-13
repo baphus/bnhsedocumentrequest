@@ -48,7 +48,7 @@ class OtpController extends Controller
         $otp = Otp::generate($email, $purpose);
 
         try {
-            Mail::to($email)->send(new OtpMail($otp, $purpose));
+            Mail::to($email)->queue(new OtpMail($otp, $purpose));
         } catch (\Exception $e) {
             \Log::error('Failed to send OTP email: ' . $e->getMessage());
             return back()->withErrors(['email' => 'Failed to send OTP. Please try again.']);

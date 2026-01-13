@@ -89,7 +89,7 @@ class VerifyOtp extends Component
         $otp = Otp::generate($email, $this->purpose);
 
         try {
-            \Illuminate\Support\Facades\Mail::to($email)->send(new \App\Mail\OtpMail($otp, $this->purpose));
+            \Illuminate\Support\Facades\Mail::to($email)->queue(new \App\Mail\OtpMail($otp, $this->purpose));
         } catch (\Exception $e) {
             \Log::error('Failed to resend OTP email: ' . $e->getMessage());
             $this->addError('code', 'Failed to resend OTP. Please try again.');

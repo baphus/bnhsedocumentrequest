@@ -74,14 +74,6 @@
                             @endif
                         </div>
                         <div>
-                            <p class="text-xs text-gray-500 mb-1">Suffix</p>
-                            @if ($isEditing)
-                                <input type="text" wire:model="suffix" class="form-input" placeholder="Suffix">
-                            @else
-                                <p class="text-base text-gray-900">{{ $request->suffix }}</p>
-                            @endif
-                        </div>
-                        <div>
                             <p class="text-xs text-gray-500 mb-1">Email Address</p>
                             @if ($isEditing)
                                 <input type="email" wire:model="email" class="form-input">
@@ -137,12 +129,7 @@
                         <div>
                             <p class="text-xs text-gray-500 mb-1">Track/Strand</p>
                             @if ($isEditing)
-                                <select wire:model="track_strand" class="form-input">
-                                    <option value="">Select a Track/Strand</option>
-                                    @foreach($tracks as $track)
-                                        <option value="{{ $track->name }}">{{ $track->name }}</option>
-                                    @endforeach
-                                </select>
+                                <input type="text" wire:model="track_strand" class="form-input">
                             @else
                                 <p class="text-base text-gray-900">{{ $request->track_strand }}</p>
                             @endif
@@ -330,7 +317,7 @@
                         <x-button
                             type="button"
                             variant="outline"
-                            @click.prevent="open = false"
+                            wire:click="closeStatusModal"
                         >
                             Cancel
                         </x-button>

@@ -36,7 +36,8 @@ class RequestObserver
             
             RequestLog::log($request->id, "Status changed from '{$oldStatus}' to '{$newStatus}'", $userId);
 
-            Mail::to($request->email)->send(new RequestStatusChanged($request));
+            // Since the Mailable now implements ShouldQueue, this call is nearly instant!
+            Mail::to($request->email)->queue(new RequestStatusChanged($request));
         }
 
         // 2. Handle Admin Remarks (Only log if actually changed)
