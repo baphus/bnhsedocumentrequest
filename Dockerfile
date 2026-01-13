@@ -43,6 +43,7 @@ RUN composer install --no-dev --optimize-autoloader
 
 # Permissions
 RUN chown -R www-data:www-data storage bootstrap/cache
+RUN chmod -R 775 storage bootstrap/cache
 
 # Nginx configuration
 RUN rm -f /etc/nginx/sites-enabled/default
@@ -69,11 +70,19 @@ nodaemon=true \n\
 command=php-fpm \n\
 autostart=true \n\
 autorestart=true \n\
+stdout_logfile=/dev/stdout \n\
+stdout_logfile_maxbytes=0 \n\
+stderr_logfile=/dev/stderr \n\
+stderr_logfile_maxbytes=0 \n\
 \n\
 [program:nginx] \n\
 command=nginx -g "daemon off;" \n\
 autostart=true \n\
 autorestart=true \n\
+stdout_logfile=/dev/stdout \n\
+stdout_logfile_maxbytes=0 \n\
+stderr_logfile=/dev/stderr \n\
+stderr_logfile_maxbytes=0 \n\
 \n\
 [program:worker] \n\
 command=php /var/www/artisan queue:work --tries=3 --timeout=90 \n\
