@@ -12,7 +12,12 @@
             <div class="mt-6 space-y-4">
                 <div>
                     <x-input-label for="category" value="Category" />
-                    <x-text-input id="category" type="text" class="mt-1 block w-full" wire:model="category" placeholder="e.g., Academic, TVL" required />
+                    <select id="category" class="mt-1 block w-full rounded border-gray-300 focus:border-bnhs-blue focus:ring focus:ring-bnhs-blue/30" wire:model="category" required>
+                        <option value="">Select category</option>
+                        <option value="Informal">Informal</option>
+                        <option value="Formal">Formal</option>
+                        <option value="Official Documents">Official Documents</option>
+                    </select>
                     <x-input-error :messages="$errors->get('category')" class="mt-2" />
                 </div>
 

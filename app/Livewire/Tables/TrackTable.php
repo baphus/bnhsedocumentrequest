@@ -66,9 +66,6 @@ class TrackTable extends DataTableComponent
     public function columns(): array
     {
         return [
-            Column::make('ID', 'id')
-                ->sortable(),
-
             Column::make('Category', 'category')
                 ->searchable()
                 ->sortable()
