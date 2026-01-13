@@ -39,8 +39,18 @@ class AppServiceProvider extends ServiceProvider
         Livewire::component('document-table', \App\Livewire\Tables\DocumentTable::class);
 
         if (Schema::hasTable('settings')) {
-            $settings = Setting::all()->keyBy('key');
-            config(['settings' => $settings]);
+            try {
+                $settings = Setting::all()->keyBy('key')->map(function ($setting) {
+                    return [
+                        'value' => $setting->value,
+                        'type' => $setting->type,
+                    ];
+                })->toArray();
+                config(['settings' => $settings]);
+            } catch (\Exception $e) {
+                // Log the error and continue, so migration commands don't fail
+                Log::error('Could not load settings from database: ' . $e->getMessage());
+            }
         }
     }
 }
