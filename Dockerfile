@@ -68,6 +68,10 @@ nodaemon=true \n\
 command=php-fpm \n\
 autostart=true \n\
 autorestart=true \n\
+stopsignal=QUIT \n\
+stopwaitsecs=60 \n\
+stopasgroup=true \n\
+killasgroup=true \n\
 \n\
 [program:nginx] \n\
 command=nginx -g "daemon off;" \n\
@@ -85,7 +89,11 @@ stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0' > /etc/supervisor/conf.d/supervisord.conf
 
 
+# Copy the new entrypoint script and make it executable
+COPY docker/prod-entrypoint.sh /usr/local/bin/prod-entrypoint.sh
+RUN chmod +x /usr/local/bin/prod-entrypoint.sh
+
 ENV PORT=10000
 EXPOSE 10000
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
+CMD ["/usr/local/bin/prod-entrypoint.sh"]
