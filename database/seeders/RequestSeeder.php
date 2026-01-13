@@ -38,40 +38,82 @@ class RequestSeeder extends Seeder
         $lastNames = ['Cruz', 'Reyes', 'Santos', 'Garcia', 'Ramos', 'Mendoza', 'Fernandez', 'Castillo', 'Navarro', 'Torres'];
         $middleNames = ['D.', 'S.', 'J.', 'L.', 'M.', 'P.', 'R.', 'T.', null, null];
         
-        // Generate 20 random requests
-        for ($i = 0; $i < 20; $i++) {
-            $status = $statuses[array_rand($statuses)];
-            $createdAt = Carbon::now()->subDays(rand(1, 30));
-            $estimatedDays = rand(3, 7);
+        // Create a few sample requests
+        $sampleRequests = [
+            [
+                'first_name' => 'Juan',
+                'middle_name' => 'D.',
+                'last_name' => 'Cruz',
+                'email' => 'juan.cruz@example.com',
+                'contact_number' => '09171234567',
+                'lrn' => '123456789012',
+                'grade_level' => 'Grade 12',
+                'section' => 'Rizal',
+                'track_strand' => 'STEM',
+                'school_year_last_attended' => '2023-2024',
+                'document_type_id' => $documents[0] ?? null,
+                'purpose' => 'College application requirements',
+                'signature' => 'data:image/png;base64,' . base64_encode('signature-placeholder-1'),
+                'quantity' => 1,
+                'status' => 'pending',
+                'estimated_completion_date' => Carbon::now()->addDays(5),
+                'admin_remarks' => null,
+                'internal_notes' => null,
+                'processed_by' => null,
+                'created_at' => Carbon::now()->subDays(2),
+                'updated_at' => Carbon::now()->subDays(2),
+            ],
+            [
+                'first_name' => 'Maria',
+                'middle_name' => 'S.',
+                'last_name' => 'Reyes',
+                'email' => 'maria.reyes@example.com',
+                'contact_number' => '09179876543',
+                'lrn' => '987654321098',
+                'grade_level' => 'Grade 11',
+                'section' => 'Luna',
+                'track_strand' => 'ABM',
+                'school_year_last_attended' => '2022-2023',
+                'document_type_id' => $documents[1] ?? null,
+                'purpose' => 'Scholarship application',
+                'signature' => 'data:image/png;base64,' . base64_encode('signature-placeholder-2'),
+                'quantity' => 2,
+                'status' => 'processing',
+                'estimated_completion_date' => Carbon::now()->addDays(3),
+                'admin_remarks' => 'Processed by admin',
+                'internal_notes' => 'Priority request',
+                'processed_by' => $adminId ?? $registrarId,
+                'created_at' => Carbon::now()->subDays(5),
+                'updated_at' => Carbon::now()->subDays(3),
+            ],
+            [
+                'first_name' => 'Carlos',
+                'middle_name' => 'J.',
+                'last_name' => 'Santos',
+                'email' => 'carlos.santos@example.com',
+                'contact_number' => '09172345678',
+                'lrn' => '456789123456',
+                'grade_level' => 'Grade 12',
+                'section' => 'Bonifacio',
+                'track_strand' => 'GAS',
+                'school_year_last_attended' => '2021-2022',
+                'document_type_id' => $documents[2] ?? null,
+                'purpose' => 'Employment onboarding',
+                'signature' => 'data:image/png;base64,' . base64_encode('signature-placeholder-3'),
+                'quantity' => 1,
+                'status' => 'completed',
+                'estimated_completion_date' => Carbon::now()->subDays(1),
+                'admin_remarks' => 'Processed by admin',
+                'internal_notes' => null,
+                'processed_by' => $adminId ?? $registrarId,
+                'created_at' => Carbon::now()->subDays(10),
+                'updated_at' => Carbon::now()->subDays(1),
+            ],
+        ];
 
-            $trackingId = Request::generateTrackingId();
-
-            $request = [
-                'tracking_id' => $trackingId,
-                'email' => 'student' . ($i + 1) . '@example.com',
-                'contact_number' => '09' . rand(10, 99) . rand(1000000, 9999999),
-                'first_name' => $firstNames[array_rand($firstNames)],
-                'middle_name' => $middleNames[array_rand($middleNames)],
-                'last_name' => $lastNames[array_rand($lastNames)],
-                'lrn' => str_pad(rand(100000000, 999999999), 12, '0', STR_PAD_LEFT),
-                'grade_level' => $gradeLevels[array_rand($gradeLevels)],
-                'section' => $sections[array_rand($sections)],
-                'track_strand' => $tracks[array_rand($tracks)],
-                'school_year_last_attended' => rand(2020, 2024) . '-' . (2021 + rand(0, 4)),
-                'document_type_id' => $documents[array_rand($documents)],
-                'purpose' => $purposes[array_rand($purposes)],
-                'signature' => 'data:image/png;base64,' . base64_encode('signature-placeholder-' . $i),
-                'quantity' => rand(1, 3),
-                'status' => $status,
-                'estimated_completion_date' => $createdAt->copy()->addDays($estimatedDays),
-                'admin_remarks' => $status !== 'pending' ? 'Processed by admin' : null,
-                'internal_notes' => rand(0, 1) ? 'Priority request' : null,
-                'processed_by' => $status !== 'pending' ? ($adminId ?? $registrarId) : null,
-                'created_at' => $createdAt,
-                'updated_at' => $createdAt->copy()->addHours(rand(1, 24)),
-            ];
-
-            Request::create($request);
+        foreach ($sampleRequests as $sample) {
+            $sample['tracking_id'] = Request::generateTrackingId();
+            Request::create($sample);
         }
     }
 }

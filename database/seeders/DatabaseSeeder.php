@@ -19,8 +19,7 @@ class DatabaseSeeder extends Seeder
             DocumentSeeder::class,
             UserSeeder::class, // Ensure users are created first
             TrackSeeder::class,
-            HundredRequestsSeeder::class,
-            UserSeeder::class,
+            RequestSeeder::class,
         ]);
     }
 }
