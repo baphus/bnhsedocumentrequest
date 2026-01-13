@@ -15,7 +15,6 @@ use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\On;
-use App\Jobs\SendRequestStatusEmail;
 use Illuminate\Support\Carbon;
 
 class RequestsTable extends DataTableComponent

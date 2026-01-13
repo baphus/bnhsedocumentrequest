@@ -67,10 +67,7 @@ class RequestManagementController extends Controller
             ]);
         });
 
-        // 3. DISPATCH NOTIFICATIONS (Queue them!)
-        // Instead of mailing inside a loop, dispatch a single Job or use Notify
-        // Example: foreach($ids as $id) { Notification::send(...) } 
-        // Ensure your Notification/Mailable uses the 'ShouldQueue' interface.
+
 
     return redirect()->route('admin.requests.index')
          ->with('success', count($ids) . " request(s) updated successfully.");

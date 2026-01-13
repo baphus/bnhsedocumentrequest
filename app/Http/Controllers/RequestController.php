@@ -117,7 +117,7 @@ class RequestController extends Controller
 
         // Send confirmation email
         try {
-            Mail::to($email)->queue(new RequestConfirmation($documentRequest));
+            Mail::to($email)->send(new RequestConfirmation($documentRequest));
         } catch (\Exception $e) {
             \Log::error('Failed to send confirmation email: ' . $e->getMessage());
         }

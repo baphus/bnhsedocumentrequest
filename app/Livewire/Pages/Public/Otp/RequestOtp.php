@@ -46,7 +46,7 @@ class RequestOtp extends Component
         $otp = Otp::generate($email, $this->purpose);
 
         try {
-            Mail::to($email)->queue(new OtpMail($otp, $this->purpose));
+            Mail::to($email)->send(new OtpMail($otp, $this->purpose));
         } catch (\Exception $e) {
             \Log::error('Failed to send OTP email: ' . $e->getMessage());
             $this->addError('email', 'Failed to send OTP. Please try again.');

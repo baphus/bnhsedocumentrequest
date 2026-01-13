@@ -4,6 +4,7 @@ namespace App\Livewire\Pages\Requests;
 
 use App\Models\Request as DocumentRequest;
 use App\Livewire\Forms\RequestStatusForm;
+use App\Models\Track;
 use Livewire\Component;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Layout;
@@ -21,6 +22,7 @@ class Show extends Component
     public $first_name;
     public $middle_name;
     public $last_name;
+    public $suffix;
     public $lrn;
     public $grade_level;
     public $section;
@@ -42,6 +44,7 @@ class Show extends Component
         $this->first_name = $this->request->first_name;
         $this->middle_name = $this->request->middle_name;
         $this->last_name = $this->request->last_name;
+        $this->suffix = $this->request->suffix;
         $this->lrn = $this->request->lrn;
         $this->grade_level = $this->request->grade_level;
         $this->section = $this->request->section;
@@ -75,6 +78,7 @@ class Show extends Component
             'first_name' => $this->first_name,
             'middle_name' => $this->middle_name,
             'last_name' => $this->last_name,
+            'suffix' => $this->suffix,
             'lrn' => $this->lrn,
             'grade_level' => $this->grade_level,
             'section' => $this->section,
@@ -116,6 +120,8 @@ class Show extends Component
 
     public function render()
     {
-        return view('livewire.pages.requests.show');
+        return view('livewire.pages.requests.show', [
+            'tracks' => Track::all(),
+        ]);
     }
 }
