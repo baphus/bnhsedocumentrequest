@@ -9,11 +9,13 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 
 class OtpMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
-
+    
     /**
      * Create a new message instance.
      */
@@ -27,6 +29,15 @@ class OtpMail extends Mailable implements ShouldQueue
      */
     public function envelope(): Envelope
     {
+        // Log the mail configuration the worker is seeing
+        Log::info('OtpMail Job Processing: Mail Configuration', [
+            'default' => Config::get('mail.default'),
+            'host' => Config::get('mail.mailers.smtp.host'),
+            'port' => Config::get('mail.mailers.smtp.port'),
+            'username' => Config::get('mail.mailers.smtp.username'),
+            'from_address' => Config::get('mail.from.address'),
+        ]);
+
         return new Envelope(
             subject: 'Your OTP Code - Bato National High School',
         );

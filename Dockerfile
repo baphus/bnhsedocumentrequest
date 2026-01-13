@@ -68,10 +68,6 @@ nodaemon=true \n\
 command=php-fpm \n\
 autostart=true \n\
 autorestart=true \n\
-stopsignal=QUIT \n\
-stopwaitsecs=60 \n\
-stopasgroup=true \n\
-killasgroup=true \n\
 \n\
 [program:nginx] \n\
 command=nginx -g "daemon off;" \n\
@@ -79,7 +75,7 @@ autostart=true \n\
 autorestart=true \n\
 \n\
 [program:worker] \n\
-command=php /var/www/artisan queue:work --verbose --tries=3 --timeout=120 \n\
+command=php /var/www/artisan queue:work --tries=3 --timeout=90 \n\
 autostart=true \n\
 autorestart=true \n\
 stopwaitsecs=3600 \n\
@@ -89,11 +85,7 @@ stderr_logfile=/dev/stderr \n\
 stderr_logfile_maxbytes=0' > /etc/supervisor/conf.d/supervisord.conf
 
 
-# Copy the new entrypoint script and make it executable
-COPY docker/prod-entrypoint.sh /usr/local/bin/prod-entrypoint.sh
-RUN chmod +x /usr/local/bin/prod-entrypoint.sh
-
 ENV PORT=10000
 EXPOSE 10000
 
-CMD ["/usr/local/bin/prod-entrypoint.sh"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]
