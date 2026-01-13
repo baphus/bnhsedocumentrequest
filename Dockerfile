@@ -79,7 +79,7 @@ autostart=true \n\
 autorestart=true \n\
 \n\
 [program:worker] \n\
-command=php /var/www/artisan queue:work --tries=3 --timeout=90 \n\
+command=php /var/www/artisan queue:work --verbose --tries=3 --timeout=120 \n\
 autostart=true \n\
 autorestart=true \n\
 stopwaitsecs=3600 \n\
