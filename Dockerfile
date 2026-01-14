@@ -38,6 +38,7 @@ COPY --from=assets-builder /app/public/build ./public/build
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+RUN mkdir -p database && touch database/database.sqlite
 RUN composer install --no-dev --optimize-autoloader
 
 # Permissions
