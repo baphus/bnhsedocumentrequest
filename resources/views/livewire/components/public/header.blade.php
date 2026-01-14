@@ -9,7 +9,7 @@
                         <div>
                             <p class="text-sm font-bold text-gray-900 leading-tight">eDocument Request</p>
                             <p class="text-[10px] sm:text-xs text-bnhs-blue font-semibold uppercase tracking-wider">Bato National High School</p>
-                            <p class="text-xs font-medium text-gray-500">DepEd Toledo City Division • Region 7</p>
+                            <p class="hidden sm:block text-xs font-medium text-gray-500">DepEd Toledo City Division • Region 7</p>
                         </div>
 
                     </a>

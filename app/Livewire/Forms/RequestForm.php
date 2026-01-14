@@ -52,20 +52,9 @@ class RequestForm extends Form
     #[Validate('required|integer|min:1|max:10')]
     public int $quantity = 1;
 
-    public ?string $email = null; // Set from session
-
-    public function setEmail(string $email): void
-    {
-        $this->email = strtolower(trim($email));
-    }
-
     public function save(): DocumentRequest
     {
         $this->validate();
-
-        if (!$this->email) {
-            throw new \Exception('Email is required. Please verify your email first.');
-        }
 
         // Get document to calculate processing time
         $document = Document::findOrFail($this->document_type_id);
@@ -73,7 +62,7 @@ class RequestForm extends Form
 
         // Create the request
         return DocumentRequest::create([
-            'email' => $this->email,
+            'email' => null,
             'contact_number' => $this->contact_number,
             'first_name' => $this->first_name,
             'middle_name' => $this->middle_name,

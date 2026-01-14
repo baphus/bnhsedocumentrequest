@@ -38,7 +38,6 @@ class RequestModal extends Component
             // Removed 'logs' relation as it is not used in the form
             $request = Request::with(['documentType', 'processor'])->find($requestId);
             if ($request) {
-                $this->form->email = $request->email;
                 $this->form->contact_number = $request->contact_number;
                 $this->form->first_name = $request->first_name;
                 $this->form->middle_name = $request->middle_name;
@@ -72,15 +71,9 @@ class RequestModal extends Component
     {
         $this->validate();
 
-        if (!$this->form->email) {
-            $this->addError('form.email', 'Email is required.');
-            return;
-        }
-
         if ($this->requestId) {
             $request = Request::findOrFail($this->requestId);
             $request->update([
-                'email' => $this->form->email,
                 'contact_number' => $this->form->contact_number,
                 'first_name' => $this->form->first_name,
                 'middle_name' => $this->form->middle_name,

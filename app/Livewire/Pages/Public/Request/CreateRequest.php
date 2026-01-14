@@ -5,9 +5,7 @@ namespace App\Livewire\Pages\Public\Request;
 use App\Livewire\Forms\RequestForm;
 use App\Models\Document;
 use App\Models\Track;
-use App\Mail\RequestConfirmation;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
@@ -18,7 +16,6 @@ class CreateRequest extends Component
 {
     public RequestForm $form;
     public string $signature = '';
-    public bool $emailVerified = false;
 
     #[Computed]
     public function tracks()
@@ -40,17 +37,6 @@ class CreateRequest extends Component
 
     public function mount()
     {
-        // Check if email is verified
-        $this->emailVerified = Session::has('otp_verified');
-        $email = Session::get('otp_email');
-
-        if (!$email) {
-            return redirect()->route('otp.request', ['purpose' => 'submission'])
-                ->with('error', 'Session expired. Please verify your email first.');
-        }
-
-        $this->form->setEmail($email);
-
         // Set selected document and quantity from session
         $this->form->document_type_id = Session::get('selected_document_id');
         $this->form->quantity = Session::get('selected_quantity', 1);
@@ -89,13 +75,6 @@ class CreateRequest extends Component
             }
 
             $documentRequest = $this->form->save();
-
-            // Send confirmation email
-            try {
-                Mail::to($this->form->email)->queue(new RequestConfirmation($documentRequest));
-            } catch (\Exception $e) {
-                Log::error('Failed to send confirmation email: ' . $e->getMessage());
-            }
 
             // Clear session data
             Session::forget(['otp_verified', 'otp_verified_at', 'otp_email', 'otp_purpose', 'selected_document_id', 'selected_quantity']);

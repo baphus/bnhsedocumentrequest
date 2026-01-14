@@ -19,20 +19,10 @@
 
                 <div class="w-12 sm:w-24 h-1 bg-gray-300 mx-2"></div>
 
-                <!-- Step 2: Verify Email -->
+                <!-- Step 2: Fill Form -->
                 <div class="flex items-center">
                     <div class="w-10 h-10 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center font-semibold">
                         2
-                    </div>
-                    <span class="ml-2 text-sm font-medium text-gray-500 hidden sm:block">Verify Email</span>
-                </div>
-
-                <div class="w-12 sm:w-24 h-1 bg-gray-300 mx-2"></div>
-
-                <!-- Step 3: Fill Form -->
-                <div class="flex items-center">
-                    <div class="w-10 h-10 rounded-full bg-gray-200 text-gray-500 flex items-center justify-center font-semibold">
-                        3
                     </div>
                     <span class="ml-2 text-sm font-medium text-gray-500 hidden sm:block">Fill Form</span>
                 </div>

@@ -13,41 +13,17 @@
                     <span class="ml-2 text-sm font-medium text-gray-700 hidden sm:block">Select Document</span>
                 </div>
 
-                <div class="w-12 sm:w-24 h-1 bg-green-500 mx-2"></div>
-
-                <!-- Step 2: Verify Email -->
-                <div class="flex items-center">
-                    <div class="w-10 h-10 rounded-full bg-green-500 text-white flex items-center justify-center">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-                        </svg>
-                    </div>
-                    <span class="ml-2 text-sm font-medium text-gray-700 hidden sm:block">Verify Email</span>
-                </div>
-
                 <div class="w-12 sm:w-24 h-1 bg-bnhs-blue mx-2"></div>
 
-                <!-- Step 3: Fill Form (Current) -->
+                <!-- Step 2: Fill Form (Current) -->
                 <div class="flex items-center">
                     <div class="w-10 h-10 rounded-full bg-bnhs-blue text-white flex items-center justify-center font-semibold">
-                        3
+                        2
                     </div>
                     <span class="ml-2 text-sm font-medium text-bnhs-blue hidden sm:block">Fill Form</span>
                 </div>
             </div>
         </div>
-
-        <!-- Email Verified Badge -->
-        @if($emailVerified)
-        <div class="mb-6 flex justify-center">
-            <x-alert type="success" class="inline-flex items-center gap-2 px-4 py-2 rounded-full">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-                </svg>
-                Email Verified
-            </x-alert>
-        </div>
-        @endif
 
         <!-- Main Card -->
         <div class="bg-white rounded-xl shadow-xl overflow-hidden">
@@ -63,23 +39,23 @@
                     <!-- Personal Information -->
                     <div class="mb-8">
                         <h3 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">Personal Information</h3>
-                        <div class="grid md:grid-cols-4 gap-4 mb-4">
-                            <div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                            <div class="sm:col-span-2 md:col-span-1">
                                 <x-input-label for="form.first_name" value="First Name *" />
                                 <x-text-input wire:model.blur="form.first_name" class="mt-1 block w-full" required />
                                 <x-input-error :messages="$errors->get('form.first_name')" class="mt-2" />
                             </div>
-                            <div>
+                            <div class="sm:col-span-2 md:col-span-1">
                                 <x-input-label for="form.middle_name" value="Middle Name" />
                                 <x-text-input wire:model.blur="form.middle_name" class="mt-1 block w-full" />
                                 <x-input-error :messages="$errors->get('form.middle_name')" class="mt-2" />
                             </div>
-                            <div>
+                            <div class="sm:col-span-2 md:col-span-1">
                                 <x-input-label for="form.last_name" value="Last Name *" />
                                 <x-text-input wire:model.blur="form.last_name" class="mt-1 block w-full" required />
                                 <x-input-error :messages="$errors->get('form.last_name')" class="mt-2" />
                             </div>
-                            <div>
+                            <div class="sm:col-span-2 md:col-span-1">
                                 <x-input-label for="form.suffix" value="Suffix" />
                                 <select wire:model.blur="form.suffix" class="mt-1 block w-full border-gray-300 rounded-lg focus:ring-bnhs-blue focus:border-bnhs-blue">
                                     <option value="">None</option>
@@ -103,7 +79,7 @@
                     <!-- Student Information -->
                     <div class="mb-8" x-data="{ gradeLevel: @entangle('form.grade_level') }">
                         <h3 class="text-lg font-semibold text-gray-900 mb-4 pb-2 border-b border-gray-200">Student Information</h3>
-                        <div class="grid md:grid-cols-2 gap-4">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-4">
                             <div>
                                 <x-input-label for="form.lrn" value="LRN (12 digits) *" />
                                 <x-text-input wire:model.blur="form.lrn" class="mt-1 block w-full" maxlength="12" placeholder="12-digit student number" required />

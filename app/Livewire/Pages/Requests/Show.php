@@ -16,7 +16,6 @@ class Show extends Component
     public bool $showStatusModal = false;
     public bool $isEditing = false;
 
-    public $email;
     public $contact_number;
     public $first_name;
     public $middle_name;
@@ -37,7 +36,6 @@ class Show extends Component
 
     public function initializeRequestData()
     {
-        $this->email = $this->request->email;
         $this->contact_number = $this->request->contact_number;
         $this->first_name = $this->request->first_name;
         $this->middle_name = $this->request->middle_name;
@@ -60,7 +58,6 @@ class Show extends Component
     public function save()
     {
         $this->validate([
-            'email' => 'required|email',
             'contact_number' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
@@ -70,7 +67,6 @@ class Show extends Component
         ]);
 
         $this->request->update([
-            'email' => $this->email,
             'contact_number' => $this->contact_number,
             'first_name' => $this->first_name,
             'middle_name' => $this->middle_name,

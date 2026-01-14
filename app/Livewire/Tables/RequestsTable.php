@@ -76,7 +76,6 @@ class RequestsTable extends DataTableComponent
                 ->format(fn($value, $row) => <<<HTML
                     <div class="flex flex-col">
                         <span class="text-sm font-medium text-gray-900">{$row->full_name}</span>
-                        <span class="text-xs text-gray-500">{$row->email}</span>
                     </div>
                 HTML)
                 ->html()
@@ -85,7 +84,6 @@ class RequestsTable extends DataTableComponent
                     $query->orWhere('first_name', 'ilike', "%{$term}%")
                         ->orWhere('last_name', 'ilike', "%{$term}%")
                         ->orWhere('lrn', 'ilike', "%{$term}%")
-                        ->orWhere('email', 'ilike', "%{$term}%")
                 )
                 ->sortable(),
 

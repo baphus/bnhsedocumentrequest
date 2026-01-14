@@ -26,7 +26,7 @@
         </h1>
 
         <p class="mx-auto mt-4 sm:mt-6 max-w-2xl text-lg sm:text-xl leading-relaxed text-gray-700 font-medium">
-            Request and track your school documents online. Simple, fast, and secure—verify your email and submit your request in minutes.
+            Request and track your school documents online. Simple, fast, and secure—get your tracking code and submit your request in minutes.
         </p>
 
         <div class="mt-8 sm:mt-12 flex flex-col items-center justify-center gap-4 sm:gap-6 sm:flex-row">
@@ -75,14 +75,6 @@
             ],
             [
                 'number' => 2,
-                'title' => 'Email Verification',
-                'description' => 'Security first! Verify your identity using a one-time code sent to your email.',
-                'image' => 'images/how_to_request/Step_2.png',
-                'icon' => '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>',
-                'details' => ['Enter your active school or personal email', 'Receive a 6-digit OTP code', 'Instant verification to proceed'],
-            ],
-            [
-                'number' => 3,
                 'title' => 'Fill the Details',
                 'description' => 'Provide the necessary information and your digital signature to complete the request.',
                 'image' => 'images/how_to_request/Step_3.png',
@@ -90,12 +82,12 @@
                 'details' => ['Student information and purpose', 'Interactive digital signature pad', 'Summary of your request details'],
             ],
             [
-                'number' => 4,
-                'title' => 'Track & Receive',
-                'description' => 'Monitor your request status and pick up your documents when ready!',
+                'number' => 3,
+                'title' => 'Send & Track',
+                'description' => 'Submit your request, screenshot your tracking ID, and monitor its status!',
                 'image' => 'images/how_to_request/Step_4.png',
                 'icon' => '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" /></svg>',
-                'details' => ['Get a unique Tracking ID', 'Email notifications on status changes', 'Office pickup once status is "Ready"'],
+                'details' => ['Get a unique Tracking ID', 'Screenshot your ID for safekeeping', 'Use your ID or LRN to track your request'],
             ],
         ];
         @endphp
@@ -162,7 +154,7 @@
                 </button>
                 <div x-show="openFaq === 1" x-collapse>
                     <div class="p-4 sm:p-6 text-sm sm:text-base text-gray-600 bg-white leading-relaxed border-t border-gray-100">
-                        Processing time varies by document. Most are ready within 3-5 business days. You will receive an email notification when it is ready.
+                        Processing time varies by document. Most are ready within 3-5 business days. You can monitor the status on the "Track Request" page.
                     </div>
                 </div>
             </div>
@@ -176,7 +168,7 @@
                 </button>
                 <div x-show="openFaq === 2" x-collapse>
                     <div class="p-4 sm:p-6 text-sm sm:text-base text-gray-600 bg-white leading-relaxed border-t border-gray-100">
-                        No account required. Every request is verified via a One-Time Password (OTP) sent to your email address.
+                        No account is required. The system is designed for quick, one-off requests without needing to sign up.
                     </div>
                 </div>
             </div>
@@ -190,7 +182,21 @@
                 </button>
                 <div x-show="openFaq === 3" x-collapse>
                     <div class="p-4 sm:p-6 text-sm sm:text-base text-gray-600 bg-white leading-relaxed border-t border-gray-100">
-                        After submission, you'll receive a Tracking ID. Enter this ID and your email on our "Track Request" page to see real-time status.
+                        After submitting your request, you will receive a unique Tracking ID. It is crucial to screenshot or save this ID. You can then enter it on the "Track Request" page to see the real-time status of your document.
+                    </div>
+                </div>
+            </div>
+
+            <div class="border border-gray-100 rounded-2xl overflow-hidden shadow-sm">
+                <button @click="openFaq = openFaq === 4 ? null : 4" class="w-full flex items-center justify-between p-4 sm:p-6 text-left bg-gray-50 hover:bg-gray-100 transition">
+                    <span class="font-bold text-gray-900 text-base sm:text-lg">I lost my Tracking ID. What should I do?</span>
+                    <svg class="w-6 h-6 text-gray-500 transition-transform duration-300" :class="{ 'rotate-180': openFaq === 4 }" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                </button>
+                <div x-show="openFaq === 4" x-collapse>
+                    <div class="p-4 sm:p-6 text-sm sm:text-base text-gray-600 bg-white leading-relaxed border-t border-gray-100">
+                        On the "Track Request" page, click "Forgot your ID?". You can then enter your Tracking Code in the format `DOC-{Your LRN}` (e.g., `DOC-123456789012`) to view all the requests you have made.
                     </div>
                 </div>
             </div>

@@ -4,8 +4,6 @@ namespace App\Observers;
 
 use App\Models\Request;
 use App\Models\RequestLog;
-use App\Mail\RequestStatusChanged;
-use Illuminate\Support\Facades\Mail;
 
 class RequestObserver
 {
@@ -35,9 +33,6 @@ class RequestObserver
             $newStatus = $request->status;
             
             RequestLog::log($request->id, "Status changed from '{$oldStatus}' to '{$newStatus}'", $userId);
-
-            // Since the Mailable now implements ShouldQueue, this call is nearly instant!
-            Mail::to($request->email)->queue(new RequestStatusChanged($request));
         }
 
         // 2. Handle Admin Remarks (Only log if actually changed)

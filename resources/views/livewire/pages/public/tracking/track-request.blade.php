@@ -2,8 +2,8 @@
     <div class="max-w-5xl mx-auto">
         @if(!$showResults)
         <!-- Tracking Form -->
-        <div class="max-w-xl mx-auto">
-            <div class="bg-white rounded-xl shadow-xl overflow-hidden">
+        <div class="max-w-xl mx-auto px-4 sm:px-0 mt-16 sm:mt-24">
+            <div class="bg-white rounded-xl shadow-xl overflow-hidden mb-6">
                 <!-- Icon Header -->
                 <div class="bg-gradient-to-br from-bnhs-blue to-bnhs-blue-600 px-6 py-8 text-center">
                     <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
@@ -20,8 +20,10 @@
                 </div>
 
                 <div class="p-6 sm:p-8">
+                    @if(!$isForgotId)
+                    <!-- Standard Tracking Form -->
                     <p class="text-gray-600 mb-6 text-center text-sm sm:text-base">
-                        Enter your tracking ID and email address to view your request status
+                        Enter your tracking ID to view your request status.
                     </p>
 
                     <form wire:submit="track">
@@ -42,38 +44,67 @@
                                 />
                             </div>
                             <x-input-error :messages="$errors->get('tracking_id')" class="mt-2" />
-                            <p class="mt-2 text-xs text-gray-500">Enter the tracking ID you received after submission</p>
                         </div>
 
-                        <div class="mb-6">
-                            <x-input-label for="email" value="Email Address *" />
-                            <div class="relative mt-1">
-                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                                    </svg>
-                                </div>
-                                <x-text-input 
-                                    wire:model.blur="email" 
-                                    type="email" 
-                                    class="pl-10 block w-full"
-                                    placeholder="your.email@example.com"
-                                    required
-                                />
-                            </div>
-                            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-                            <p class="mt-2 text-xs text-gray-500">Use the same email from your request</p>
-                        </div>
-
-                        <x-button type="submit" variant="primary" size="lg" class="w-full">
+                        <x-button type="submit" variant="primary" size="lg" class="w-full mb-4">
                             <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                             </svg>
                             Track Request
                         </x-button>
-                    </form>
 
-                    <div class="mt-8 text-center">
+                        <div class="text-center">
+                            <button type="button" wire:click="toggleForgotId" class="text-sm text-bnhs-blue hover:text-bnhs-blue-600 font-medium hover:underline">
+                                Forgot your ID?
+                            </button>
+                        </div>
+                    </form>
+                    @else
+                    <!-- Forgot ID / Recover Form -->
+                    <p class="text-gray-600 mb-6 text-center text-sm sm:text-base">
+                        Enter your <strong>Tracking Code</strong> (DOC-LRN) to view all your requests.
+                    </p>
+
+                    <form wire:submit="track">
+                        <div class="mb-5">
+                            <x-input-label for="tracking_id" value="Tracking Code (DOC-{LRN}) *" />
+                            <div class="relative mt-1">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11.5 15.5a2 2 0 00-2.828 0l-.828.829a2 2 0 000 2.828l.829.828a2 2 0 010 2.828l-.828.828a2 2 0 01-2.828 0 6 6 0 010-8.486.75.75 0 000-1.502 6 6 0 018.486 0 2 2 0 012.828 0z" />
+                                    </svg>
+                                </div>
+                                <x-text-input 
+                                    wire:model.blur="tracking_id" 
+                                    type="text" 
+                                    class="pl-10 block w-full uppercase font-mono"
+                                    placeholder="DOC-123456789012"
+                                    required
+                                />
+                            </div>
+                            <x-input-error :messages="$errors->get('tracking_id')" class="mt-2" />
+                            <p class="mt-2 text-xs text-gray-500">Format: DOC- followed by your 12-digit LRN</p>
+                        </div>
+
+                        <x-button type="submit" variant="primary" size="lg" class="w-full mb-4">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+                            </svg>
+                            View All Requests
+                        </x-button>
+
+                        <div class="text-center">
+                            <button type="button" wire:click="toggleForgotId" class="text-sm text-gray-500 hover:text-gray-700 font-medium hover:underline inline-flex items-center">
+                                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                                </svg>
+                                I have my Tracking ID
+                            </button>
+                        </div>
+                    </form>
+                    @endif
+
+                    <div class="mt-8 text-center pt-6 border-t border-gray-100">
                         <p class="text-sm text-gray-500 mb-3">Need help?</p>
                         <a href="{{ route('home') }}" wire:navigate class="text-sm text-bnhs-blue hover:underline font-medium inline-flex items-center gap-1">
                             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -86,14 +117,14 @@
             </div>
 
             <!-- Help Text -->
-            <div class="mt-6 bg-blue-50 border border-blue-100 rounded-lg p-4">
+            <div class="bg-blue-50 border border-blue-100 rounded-lg p-4">
                 <div class="flex items-start gap-3">
                     <svg class="w-5 h-5 text-bnhs-blue flex-shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                     <div>
                         <p class="text-sm text-gray-700">
-                            <strong class="font-semibold">Lost your tracking ID?</strong> Check your email inbox for the confirmation message sent after you submitted your request.
+                            <strong class="font-semibold">Need Assistance?</strong> If you forgot both your Tracking ID and don't have your LRN, please visit the registrar's office.
                         </p>
                     </div>
                 </div>
@@ -102,18 +133,30 @@
         @else
         <!-- Tracking Results -->
         <div>
-            <!-- Back Button -->
-            <div class="mb-4 sm:mb-6">
-                <x-button variant="outline" size="sm" wire:click="resetForm">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                    </svg>
-                    Track Another Request
-                </x-button>
-            </div>
+            @if($documentRequest)
+                <!-- Single Request Details -->
+                
+                <!-- Back Button -->
+                <div class="mb-4 sm:mb-6">
+                    @if(count($lrnRequests) > 0)
+                    <x-button variant="outline" size="sm" wire:click="backToList">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Back to List
+                    </x-button>
+                    @else
+                    <x-button variant="outline" size="sm" wire:click="resetForm">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                        </svg>
+                        Track Another Request
+                    </x-button>
+                    @endif
+                </div>
 
-            <!-- Status Header Card -->
-            <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6">
+                <!-- Status Header Card -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden mb-6">
                 <div class="bg-gradient-to-r from-bnhs-blue to-bnhs-blue-600 px-4 py-4 sm:px-6 sm:py-6">
                     <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
                         <div>
@@ -343,12 +386,14 @@
 
             <!-- Actions -->
             <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                @if(count($lrnRequests) === 0)
                 <x-button variant="primary" size="lg" wire:click="resetForm">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
                     Track Another Request
                 </x-button>
+                @endif
                 <a href="{{ route('home') }}" wire:navigate>
                     <x-button variant="outline" size="lg">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -358,7 +403,44 @@
                     </x-button>
                 </a>
             </div>
-        </div>
+        @elseif(count($lrnRequests) > 0)
+            <div class="mb-4 sm:mb-6">
+                <x-button variant="outline" size="sm" wire:click="resetForm">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                    </svg>
+                    Track Another Request
+                </x-button>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+                <div class="bg-bnhs-blue px-6 py-4">
+                    <h2 class="text-xl font-bold text-white">My Requests</h2>
+                    <p class="text-bnhs-blue-100 text-sm">Found {{ count($lrnRequests) }} requests for LRN {{ $lrnRequests->first()->lrn }}</p>
+                </div>
+                <div class="divide-y divide-gray-200">
+                    @foreach($lrnRequests as $request)
+                        <div class="p-4 sm:p-6 hover:bg-gray-50 transition">
+                            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                <div>
+                                    <div class="flex items-center gap-2 mb-1">
+                                        <span class="font-bold text-gray-900">{{ $request->documentType->name }}</span>
+                                        <x-status-badge :status="$request->status" />
+                                    </div>
+                                    <p class="text-sm text-gray-500">Tracking ID: <span class="font-mono font-semibold">{{ $request->tracking_id }}</span></p>
+                                    <p class="text-xs text-gray-400 mt-1">Requested on {{ $request->created_at->format('M d, Y') }}</p>
+                                </div>
+                                <div class="flex items-center gap-3">
+                                     <x-button size="sm" wire:click="viewRequest({{ $request->id }})">
+                                        View Details
+                                     </x-button>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
         @endif
     </div>
+@endif
 </div>

@@ -62,8 +62,8 @@ class SelectDocument extends Component
         Session::put('selected_quantity', $this->quantity);
         Session::save();
 
-        // Redirect to OTP verification
-        return $this->redirect(route('otp.request', ['purpose' => 'submission']), navigate: true);
+        // Redirect to Create Request page
+        return $this->redirect(route('request.create'), navigate: true);
     }
 
     public function render()

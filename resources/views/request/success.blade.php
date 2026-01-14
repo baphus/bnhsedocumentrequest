@@ -52,10 +52,6 @@
                             <span class="text-gray-600 text-sm shrink-0">Estimated Completion</span>
                             <span class="text-gray-900 font-medium text-right">{{ $request->estimated_completion_date->format('F d, Y') }}</span>
                         </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-gray-600 text-sm shrink-0">Email</span>
-                            <span class="text-gray-900 font-medium text-sm break-all text-right ml-2">{{ $request->email }}</span>
-                        </div>
                     </div>
                 </div>
 
@@ -67,7 +63,7 @@
                         </svg>
                         <div>
                             <p class="text-sm text-gray-700">
-                                <strong class="font-semibold">Next Steps:</strong> A confirmation email has been sent to <span class="font-medium text-bnhs-blue break-all">{{ $request->email }}</span>. You will receive updates about your request status via email. Please check your inbox regularly.
+                                <strong class="font-semibold">IMPORTANT:</strong> Please <strong class="font-bold uppercase text-red-600">SCREENSHOT</strong> or save your Tracking ID immediately. You will need it to track the progress of your request.
                             </p>
                         </div>
                     </div>
@@ -75,7 +71,7 @@
 
                 <!-- Action Buttons -->
                 <div class="flex flex-col sm:flex-row gap-4">
-                    <a href="{{ route('tracking.form', ['tracking_id' => $request->tracking_id, 'email' => $request->email]) }}" 
+                    <a href="{{ route('tracking.form', ['tracking_id' => $request->tracking_id]) }}" 
                        class="flex-1 inline-flex items-center justify-center gap-2 bg-bnhs-blue text-white py-3 px-6 rounded-lg hover:bg-bnhs-blue-600 transition font-semibold shadow-lg">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />

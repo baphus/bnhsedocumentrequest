@@ -74,14 +74,6 @@
                             @endif
                         </div>
                         <div>
-                            <p class="text-xs text-gray-500 mb-1">Email Address</p>
-                            @if ($isEditing)
-                                <input type="email" wire:model="email" class="form-input">
-                            @else
-                                <p class="text-base text-gray-900">{{ $request->email }}</p>
-                            @endif
-                        </div>
-                        <div>
                             <p class="text-xs text-gray-500 mb-1">Contact Number</p>
                             @if ($isEditing)
                                 <input type="text" wire:model="contact_number" class="form-input">

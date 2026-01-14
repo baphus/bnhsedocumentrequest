@@ -46,16 +46,8 @@
                     <x-input-error :messages="$errors->get('form.suffix')" class="mt-2" />
                 </div>
 
-                <!-- Email -->
-                <div class="md:col-span-2">
-                    <x-input-label for="email" value="Email" />
-                    <x-text-input id="email" type="email" class="mt-1 block w-full" wire:model="form.email" required
-                        placeholder="Required for tracking notifications" />
-                    <x-input-error :messages="$errors->get('form.email')" class="mt-2" />
-                </div>
-
                 <!-- Contact Number -->
-                <div>
+                <div class="md:col-span-2">
                     <x-input-label for="contact_number" value="Contact Number" />
                     <x-text-input id="contact_number" type="text" class="mt-1 block w-full" wire:model="form.contact_number" required />
                     <x-input-error :messages="$errors->get('form.contact_number')" class="mt-2" />
