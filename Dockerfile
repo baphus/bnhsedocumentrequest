@@ -29,7 +29,7 @@ RUN docker-php-ext-configure gd \
     --with-webp
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_pgsql intl zip bcmath gd pcntl opcache
+RUN docker-php-ext-install pdo_pgsql intl zip bcmath gd opcache
 
 WORKDIR /var/www
 
@@ -38,7 +38,6 @@ COPY --from=assets-builder /app/public/build ./public/build
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
-RUN mkdir -p database && touch database/database.sqlite
 RUN composer install --no-dev --optimize-autoloader
 
 # Permissions
@@ -72,17 +71,7 @@ autorestart=true \n\
 [program:nginx] \n\
 command=nginx -g "daemon off;" \n\
 autostart=true \n\
-autorestart=true \n\
-\n\
-[program:worker] \n\
-command=php /var/www/artisan queue:work --tries=3 --timeout=90 \n\
-autostart=true \n\
-autorestart=true \n\
-stopwaitsecs=3600 \n\
-stdout_logfile=/dev/stdout \n\
-stdout_logfile_maxbytes=0 \n\
-stderr_logfile=/dev/stderr \n\
-stderr_logfile_maxbytes=0' > /etc/supervisor/conf.d/supervisord.conf
+autorestart=true' > /etc/supervisor/conf.d/supervisord.conf
 
 
 ENV PORT=10000
