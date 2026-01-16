@@ -77,6 +77,7 @@ class DocumentModal extends Component
 
         $this->dispatch('refreshDatatable');
         $this->closeModal();
+        $this->dispatch('notify', type: 'success', message: 'Document saved successfully.');
     }
 
     public function render()

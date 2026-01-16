@@ -47,11 +47,13 @@ class DeleteTrackModal extends Component
 
             if ($usageCount > 0) {
                 $this->error = "Cannot delete this track. It is currently being used in {$usageCount} request(s).";
+                $this->dispatch('notify', type: 'error', message: $this->error);
                 return;
             }
 
             $this->track->delete();
             $this->dispatch('refreshDatatable');
+            $this->dispatch('notify', type: 'success', message: 'Track deleted successfully.');
             $this->closeModal();
         }
     }

@@ -40,6 +40,7 @@ class DeleteDocumentModal extends Component
         if ($this->document) {
             $this->document->delete();
             $this->dispatch('refreshDatatable');
+            $this->dispatch('notify', type: 'success', message: 'Document deleted successfully.');
             $this->closeModal();
         }
     }

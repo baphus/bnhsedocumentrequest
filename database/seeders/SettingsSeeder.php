@@ -13,7 +13,10 @@ class SettingsSeeder extends Seeder
      */
     public function run(): void
     {
-        Setting::create(['key' => 'maintenance_mode', 'value' => 'false']);
-        Setting::create(['key' => 'from_email', 'value' => 'noreply@bnhs.com']);
+        Setting::firstOrCreate(['key' => 'maintenance_mode'], ['value' => 'false']);
+        Setting::firstOrCreate(['key' => 'from_email'], ['value' => 'batonhs303308@deped.gov.ph']);
+        Setting::firstOrCreate(['key' => 'phone_number'], ['value' => '(032) 468-8195']);
+        Setting::firstOrCreate(['key' => 'location'], ['value' => 'Bato, Toledo City, Cebu']);
+        Setting::firstOrCreate(['key' => 'availability_times'], ['value' => 'Mon-Fri: 7:30AM - 5:00PM']);
     }
 }

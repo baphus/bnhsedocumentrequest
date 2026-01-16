@@ -86,6 +86,7 @@ class TrackModal extends Component
 
         $this->dispatch('refreshDatatable');
         $this->closeModal();
+        $this->dispatch('notify', type: 'success', message: 'Track saved successfully.');
     }
 
     public function render()

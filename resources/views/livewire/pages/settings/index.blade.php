@@ -29,9 +29,24 @@
             <form wire:submit.prevent="save" class="space-y-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div class="space-y-2">
-                        <label for="from_email" class="font-medium text-gray-700">From Email</label>
-                        <p class="text-sm text-gray-500">This is the email address that will be used when sending emails to users.</p>
+                        <label for="from_email" class="font-medium text-gray-700">Contact Email</label>
+                        <p class="text-sm text-gray-500">This email address will be displayed on the public website for users to contact.</p>
                         <input wire:model="from_email" id="from_email" name="from_email" type="email" autocomplete="email" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
+                    </div>
+                    <div class="space-y-2">
+                        <label for="phone_number" class="font-medium text-gray-700">Phone Number</label>
+                        <p class="text-sm text-gray-500">Contact number displayed on the footer.</p>
+                        <input wire:model="phone_number" id="phone_number" name="phone_number" type="text" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
+                    </div>
+                    <div class="space-y-2">
+                        <label for="location" class="font-medium text-gray-700">Location</label>
+                        <p class="text-sm text-gray-500">Office location/address displayed on the footer.</p>
+                        <input wire:model="location" id="location" name="location" type="text" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
+                    </div>
+                    <div class="space-y-2">
+                        <label for="availability_times" class="font-medium text-gray-700">Availability Times</label>
+                        <p class="text-sm text-gray-500">Office hours displayed on the footer.</p>
+                        <input wire:model="availability_times" id="availability_times" name="availability_times" type="text" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                     </div>
                     <div class="space-y-2">
                         <label for="maintenance_mode" class="font-medium text-gray-700">Maintenance Mode</label>
