@@ -43,6 +43,10 @@
     if ($wireClick && !$href) {
         $attributes = $attributes->merge(['wire:click' => $wireClick]);
     }
+
+    if (!$href) {
+        $attributes = $attributes->merge(['type' => $type]);
+    }
 @endphp
 
 <{{ $tag }} {{ $attributes }}>

@@ -61,6 +61,8 @@ class RequestsTable extends DataTableComponent
             ->setOfflineIndicatorDisabled()
             ->setSearchDebounce(300)
             ->setPageName('requests-table')
+            ->setBulkActionsEnabled()
+            ->setHideBulkActionsWhenEmptyEnabled() // Only show bulk actions when rows are selected
             ->setBulkActionConfirms([
                 'bulkDelete' => 'Are you sure you want to delete the selected requests? This action cannot be undone.',
             ]);
@@ -97,8 +99,7 @@ class RequestsTable extends DataTableComponent
             Column::make('Academic Info')
                 ->label(fn($row) => <<<HTML
                     <div class="flex flex-col">
-                        <span class="text-sm text-gray-900">{$row->grade_level}</span>
-                        <span class="text-xs text-gray-500">{$row->section}</span>
+                        <span class="text-sm text-gray-900">{$row->grade_level} - {$row->section}</span>
                         <span class="text-xs text-gray-500">{$row->track_strand}</span>
                     </div>
                 HTML)
@@ -220,6 +221,23 @@ class RequestsTable extends DataTableComponent
                     }
                 }),
 
+            SelectFilter::make('Section')
+                ->options(
+                    ['' => 'All Sections'] +
+                    Request::query()
+                        ->whereNotNull('section')
+                        ->where('section', '!=', '')
+                        ->distinct()
+                        ->orderBy('section')
+                        ->pluck('section', 'section')
+                        ->toArray()
+                )
+                ->filter(function (Builder $query, string $value) {
+                    if ($value !== '') {
+                        $query->where('section', $value);
+                    }
+                }),
+
             SelectFilter::make('Track/Strand')
                 ->options(
                     ['' => 'All Tracks'] +
@@ -248,9 +266,11 @@ class RequestsTable extends DataTableComponent
     {
         return [
             'setStatusPending' => 'Set Pending',
+            'setStatusVerified' => 'Set Verified',
             'setStatusProcessing' => 'Set Processing',
             'setStatusReady' => 'Set Ready',
             'setStatusCompleted' => 'Set Completed',
+            'setStatusRejected' => 'Set Rejected',
             'bulkDelete' => 'Delete Selected',
         ];
     }
@@ -259,17 +279,30 @@ class RequestsTable extends DataTableComponent
     {
         $this->bulkUpdateStatus('pending');
     }
+
+    public function setStatusVerified(): void
+    {
+        $this->bulkUpdateStatus('verified');
+    }
+
     public function setStatusProcessing(): void
     {
         $this->bulkUpdateStatus('processing');
     }
+
     public function setStatusReady(): void
     {
         $this->bulkUpdateStatus('ready');
     }
+
     public function setStatusCompleted(): void
     {
         $this->bulkUpdateStatus('completed');
+    }
+
+    public function setStatusRejected(): void
+    {
+        $this->bulkUpdateStatus('rejected');
     }
 
     public function bulkDelete(): void

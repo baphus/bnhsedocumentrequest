@@ -8,7 +8,7 @@ use Livewire\Form;
 
 class RequestStatusForm extends Form
 {
-    #[Validate('required|in:pending,processing,ready,completed')]
+    #[Validate('required|in:pending,verified,processing,ready,completed,rejected')]
     public string $status = 'pending';
 
     #[Validate('nullable|string|max:1000')]

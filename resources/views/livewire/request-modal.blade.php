@@ -10,6 +10,22 @@
             </p>
 
             <div class="mt-6 grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Status (Only for Edit) -->
+                @if($requestId)
+                <div class="md:col-span-4">
+                    <x-input-label for="status" value="Status" />
+                    <select id="status" wire:model="form.status" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-bnhs-blue focus:border-bnhs-blue">
+                        <option value="pending">Pending</option>
+                        <option value="verified">Verified</option>
+                        <option value="processing">Processing</option>
+                        <option value="ready">Ready</option>
+                        <option value="completed">Completed</option>
+                        <option value="rejected">Rejected</option>
+                    </select>
+                    <x-input-error :messages="$errors->get('form.status')" class="mt-2" />
+                </div>
+                @endif
+
                 <!-- First Name -->
                 <div>
                     <x-input-label for="first_name" value="First Name" />

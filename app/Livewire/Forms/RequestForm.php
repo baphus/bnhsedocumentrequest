@@ -52,6 +52,9 @@ class RequestForm extends Form
     #[Validate('required|integer|min:1|max:10')]
     public int $quantity = 1;
 
+    #[Validate('required|string|in:pending,verified,processing,ready,completed,rejected')]
+    public string $status = 'pending';
+
     public function save(): DocumentRequest
     {
         $this->validate();
@@ -77,7 +80,7 @@ class RequestForm extends Form
             'purpose' => $this->purpose,
             'signature' => $this->signature,
             'quantity' => $this->quantity,
-            'status' => 'pending',
+            'status' => $this->status,
             'estimated_completion_date' => $estimatedDate,
         ]);
     }
@@ -98,6 +101,6 @@ class RequestForm extends Form
         $this->purpose = '';
         $this->signature = '';
         $this->quantity = 1;
-        $this->email = null;
+        $this->status = 'pending';
     }
 }

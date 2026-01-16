@@ -52,9 +52,11 @@ class RequestModal extends Component
                 $this->form->purpose = $request->purpose;
                 $this->form->quantity = $request->quantity;
                 $this->form->signature = $request->signature ?? 'N/A';
+                $this->form->status = $request->status;
             }
         } else {
             $this->form->signature = 'ADMIN_ADDED';
+            $this->form->status = 'pending';
         }
 
         $this->isOpen = true;
@@ -87,6 +89,7 @@ class RequestModal extends Component
                 'document_type_id' => $this->form->document_type_id,
                 'purpose' => $this->form->purpose,
                 'quantity' => $this->form->quantity,
+                'status' => $this->form->status,
             ]);
             $message = 'Request updated successfully.';
         } else {
