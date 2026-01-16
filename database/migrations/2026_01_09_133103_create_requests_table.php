@@ -27,7 +27,7 @@ return new class extends Migration
             $table->text('purpose');
             $table->longText('signature');
             $table->integer('quantity')->default(1);
-            $table->enum('status', ['pending', 'processing', 'ready', 'completed'])->default('pending');
+            $table->enum('status', ['pending', 'verified', 'processing', 'ready', 'completed', 'rejected'])->default('pending');
             $table->date('estimated_completion_date')->nullable();
             $table->text('admin_remarks')->nullable();
             $table->text('internal_notes')->nullable();

@@ -21,7 +21,7 @@ class RequestFactory extends Factory
      */
     public function definition()
     {
-        $status = $this->faker->randomElement(['pending', 'processing', 'ready', 'completed']);
+        $status = $this->faker->randomElement(['pending', 'verified', 'processing', 'ready', 'completed', 'rejected']);
 
         return [
             // 'tracking_id' is generated automatically by the model
@@ -43,7 +43,7 @@ class RequestFactory extends Factory
             'estimated_completion_date' => $this->faker->dateTimeBetween('+1 week', '+1 month'),
             'admin_remarks' => $this->faker->optional()->sentence,
             'internal_notes' => $this->faker->optional()->sentence,
-            'processed_by' => ($status === 'processing' || $status === 'ready' || $status === 'completed') ? \App\Models\User::all()->random()->id : null,
+            'processed_by' => ($status !== 'pending') ? \App\Models\User::all()->random()->id : null,
         ];
     }
 }

@@ -32,9 +32,11 @@
                     <td style="padding: 8px 0; font-weight: bold; text-transform: capitalize;">
                         <span style="
                             @if($request->status === 'pending') background: #e5e7eb; color: #374151;
+                            @elseif($request->status === 'verified') background: #ccfbf1; color: #115e59;
                             @elseif($request->status === 'processing') background: #dbeafe; color: #1e40af;
                             @elseif($request->status === 'ready') background: #d1fae5; color: #065f46;
                             @elseif($request->status === 'completed') background: #e0e7ff; color: #3730a3;
+                            @elseif($request->status === 'rejected') background: #fee2e2; color: #991b1b;
                             @endif
                             padding: 4px 12px; border-radius: 9999px; display: inline-block;">
                             {{ ucfirst($request->status) }}

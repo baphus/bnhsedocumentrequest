@@ -17,7 +17,7 @@ class RequestManagementController extends Controller
     public function updateStatus(HttpRequest $request, $id)
     {
         $validated = $request->validate([
-            'status' => 'required|in:pending,processing,ready,completed',
+            'status' => 'required|in:pending,verified,processing,ready,completed,rejected',
             'estimated_completion_date' => 'nullable|date',
             'admin_remarks' => 'nullable|string',
             'internal_notes' => 'nullable|string',
@@ -50,7 +50,7 @@ class RequestManagementController extends Controller
         $validated = $request->validate([
             'request_ids' => 'required|array',
             'request_ids.*' => 'exists:requests,id',
-            'status' => 'required|in:pending,processing,ready,completed',
+            'status' => 'required|in:pending,verified,processing,ready,completed,rejected',
         ]);
 
         $ids = $validated['request_ids'];

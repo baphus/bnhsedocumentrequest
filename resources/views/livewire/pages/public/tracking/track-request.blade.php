@@ -178,8 +178,8 @@
                         <div class="flex items-center justify-between min-w-[300px]">
                             <!-- Pending -->
                             <div class="flex flex-col items-center flex-1 relative group">
-                                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-colors duration-200 z-10 {{ in_array($documentRequest->status, ['pending', 'processing', 'ready', 'completed']) ? 'bg-bnhs-blue text-white shadow-md' : 'bg-gray-200 text-gray-500' }}">
-                                    @if(in_array($documentRequest->status, ['processing', 'ready', 'completed']))
+                                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-colors duration-200 z-10 {{ in_array($documentRequest->status, ['pending', 'verified', 'processing', 'ready', 'completed']) ? 'bg-bnhs-blue text-white shadow-md' : 'bg-gray-200 text-gray-500' }}">
+                                    @if(in_array($documentRequest->status, ['verified', 'processing', 'ready', 'completed']))
                                         <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                         </svg>
@@ -188,6 +188,22 @@
                                     @endif
                                 </div>
                                 <p class="text-[10px] sm:text-xs mt-2 text-center font-medium {{ $documentRequest->status === 'pending' ? 'text-bnhs-blue' : 'text-gray-600' }}">Pending</p>
+                            </div>
+
+                            <div class="flex-1 h-0.5 sm:h-1 -mt-5 sm:-mt-6 mx-2 {{ in_array($documentRequest->status, ['verified', 'processing', 'ready', 'completed']) ? 'bg-bnhs-blue' : 'bg-gray-200' }}"></div>
+
+                            <!-- Verified -->
+                            <div class="flex flex-col items-center flex-1 relative group">
+                                <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-colors duration-200 z-10 {{ in_array($documentRequest->status, ['verified', 'processing', 'ready', 'completed']) ? 'bg-bnhs-blue text-white shadow-md' : 'bg-gray-200 text-gray-500' }}">
+                                    @if(in_array($documentRequest->status, ['processing', 'ready', 'completed']))
+                                        <svg class="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                                        </svg>
+                                    @else
+                                        <span class="text-xs sm:text-sm font-semibold">2</span>
+                                    @endif
+                                </div>
+                                <p class="text-[10px] sm:text-xs mt-2 text-center font-medium {{ $documentRequest->status === 'verified' ? 'text-bnhs-blue' : 'text-gray-600' }}">Verified</p>
                             </div>
 
                             <div class="flex-1 h-0.5 sm:h-1 -mt-5 sm:-mt-6 mx-2 {{ in_array($documentRequest->status, ['processing', 'ready', 'completed']) ? 'bg-bnhs-blue' : 'bg-gray-200' }}"></div>
@@ -200,7 +216,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                         </svg>
                                     @else
-                                        <span class="text-xs sm:text-sm font-semibold">2</span>
+                                        <span class="text-xs sm:text-sm font-semibold">3</span>
                                     @endif
                                 </div>
                                 <p class="text-[10px] sm:text-xs mt-2 text-center font-medium {{ $documentRequest->status === 'processing' ? 'text-bnhs-blue' : 'text-gray-600' }}">Processing</p>
@@ -216,7 +232,7 @@
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
                                         </svg>
                                     @else
-                                        <span class="text-xs sm:text-sm font-semibold">3</span>
+                                        <span class="text-xs sm:text-sm font-semibold">4</span>
                                     @endif
                                 </div>
                                 <p class="text-[10px] sm:text-xs mt-2 text-center font-medium {{ $documentRequest->status === 'ready' ? 'text-green-600' : 'text-gray-600' }}">Ready</p>
@@ -227,7 +243,7 @@
                             <!-- Completed -->
                             <div class="flex flex-col items-center flex-1 relative group">
                                 <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-colors duration-200 z-10 {{ $documentRequest->status === 'completed' ? 'bg-purple-500 text-white shadow-md' : 'bg-gray-200 text-gray-500' }}">
-                                    <span class="text-xs sm:text-sm font-semibold">4</span>
+                                    <span class="text-xs sm:text-sm font-semibold">5</span>
                                 </div>
                                 <p class="text-[10px] sm:text-xs mt-2 text-center font-medium {{ $documentRequest->status === 'completed' ? 'text-purple-600' : 'text-gray-600' }}">Completed</p>
                             </div>

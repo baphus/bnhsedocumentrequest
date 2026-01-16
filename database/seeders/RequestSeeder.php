@@ -22,7 +22,7 @@ class RequestSeeder extends Seeder
         $tracks = ['STEM', 'HUMSS', 'GAS', 'ABM', 'TVL-ICT', 'TVL-HE'];
         $gradeLevels = ['Grade 11', 'Grade 12'];
         $sections = ['Rizal', 'Luna', 'Bonifacio', 'Mabini', 'Aguinaldo', 'Del Pilar'];
-        $statuses = ['pending', 'processing', 'ready', 'completed'];
+        $statuses = ['pending', 'verified', 'processing', 'ready', 'completed', 'rejected'];
         $purposes = [
             'College application requirements',
             'Scholarship application',

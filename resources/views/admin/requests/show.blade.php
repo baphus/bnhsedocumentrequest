@@ -14,9 +14,11 @@
             </div>
             <span class="px-4 py-2 rounded-full text-sm font-semibold
                 @if($request->status === 'pending') bg-gray-100 text-gray-800
+                @elseif($request->status === 'verified') bg-teal-100 text-teal-800
                 @elseif($request->status === 'processing') bg-blue-100 text-blue-800
                 @elseif($request->status === 'ready') bg-green-100 text-green-800
                 @elseif($request->status === 'completed') bg-purple-100 text-purple-800
+                @elseif($request->status === 'rejected') bg-red-100 text-red-800
                 @endif">
                 {{ ucfirst($request->status) }}
             </span>
@@ -245,9 +247,11 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">Status</label>
                         <select name="status" required class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                             <option value="pending" {{ $request->status === 'pending' ? 'selected' : '' }}>Pending</option>
+                            <option value="verified" {{ $request->status === 'verified' ? 'selected' : '' }}>Verified</option>
                             <option value="processing" {{ $request->status === 'processing' ? 'selected' : '' }}>Processing</option>
                             <option value="ready" {{ $request->status === 'ready' ? 'selected' : '' }}>Ready</option>
                             <option value="completed" {{ $request->status === 'completed' ? 'selected' : '' }}>Completed</option>
+                            <option value="rejected" {{ $request->status === 'rejected' ? 'selected' : '' }}>Rejected</option>
                         </select>
                     </div>
                     <div>

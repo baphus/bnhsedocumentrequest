@@ -18,9 +18,11 @@ class DashboardController extends Controller
         $stats = [
             'total' => Request::count(),
             'pending' => Request::where('status', 'pending')->count(),
+            'verified' => Request::where('status', 'verified')->count(),
             'processing' => Request::where('status', 'processing')->count(),
             'ready' => Request::where('status', 'ready')->count(),
             'completed' => Request::where('status', 'completed')->count(),
+            'rejected' => Request::where('status', 'rejected')->count(),
         ];
 
         $requests = Request::with('documentType')->orderBy('created_at', 'desc')->take(5)->get();

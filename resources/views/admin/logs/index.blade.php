@@ -102,10 +102,11 @@
                                      $newStatus = $matches[1] ?? 'updated';
                                      $statusLabel = match($newStatus) {
                                          'approved' => 'approved',
+                                         'verified' => 'marked as Verified',
                                          'processing' => 'marked as Processing',
                                          'ready' => 'marked as Ready for Pickup',
                                          'completed' => 'marked as Released',
-                                         'rejected' => 'rejected',
+                                         'rejected' => 'marked as Rejected',
                                          'cancelled' => 'cancelled',
                                          default => "updated to $newStatus"
                                      };

@@ -83,9 +83,11 @@ class Request extends Model
     {
         return match($this->status) {
             'pending' => 'gray',
+            'verified' => 'teal',
             'processing' => 'blue',
             'ready' => 'green',
             'completed' => 'indigo',
+            'rejected' => 'red',
             default => 'gray',
         };
     }

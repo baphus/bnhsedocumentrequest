@@ -36,18 +36,22 @@ class Dashboard extends Component
         $counts = DocumentRequest::query()
             ->selectRaw("COUNT(*) as total")
             ->selectRaw("COUNT(CASE WHEN status = 'pending' THEN 1 END) as pending")
+            ->selectRaw("COUNT(CASE WHEN status = 'verified' THEN 1 END) as verified")
             ->selectRaw("COUNT(CASE WHEN status = 'processing' THEN 1 END) as processing")
             ->selectRaw("COUNT(CASE WHEN status = 'ready' THEN 1 END) as ready")
             ->selectRaw("COUNT(CASE WHEN status = 'completed' THEN 1 END) as completed")
+            ->selectRaw("COUNT(CASE WHEN status = 'rejected' THEN 1 END) as rejected")
             ->selectRaw("COUNT(CASE WHEN created_at >= ? THEN 1 END) as today", [now()->startOfDay()])
             ->first();
 
         return [
             'total' => (int) ($counts->total ?? 0),
             'pending' => (int) ($counts->pending ?? 0),
+            'verified' => (int) ($counts->verified ?? 0),
             'processing' => (int) ($counts->processing ?? 0),
             'ready' => (int) ($counts->ready ?? 0),
             'completed' => (int) ($counts->completed ?? 0),
+            'rejected' => (int) ($counts->rejected ?? 0),
             'today' => (int) ($counts->today ?? 0),
         ];
     }

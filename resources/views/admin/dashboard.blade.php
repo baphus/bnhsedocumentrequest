@@ -115,6 +115,36 @@
             </div>
         </div>
 
+        <!-- Verified Documents -->
+        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-teal-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600 mb-1">Verified</p>
+                    <p class="text-3xl font-bold text-gray-900">{{ $stats['verified'] }}</p>
+                </div>
+                <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rejected Documents -->
+        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-red-500">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-sm font-medium text-gray-600 mb-1">Rejected</p>
+                    <p class="text-3xl font-bold text-gray-900">{{ $stats['rejected'] }}</p>
+                </div>
+                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
+                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+            </div>
+        </div>
+
         <!-- Fulfillment Rate -->
         <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500">
             <div class="flex items-center justify-between">
@@ -169,9 +199,11 @@
                         </div>
                         <span class="ml-3 px-2 py-1 text-xs font-semibold rounded-full
                                 @if($request->status === 'pending') bg-gray-100 text-gray-800
+                                @elseif($request->status === 'verified') bg-teal-100 text-teal-800
                                 @elseif($request->status === 'processing') bg-blue-100 text-blue-800
                                 @elseif($request->status === 'ready') bg-green-100 text-green-800
                                 @elseif($request->status === 'completed') bg-purple-100 text-purple-800
+                                @elseif($request->status === 'rejected') bg-red-100 text-red-800
                                 @endif
                             ">
                             {{ ucfirst($request->status) }}
