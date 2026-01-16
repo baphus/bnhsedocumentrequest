@@ -31,29 +31,29 @@
                     <div class="space-y-2">
                         <label for="from_email" class="font-medium text-gray-700">Contact Email</label>
                         <p class="text-sm text-gray-500">This email address will be displayed on the public website for users to contact.</p>
-                        <input wire:model="from_email" id="from_email" name="from_email" type="email" autocomplete="email" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
+                        <input wire:model.live="from_email" id="from_email" name="from_email" type="email" autocomplete="email" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                     </div>
                     <div class="space-y-2">
                         <label for="phone_number" class="font-medium text-gray-700">Phone Number</label>
                         <p class="text-sm text-gray-500">Contact number displayed on the footer.</p>
-                        <input wire:model="phone_number" id="phone_number" name="phone_number" type="text" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
+                        <input wire:model.live="phone_number" id="phone_number" name="phone_number" type="text" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                     </div>
                     <div class="space-y-2">
                         <label for="location" class="font-medium text-gray-700">Location</label>
                         <p class="text-sm text-gray-500">Office location/address displayed on the footer.</p>
-                        <input wire:model="location" id="location" name="location" type="text" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
+                        <input wire:model.live="location" id="location" name="location" type="text" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                     </div>
                     <div class="space-y-2">
                         <label for="availability_times" class="font-medium text-gray-700">Availability Times</label>
                         <p class="text-sm text-gray-500">Office hours displayed on the footer.</p>
-                        <input wire:model="availability_times" id="availability_times" name="availability_times" type="text" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
+                        <input wire:model.live="availability_times" id="availability_times" name="availability_times" type="text" class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-bnhs-blue focus:border-bnhs-blue transition">
                     </div>
                     <div class="space-y-2">
                         <label for="maintenance_mode" class="font-medium text-gray-700">Maintenance Mode</label>
                         <p class="text-sm text-gray-500">Enable maintenance mode to disable the website for users.</p>
                         <div class="relative flex items-start mt-2">
                             <div class="flex items-center h-5">
-                                <input wire:model="maintenance_mode" id="maintenance_mode" name="maintenance_mode" type="checkbox" class="focus:ring-bnhs-blue h-4 w-4 text-bnhs-blue border-gray-300 rounded">
+                                <input wire:model.live="maintenance_mode" id="maintenance_mode" name="maintenance_mode" type="checkbox" class="focus:ring-bnhs-blue h-4 w-4 text-bnhs-blue border-gray-300 rounded">
                             </div>
                             <div class="ml-3 text-sm">
                                 <label for="maintenance_mode" class="font-medium text-gray-700">Enable</label>
@@ -62,8 +62,9 @@
                     </div>
                 </div>
 
+                @if ($isDirty)
                 <div class="flex justify-end gap-4 pt-6 border-t border-gray-200">
-                    <button type="button" class="px-6 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-semibold">
+                    <button type="button" wire:click="cancel" class="px-6 py-2.5 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition font-semibold">
                         Cancel
                     </button>
                     <button type="submit" wire:loading.attr="disabled" wire:target="save" class="px-6 py-2.5 bg-bnhs-blue text-white rounded-lg hover:bg-bnhs-blue-600 transition font-semibold flex items-center gap-2">
@@ -76,6 +77,7 @@
                         </span>
                     </button>
                 </div>
+                @endif
             </form>
         </div>
     </div>

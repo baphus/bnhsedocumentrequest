@@ -42,6 +42,8 @@ class Dashboard extends Component
             ->selectRaw("COUNT(CASE WHEN status = 'completed' THEN 1 END) as completed")
             ->selectRaw("COUNT(CASE WHEN status = 'rejected' THEN 1 END) as rejected")
             ->selectRaw("COUNT(CASE WHEN created_at >= ? THEN 1 END) as today", [now()->startOfDay()])
+            ->selectRaw("COUNT(CASE WHEN created_at >= ? THEN 1 END) as thisWeek", [now()->startOfWeek()])
+            ->selectRaw("COUNT(CASE WHEN created_at >= ? THEN 1 END) as thisMonth", [now()->startOfMonth()])
             ->first();
 
         return [
@@ -53,6 +55,8 @@ class Dashboard extends Component
             'completed' => (int) ($counts->completed ?? 0),
             'rejected' => (int) ($counts->rejected ?? 0),
             'today' => (int) ($counts->today ?? 0),
+            'thisWeek' => (int) ($counts->thisWeek ?? 0),
+            'thisMonth' => (int) ($counts->thisMonth ?? 0),
         ];
     }
 

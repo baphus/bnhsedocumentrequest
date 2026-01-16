@@ -3,36 +3,45 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
         <!-- Greeting Card -->
         <div class="lg:col-span-2">
-            <div class="relative overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-700 rounded-xl shadow-xl p-8 text-white h-full flex flex-col justify-center">
-                <!-- Decorative circles -->
-                <div class="absolute top-0 right-0 -mr-16 -mt-16 w-64 h-64 rounded-full bg-white opacity-10 blur-3xl"></div>
-                <div class="absolute bottom-0 left-0 -ml-16 -mb-16 w-64 h-64 rounded-full bg-indigo-500 opacity-20 blur-3xl"></div>
-                
-                <div class="relative z-10">
-                    <h2 class="text-4xl font-extrabold mb-3 tracking-tight">
-                        @php
-                        $hour = date('H');
-                        if ($hour < 12) {
-                            echo 'Good Morning';
-                        } elseif ($hour < 18) {
-                            echo 'Good Afternoon';
-                        } else {
-                            echo 'Good Evening';
-                        }
-                        @endphp,
-                        <span class="text-blue-100">{{ Auth::user()->name }}!</span>
-                    </h2>
-                    <p class="text-blue-100 text-lg mb-6 flex items-center gap-2">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                        </svg>
-                        {{ now()->format('l, F j, Y') }}
-                    </p>
-                    <div class="inline-flex items-center gap-2 px-5 py-2.5 bg-white/10 border border-white/20 rounded-full text-sm font-medium backdrop-blur-md shadow-sm">
-                        <svg class="w-4 h-4 text-blue-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
-                        </svg>
-                        <span>School Year {{ now()->format('Y') }}-{{ now()->addYear()->format('Y') }}</span>
+            <div class="relative overflow-hidden bg-white border border-gray-200 rounded-xl shadow-sm p-8 h-full flex flex-col justify-center">
+                <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div>
+                        <h2 class="text-3xl font-bold text-gray-900 mb-2">
+                            @php
+                            $hour = date('H');
+                            $greeting = ($hour < 12) ? 'Good Morning' : (($hour < 18) ? 'Good Afternoon' : 'Good Evening');
+                            @endphp
+                            {{ $greeting }}, <span class="text-bnhs-blue">{{ Auth::user()->name }}</span>
+                        </h2>
+                        <p class="text-gray-500 text-lg mb-6">Welcome back to the Bato National High School E-Document Request System.</p>
+                        
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center text-blue-600">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Today's Date</p>
+                                    <p class="text-sm font-bold text-gray-900">{{ now()->format('M d, Y') }}</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
+                                <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center text-green-600">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="text-xs font-medium text-gray-500 uppercase tracking-wider">Active Session</p>
+                                    <p class="text-sm font-bold text-gray-900">S.Y. {{ now()->format('Y') }}-{{ now()->addYear()->format('Y') }}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hidden xl:block">
+                        <img src="{{ asset('images/logo.png') }}" alt="BNHS Logo" class="w-32 h-32 opacity-10">
                     </div>
                 </div>
             </div>
@@ -90,92 +99,54 @@
     <!-- KPI Cards (Admins only) -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <!-- Total Requests -->
-        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-bnhs-blue transform hover:-translate-y-1 transition duration-200">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-600 mb-1">Total Requests</p>
-                    <p class="text-3xl font-bold text-gray-900">{{ $this->stats['total'] }}</p>
-                </div>
-                <div class="w-12 h-12 bg-bnhs-blue-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-bnhs-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 transform hover:shadow-md transition duration-200">
+            <div class="flex flex-col items-center text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-4">
+                    <svg class="w-8 h-8 text-bnhs-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
                     </svg>
                 </div>
+                <p class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-1">Total Requests</p>
+                <p class="text-3xl font-bold text-gray-900">{{ $this->stats['total'] }}</p>
             </div>
         </div>
 
-        <!-- Pending Documents -->
-        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-bnhs-gold transform hover:-translate-y-1 transition duration-200">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-600 mb-1">Pending Documents</p>
-                    <p class="text-3xl font-bold text-gray-900">{{ $this->stats['pending'] }}</p>
-                </div>
-                <div class="w-12 h-12 bg-bnhs-gold-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-bnhs-gold-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <!-- Requests This Month -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 transform hover:shadow-md transition duration-200">
+            <div class="flex flex-col items-center text-center">
+                <div class="w-16 h-16 bg-teal-100 rounded-2xl flex items-center justify-center mb-4">
+                    <svg class="w-8 h-8 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                     </svg>
                 </div>
+                <p class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-1">This Month</p>
+                <p class="text-3xl font-bold text-gray-900">{{ $this->stats['thisMonth'] }}</p>
             </div>
         </div>
 
-        <!-- Verified Documents -->
-        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-teal-500 transform hover:-translate-y-1 transition duration-200">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-600 mb-1">Verified</p>
-                    <p class="text-3xl font-bold text-gray-900">{{ $this->stats['verified'] }}</p>
-                </div>
-                <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <!-- Requests This Week -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 transform hover:shadow-md transition duration-200">
+            <div class="flex flex-col items-center text-center">
+                <div class="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mb-4">
+                    <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m-2-2V5a2 2 0 012-2h.5a2 2 0 012 2v.5a2 2 0 01-2 2h-2a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-.5a2 2 0 00-2-2H12V5z"></path>
                     </svg>
                 </div>
+                <p class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-1">This Week</p>
+                <p class="text-3xl font-bold text-gray-900">{{ $this->stats['thisWeek'] }}</p>
             </div>
         </div>
 
-        <!-- Fulfillment Rate -->
-        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-green-500 transform hover:-translate-y-1 transition duration-200">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-600 mb-1">Fulfillment Rate</p>
-                    <p class="text-3xl font-bold text-gray-900">{{ $this->fulfillmentRate }}%</p>
-                </div>
-                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+        <!-- Requests Today -->
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 transform hover:shadow-md transition duration-200">
+            <div class="flex flex-col items-center text-center">
+                <div class="w-16 h-16 bg-rose-100 rounded-2xl flex items-center justify-center mb-4">
+                    <svg class="w-8 h-8 text-rose-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
                     </svg>
                 </div>
-            </div>
-        </div>
-
-        <!-- Processing Documents -->
-        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-blue-500 transform hover:-translate-y-1 transition duration-200">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-600 mb-1">Processing</p>
-                    <p class="text-3xl font-bold text-gray-900">{{ $this->stats['processing'] }}</p>
-                </div>
-                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-                    </svg>
-                </div>
-            </div>
-        </div>
-
-        <!-- Rejected Documents -->
-        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-red-500 transform hover:-translate-y-1 transition duration-200">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-600 mb-1">Rejected</p>
-                    <p class="text-3xl font-bold text-gray-900">{{ $this->stats['rejected'] }}</p>
-                </div>
-                <div class="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </div>
+                <p class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-1">Today</p>
+                <p class="text-3xl font-bold text-gray-900">{{ $this->stats['today'] }}</p>
             </div>
         </div>
     </div>
@@ -185,47 +156,50 @@
     <!-- Registrar specific view -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
          <!-- New Requests Today -->
-         <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-bnhs-blue transform hover:-translate-y-1 transition duration-200">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-600 mb-1">New Requests Today</p>
-                    <p class="text-3xl font-bold text-gray-900">{{ $this->stats['today'] }}</p>
-                </div>
-                <div class="w-12 h-12 bg-bnhs-blue-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-bnhs-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+         <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 transform hover:shadow-md transition duration-200">
+            <div class="flex flex-col items-center text-center">
+                <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-4">
+                    <svg class="w-8 h-8 text-bnhs-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
                     </svg>
                 </div>
+                <p class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-1">New Today</p>
+                <p class="text-3xl font-bold text-gray-900">{{ $this->stats['today'] }}</p>
             </div>
         </div>
 
         <!-- Pending Documents -->
-        <div class="bg-white rounded-xl shadow-lg p-6 border-l-4 border-bnhs-gold transform hover:-translate-y-1 transition duration-200">
-            <div class="flex items-center justify-between">
-                <div>
-                    <p class="text-sm font-medium text-gray-600 mb-1">Pending Documents</p>
-                    <p class="text-3xl font-bold text-gray-900">{{ $this->stats['pending'] }}</p>
-                </div>
-                <div class="w-12 h-12 bg-bnhs-gold-100 rounded-lg flex items-center justify-center">
-                    <svg class="w-6 h-6 text-bnhs-gold-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 transform hover:shadow-md transition duration-200">
+            <div class="flex flex-col items-center text-center">
+                <div class="w-16 h-16 bg-bnhs-gold-100 rounded-2xl flex items-center justify-center mb-4">
+                    <svg class="w-8 h-8 text-bnhs-gold-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
+                <p class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-1">Pending Total</p>
+                <p class="text-3xl font-bold text-gray-900">{{ $this->stats['pending'] }}</p>
             </div>
         </div>
 
         <!-- Call to Action -->
-        <div class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-lg p-6 text-white flex flex-col justify-center items-center text-center transform hover:-translate-y-1 transition duration-200">
-            <h3 class="font-bold text-lg mb-2">Manage Requests</h3>
-            <p class="text-gray-400 text-sm mb-4">Review and process incoming document requests.</p>
-            <a href="{{ route('admin.requests.index') }}" wire:navigate class="px-6 py-2 bg-bnhs-blue hover:bg-bnhs-blue-600 rounded-lg font-semibold transition w-full">
+        <div class="bg-white rounded-xl shadow-sm p-6 border border-gray-100 flex flex-col justify-center items-center text-center transform hover:shadow-md transition duration-200">
+            <h3 class="font-bold text-gray-900 text-lg mb-2">Manage Requests</h3>
+            <p class="text-gray-500 text-sm mb-4">Review and process document requests.</p>
+            <a href="{{ route('admin.requests.index') }}" wire:navigate class="px-6 py-2 bg-bnhs-blue hover:bg-bnhs-blue-700 text-white rounded-lg font-semibold transition w-full">
                 View All Requests
             </a>
         </div>
     </div>
     @endif
+ 
+    @if(Auth::user()->role === 'admin')
+    <!-- Pending Requests Queue (Admins: Above grid) -->
+    <div class="mb-8">
+        @livewire('tables.pending-requests-table')
+    </div>
+    @endif
 
-<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start mb-8">
     <!-- Recent Requests -->
     <div class="bg-white rounded-xl shadow-lg overflow-hidden h-full">
         <div class="bg-gray-50 px-6 py-4 border-b border-gray-200 flex items-center justify-between">
@@ -258,9 +232,40 @@
             <div class="space-y-4 max-h-[32rem] overflow-y-auto pr-2">
                 @forelse($this->recentActivities as $activity)
                 <div class="flex items-start gap-3">
-                    <div class="w-8 h-8 bg-bnhs-blue-100 rounded-full flex items-center justify-center flex-shrink-0">
-                        <svg class="w-4 h-4 text-bnhs-blue" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    @php
+                        $iconPath = 'M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z'; // Info default
+                        $iconColor = 'text-blue-600';
+                        $bgColor = 'bg-blue-100';
+
+                        if (str_contains($activity->action, 'submitted')) {
+                            $iconPath = 'M12 4v16m8-8H4';
+                            $iconColor = 'text-green-600';
+                            $bgColor = 'bg-green-100';
+                        } elseif (str_contains($activity->action, 'Status changed')) {
+                            $iconPath = 'M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15';
+                            $iconColor = 'text-amber-600';
+                            $bgColor = 'bg-amber-100';
+                        } elseif (str_contains($activity->action, 'remarks')) {
+                            $iconPath = 'M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z';
+                            $iconColor = 'text-indigo-600';
+                            $bgColor = 'bg-indigo-100';
+                        } elseif (str_contains($activity->action, 'notes')) {
+                            $iconPath = 'M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z';
+                            $iconColor = 'text-slate-600';
+                            $bgColor = 'bg-slate-100';
+                        } elseif (str_contains($activity->action, 'completion date')) {
+                            $iconPath = 'M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z';
+                            $iconColor = 'text-purple-600';
+                            $bgColor = 'bg-purple-100';
+                        } elseif (str_contains($activity->action, 'Deleted')) {
+                            $iconPath = 'M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16';
+                            $iconColor = 'text-red-600';
+                            $bgColor = 'bg-red-100';
+                        }
+                    @endphp
+                    <div class="w-8 h-8 {{ $bgColor }} rounded-full flex items-center justify-center flex-shrink-0">
+                        <svg class="w-4 h-4 {{ $iconColor }}" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="{{ $iconPath }}" />
                         </svg>
                     </div>
                     <div class="flex-1 min-w-0">
@@ -274,4 +279,12 @@
             </div>
         </div>
     </div>
+</div>
+
+    @if(Auth::user()->role === 'registrar')
+    <!-- Pending Requests Queue (Registrar: Below grid) -->
+    <div class="mb-8">
+        @livewire('tables.pending-requests-table')
+    </div>
+    @endif
 </div>

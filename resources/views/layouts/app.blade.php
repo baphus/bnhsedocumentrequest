@@ -78,6 +78,7 @@
             </footer>
         </div>
     </div>
+    @livewire('wire-elements-modal')
     @livewireScripts
 
     <!-- Toast Notification Handler -->
