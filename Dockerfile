@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y \
     libwebp-dev \
     nginx \
     supervisor \
+    curl \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Configure GD with support for multiple image formats
@@ -43,6 +44,7 @@ RUN composer install --no-dev --optimize-autoloader
 
 # Permissions
 RUN chown -R www-data:www-data storage bootstrap/cache
+RUN chmod +x docker/keep-alive.sh
 
 # Nginx configuration
 RUN echo 'server { \n\
@@ -72,7 +74,16 @@ autorestart=true \n\
 [program:nginx] \n\
 command=nginx -g "daemon off;" \n\
 autostart=true \n\
-autorestart=true' > /etc/supervisor/conf.d/supervisord.conf
+autorestart=true \n\
+\n\
+[program:keep-alive] \n\
+command=/var/www/docker/keep-alive.sh \n\
+autostart=true \n\
+autorestart=true \n\
+stdout_logfile=/dev/stdout \n\
+stdout_logfile_maxbytes=0 \n\
+stderr_logfile=/dev/stderr \n\
+stderr_logfile_maxbytes=0' > /etc/supervisor/conf.d/supervisord.conf
 
 
 ENV PORT=10000
