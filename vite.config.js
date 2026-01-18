@@ -8,6 +8,11 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    resolve: {
+        alias: {
+            '~modal': '/vendor/wire-elements/modal/resources/js/modal.js'
+        }
+    },
     build: {
         manifest: 'manifest.json',
         outDir: 'public/build',
