@@ -129,7 +129,7 @@
             <div class="flex flex-col items-center text-center">
                 <div class="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center mb-4">
                     <svg class="w-8 h-8 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m-2-2V5a2 2 0 012-2h.5a2 2 0 012 2v.5a2 2 0 01-2 2h-2a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-.5a2 2 0 00-2-2H12V5z"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z"></path>
                     </svg>
                 </div>
                 <p class="text-sm font-medium text-gray-500 uppercase tracking-wider mb-1">This Week</p>
