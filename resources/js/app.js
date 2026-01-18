@@ -1,2 +1,2 @@
 ﻿import '../css/app.css';
-import '~modal';
+import './wire-elements-modal';
