@@ -32,6 +32,12 @@ RUN docker-php-ext-configure gd \
 # Install PHP extensions
 RUN docker-php-ext-install pdo_pgsql intl zip bcmath gd pcntl opcache
 
+# Increase PHP timeouts
+RUN echo "max_execution_time=300" > /usr/local/etc/php/conf.d/custom.ini \
+    && echo "memory_limit=512M" >> /usr/local/etc/php/conf.d/custom.ini \
+    && echo "upload_max_filesize=64M" >> /usr/local/etc/php/conf.d/custom.ini \
+    && echo "post_max_size=64M" >> /usr/local/etc/php/conf.d/custom.ini
+
 WORKDIR /var/www
 
 COPY . .
@@ -59,6 +65,7 @@ RUN echo 'server { \n\
         fastcgi_index index.php; \n\
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; \n\
         include fastcgi_params; \n\
+        fastcgi_read_timeout 300; \n\
     } \n\
 }' > /etc/nginx/sites-available/default
 
