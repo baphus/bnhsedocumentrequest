@@ -32,23 +32,30 @@ class RequestObserver
             $oldStatus = $request->getOriginal('status');
             $newStatus = $request->status;
             
-            RequestLog::log($request->id, "Status changed from '{$oldStatus}' to '{$newStatus}'", $userId);
+            // Try to get document name safely
+            $documentName = $request->documentType ? $request->documentType->name : 'Unknown Document';
+            $requestOwner = "{$request->first_name} {$request->last_name}";
+
+            RequestLog::log($request->id, "Status changed from '{$oldStatus}' to '{$newStatus}' for Request #{$request->tracking_id} ({$requestOwner}) - {$documentName}", $userId);
         }
 
         // 2. Handle Admin Remarks (Only log if actually changed)
         if ($request->isDirty('admin_remarks')) {
-            RequestLog::log($request->id, 'Admin remarks updated', $userId);
+            $requestOwner = "{$request->first_name} {$request->last_name}";
+            RequestLog::log($request->id, "Admin remarks updated for Request #{$request->tracking_id} ({$requestOwner})", $userId);
         }
 
         // 3. Handle Internal Notes
         if ($request->isDirty('internal_notes')) {
-            RequestLog::log($request->id, 'Internal notes updated', $userId);
+            $requestOwner = "{$request->first_name} {$request->last_name}";
+            RequestLog::log($request->id, "Internal notes updated for Request #{$request->tracking_id} ({$requestOwner})", $userId);
         }
 
         // 4. Handle Estimated Completion Date
         if ($request->isDirty('estimated_completion_date')) {
             $date = $request->estimated_completion_date?->format('M d, Y') ?? 'cleared';
-            RequestLog::log($request->id, "Estimated completion date set to {$date}", $userId);
+            $requestOwner = "{$request->first_name} {$request->last_name}";
+            RequestLog::log($request->id, "Estimated completion date set to {$date} for Request #{$request->tracking_id} ({$requestOwner})", $userId);
         }
     }
     /**
@@ -59,10 +66,11 @@ class RequestObserver
         // We log it BEFORE it is gone from the database
         // Ensure RequestLog model doesn't strictly require the request_id 
         // to exist in the requests table at the moment of commit
+        $requestOwner = "{$request->first_name} {$request->last_name}";
         RequestLog::create([
             'user_id' => auth()->id(),
             'request_id' => $request->id,
-            'action' => "Deleted request with tracking ID: {$request->tracking_id}",
+            'action' => "Deleted Request #{$request->tracking_id} ({$requestOwner})",
             'created_at' => now(),
         ]);
     }
