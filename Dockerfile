@@ -30,13 +30,28 @@ RUN docker-php-ext-configure gd \
     --with-webp
 
 # Install PHP extensions
-RUN docker-php-ext-install pdo_pgsql intl zip bcmath gd opcache
+RUN docker-php-ext-install pdo_pgsql intl zip bcmath gd pcntl opcache
 
-# Increase PHP timeouts
-RUN echo "max_execution_time=300" > /usr/local/etc/php/conf.d/custom.ini \
-    && echo "memory_limit=512M" >> /usr/local/etc/php/conf.d/custom.ini \
+# Optimize PHP-FPM for Render (assuming 512MB RAM limit)
+RUN echo "max_execution_time=60" > /usr/local/etc/php/conf.d/custom.ini \
+    && echo "memory_limit=256M" >> /usr/local/etc/php/conf.d/custom.ini \
     && echo "upload_max_filesize=64M" >> /usr/local/etc/php/conf.d/custom.ini \
-    && echo "post_max_size=64M" >> /usr/local/etc/php/conf.d/custom.ini
+    && echo "post_max_size=64M" >> /usr/local/etc/php/conf.d/custom.ini \
+    && echo "opcache.enable=1" >> /usr/local/etc/php/conf.d/custom.ini \
+    && echo "opcache.memory_consumption=128" >> /usr/local/etc/php/conf.d/custom.ini \
+    && echo "opcache.interned_strings_buffer=8" >> /usr/local/etc/php/conf.d/custom.ini \
+    && echo "opcache.max_accelerated_files=10000" >> /usr/local/etc/php/conf.d/custom.ini \
+    && echo "opcache.validate_timestamps=0" >> /usr/local/etc/php/conf.d/custom.ini \
+    && echo "opcache.save_comments=1" >> /usr/local/etc/php/conf.d/custom.ini
+
+# Tune PHP-FPM Pool
+RUN echo "[www] \n\
+pm = dynamic \n\
+pm.max_children = 5 \n\
+pm.start_servers = 2 \n\
+pm.min_spare_servers = 1 \n\
+pm.max_spare_servers = 3 \n\
+" > /usr/local/etc/php-fpm.d/zz-custom.conf
 
 WORKDIR /var/www
 
