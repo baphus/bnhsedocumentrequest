@@ -14,6 +14,7 @@ use Rappasoft\LaravelLivewireTables\Views\Filters\SelectFilter;
 use Rappasoft\LaravelLivewireTables\Views\Filters\DateFilter;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Livewire\Attributes\On;
 use App\Jobs\SendRequestStatusEmail;
 use Illuminate\Support\Carbon;
@@ -194,10 +195,10 @@ class RequestsTable extends DataTableComponent
             SelectFilter::make('Document Type')
                 ->options(
                     ['' => 'All Documents'] +
-                        Document::query()
-                            ->orderBy('name')
-                            ->pluck('name', 'id')
-                            ->toArray()
+                    Cache::remember('document_types_list', 600, fn() => Document::query()
+                        ->orderBy('name')
+                        ->pluck('name', 'id')
+                        ->toArray())
                 )
                 ->filter(function (Builder $query, string $value) {
                     if ($value !== '') {
@@ -224,13 +225,13 @@ class RequestsTable extends DataTableComponent
             SelectFilter::make('Section')
                 ->options(
                     ['' => 'All Sections'] +
-                    Request::query()
+                    Cache::remember('sections_list', 300, fn() => Request::query()
                         ->whereNotNull('section')
                         ->where('section', '!=', '')
                         ->distinct()
                         ->orderBy('section')
                         ->pluck('section', 'section')
-                        ->toArray()
+                        ->toArray())
                 )
                 ->filter(function (Builder $query, string $value) {
                     if ($value !== '') {
@@ -241,10 +242,10 @@ class RequestsTable extends DataTableComponent
             SelectFilter::make('Track/Strand')
                 ->options(
                     ['' => 'All Tracks'] +
-                        Track::query()
-                            ->orderBy('name')
-                            ->pluck('name', 'code')
-                            ->toArray()
+                    Cache::remember('tracks_list', 600, fn() => Track::query()
+                        ->orderBy('name')
+                        ->pluck('name', 'code')
+                        ->toArray())
                 )
                 ->filter(function (Builder $query, string $value) {
                     if ($value !== '') {
