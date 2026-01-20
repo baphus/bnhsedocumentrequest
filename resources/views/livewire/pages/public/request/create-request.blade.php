@@ -124,6 +124,11 @@
                                 <x-text-input wire:model.blur="form.school_year_last_attended" class="mt-1 block w-full" placeholder="e.g., 2023-2024" required />
                                 <x-input-error :messages="$errors->get('form.school_year_last_attended')" class="mt-2" />
                             </div>
+                            <div :class="gradeLevel === 'Grade 11' || gradeLevel === 'Grade 12' ? 'md:col-span-2' : 'md:col-span-1'">
+                                <x-input-label for="form.advisor" value="Class Adviser" />
+                                <x-text-input wire:model.blur="form.advisor" class="mt-1 block w-full" placeholder="e.g., Mr. Juan Dela Cruz" />
+                                <x-input-error :messages="$errors->get('form.advisor')" class="mt-2" />
+                            </div>
                         </div>
                     </div>
 

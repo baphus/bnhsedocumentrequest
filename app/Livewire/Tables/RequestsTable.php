@@ -89,12 +89,17 @@ class RequestsTable extends DataTableComponent
                     $query->orWhere('first_name', 'ilike', "%{$term}%")
                         ->orWhere('last_name', 'ilike', "%{$term}%")
                         ->orWhere('lrn', 'ilike', "%{$term}%")
+                        ->orWhere('advisor', 'ilike', "%{$term}%")
                 )
                 ->sortable(),
 
             Column::make('LRN', 'lrn')
                 ->format(fn($value) => "<span class='text-sm text-gray-700 font-mono'>{$value}</span>")
                 ->html()
+                ->searchable(),
+
+            Column::make('Class Adviser', 'advisor')
+                ->sortable()
                 ->searchable(),
 
             Column::make('Academic Info')

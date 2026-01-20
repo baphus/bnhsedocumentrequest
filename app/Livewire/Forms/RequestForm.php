@@ -40,6 +40,9 @@ class RequestForm extends Form
     #[Validate('required|string')]
     public string $school_year_last_attended = '';
 
+    #[Validate('nullable|string|max:255')]
+    public ?string $advisor = null;
+
     #[Validate('required|exists:documents,id')]
     public ?int $document_type_id = null;
 
@@ -76,6 +79,7 @@ class RequestForm extends Form
             'section' => $this->section,
             'track_strand' => $this->track_strand,
             'school_year_last_attended' => $this->school_year_last_attended,
+            'advisor' => $this->advisor,
             'document_type_id' => $this->document_type_id,
             'purpose' => $this->purpose,
             'signature' => $this->signature,

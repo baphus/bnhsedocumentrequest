@@ -40,6 +40,12 @@
                             <span class="text-gray-600 text-sm shrink-0">Document Type</span>
                             <span class="text-gray-900 font-medium text-right ml-2">{{ $request->documentType->name }}</span>
                         </div>
+                        @if($request->advisor)
+                        <div class="flex justify-between items-center pb-3 border-b border-gray-200">
+                            <span class="text-gray-600 text-sm shrink-0">Class Adviser</span>
+                            <span class="text-gray-900 font-medium text-right">{{ $request->advisor }}</span>
+                        </div>
+                        @endif
                         <div class="flex justify-between items-center pb-3 border-b border-gray-200">
                             <span class="text-gray-600 text-sm shrink-0">Quantity</span>
                             <span class="text-gray-900 font-medium">{{ $request->quantity }}</span>

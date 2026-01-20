@@ -25,6 +25,7 @@ class Show extends Component
     public $section;
     public $track_strand;
     public $school_year_last_attended;
+    public $advisor;
 
     public function mount($id)
     {
@@ -45,6 +46,7 @@ class Show extends Component
         $this->section = $this->request->section;
         $this->track_strand = $this->request->track_strand;
         $this->school_year_last_attended = $this->request->school_year_last_attended;
+        $this->advisor = $this->request->advisor;
     }
 
     public function toggleEditing()
@@ -64,6 +66,7 @@ class Show extends Component
             'lrn' => 'required|digits:12',
             'grade_level' => 'required',
             'school_year_last_attended' => 'required',
+            'advisor' => 'nullable|string|max:255',
         ]);
 
         $this->request->update([
@@ -76,6 +79,7 @@ class Show extends Component
             'section' => $this->section,
             'track_strand' => $this->track_strand,
             'school_year_last_attended' => $this->school_year_last_attended,
+            'advisor' => $this->advisor,
         ]);
 
         $this->isEditing = false;

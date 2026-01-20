@@ -75,6 +75,7 @@ class RequestController extends Controller
             'section' => 'nullable|string|max:255',
             'track_strand' => 'required|string',
             'school_year_last_attended' => 'required|string',
+            'advisor' => 'nullable|string|max:255',
             'document_type_id' => 'required|exists:documents,id',
             'purpose' => 'required|string',
             'signature' => 'required|string',
@@ -98,6 +99,7 @@ class RequestController extends Controller
         // Create the request
         $documentRequest = Request::create([
             'email' => $email,
+            'advisor' => $validated['advisor'] ?? null,
             'contact_number' => $validated['contact_number'],
             'first_name' => $validated['first_name'],
             'middle_name' => $validated['middle_name'],

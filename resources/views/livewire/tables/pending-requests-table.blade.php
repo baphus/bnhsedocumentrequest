@@ -31,6 +31,9 @@
                                 <div class="font-medium text-gray-900">{{ $request->first_name }} {{ $request->last_name }}</div>
                                 <div class="text-xs text-gray-500">LRN: {{ $request->lrn }}</div>
                                 <div class="text-xs text-gray-400">{{ $request->grade_level }} - {{ $request->section }}</div>
+                                @if($request->advisor)
+                                    <div class="text-xs text-gray-400">Class Adviser: {{ $request->advisor }}</div>
+                                @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $request->documentType->name }}</td>
                             <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{{ $request->created_at->format('M d, Y') }}</td>

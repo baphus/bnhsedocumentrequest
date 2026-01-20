@@ -134,6 +134,14 @@
                                 <p class="text-base text-gray-900">{{ $request->school_year_last_attended }}</p>
                             @endif
                         </div>
+                        <div>
+                            <p class="text-xs text-gray-500 mb-1">Class Adviser</p>
+                            @if ($isEditing)
+                                <input type="text" wire:model="advisor" class="form-input">
+                            @else
+                                <p class="text-base text-gray-900">{{ $request->advisor }}</p>
+                            @endif
+                        </div>
                     </div>
                 </div>
             </div>
