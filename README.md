@@ -1,14 +1,15 @@
+
 # Bato National High School E-Document Request System
 
-A production-ready web application built with Laravel 12 for managing document requests online, featuring OTP verification, request tracking, and an admin dashboard.
+A production-ready web application built with Laravel 12 for managing document requests online, featuring OTP verification, request tracking, and an admin dashboard. Now deployed on Render with Neon as the database. Email notifications are no longer used.
+
 
 ## Features
 
 ### Public Features
-- **Email OTP Verification** - Secure access with one-time passwords
+- **OTP Verification** - Secure access with one-time passwords
 - **Online Document Request** - Multi-step form with digital signature
 - **Request Tracking** - Real-time status updates with activity timeline
-- **Email Notifications** - Automatic updates on status changes
 
 ### Admin/Registrar Features
 - **Dashboard** - Overview of all requests with statistics
@@ -23,14 +24,14 @@ A production-ready web application built with Laravel 12 for managing document r
 - **Staff-Only Authentication** - Laravel Breeze integration
 - **Automatic Audit Trails** - All changes logged
 
+
 ## Tech Stack
 
 - **Backend**: Laravel 12 (PHP 8.2+)
 - **Frontend**: Blade Templates, Tailwind CSS, Alpine.js
-- **Database**: PostgreSQL (Supabase compatible)
+- **Database**: PostgreSQL (Neon)
 - **Authentication**: Laravel Breeze
-- **Email**: SMTP (Gmail App Password compatible)
-- **Deployment**: Heroku ready
+- **Deployment**: Render
 
 ## Installation
 
@@ -38,7 +39,7 @@ A production-ready web application built with Laravel 12 for managing document r
 - PHP 8.2 or higher
 - Composer
 - Node.js & NPM
-- PostgreSQL (or SQLite for local development)
+- PostgreSQL (Neon recommended, or SQLite for local development)
 
 ### Setup Steps
 
@@ -60,26 +61,15 @@ A production-ready web application built with Laravel 12 for managing document r
    php artisan key:generate
    ```
 
+
 4. **Configure database** (edit `.env`)
    ```env
    DB_CONNECTION=pgsql
-   DB_HOST=your-supabase-host
+   DB_HOST=your-neon-host
    DB_PORT=5432
    DB_DATABASE=your-database
    DB_USERNAME=your-username
    DB_PASSWORD=your-password
-   ```
-
-5. **Configure email** (edit `.env`)
-   ```env
-   MAIL_MAILER=smtp
-   MAIL_HOST=smtp.gmail.com
-   MAIL_PORT=587
-   MAIL_USERNAME=your-email@gmail.com
-   MAIL_PASSWORD=your-app-password
-   MAIL_ENCRYPTION=tls
-   MAIL_FROM_ADDRESS=your-email@gmail.com
-   MAIL_FROM_NAME="Bato National High School"
    ```
 
 6. **Run migrations and seeders**
@@ -153,39 +143,20 @@ The system comes pre-seeded with:
 5. Use bulk actions to process multiple requests
 6. All changes are automatically logged
 
-## Deployment to Heroku
 
-1. **Create Heroku app**
-   ```bash
-   heroku create your-app-name
-   ```
+## Deployment to Render
 
-2. **Add PostgreSQL addon**
-   ```bash
-   heroku addons:create heroku-postgresql:mini
-   ```
+1. **Create a Render account and new Web Service**
+   - Connect your GitHub repository to Render.
+   - Set the build and start commands:
+     - Build Command: `composer install && npm install && npm run build && php artisan migrate --seed --force`
+     - Start Command: `php artisan serve --host 0.0.0.0 --port 10000`
 
-3. **Set environment variables**
-   ```bash
-   heroku config:set APP_KEY=$(php artisan key:generate --show)
-   heroku config:set APP_ENV=production
-   heroku config:set APP_DEBUG=false
-   heroku config:set MAIL_MAILER=smtp
-   heroku config:set MAIL_HOST=smtp.gmail.com
-   heroku config:set MAIL_PORT=587
-   heroku config:set MAIL_USERNAME=your-email@gmail.com
-   heroku config:set MAIL_PASSWORD=your-app-password
-   ```
+2. **Set environment variables**
+   - Add your `.env` variables in the Render dashboard, including your Neon database credentials.
 
-4. **Deploy**
-   ```bash
-   git push heroku main
-   ```
-
-5. **Run migrations**
-   ```bash
-   heroku run php artisan migrate --seed
-   ```
+3. **Deploy**
+   - Render will automatically build and deploy your app on every push to your main branch.
 
 ## Database Schema
 
@@ -245,11 +216,9 @@ The system comes pre-seeded with:
 - Timestamps all actions
 - Links actions to users
 
-### Email Notifications
-- OTP codes
-- Request confirmation
-- Status change notifications
-- Professional HTML templates
+
+### Notifications
+- OTP codes are shown in-app only. No email notifications are sent.
 
 ## Configuration
 
@@ -268,14 +237,10 @@ Modify in `database/seeders/DocumentSeeder.php`
 
 ## Troubleshooting
 
-### Email Not Sending
-- Verify Gmail App Password is correct
-- Enable "Less secure app access" (if needed)
-- Check SMTP settings in `.env`
+
 
 ### OTP Not Working
 - Clear browser cache and cookies
-- Check if emails are being sent
 - Verify session is working
 
 ### Database Errors
