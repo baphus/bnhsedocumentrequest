@@ -28,7 +28,6 @@ Route::get('/', function () {
     }
     return view('home');
 })->name('home');
-Route::get('/how-to-request', fn () => view('how-to-request'))->name('how-to-request');
 
 // --- Dashboard Redirect ---
 Route::get('/dashboard', fn () => redirect()->route('admin.dashboard'))

@@ -1,9 +1,6 @@
 <?php
 
-use App\Http\Controllers\OtpController;
 use App\Http\Controllers\RequestController;
-use App\Http\Controllers\TrackingController;
-use App\Http\Middleware\VerifyOtp;
 use Illuminate\Support\Facades\Route;
 
 /*

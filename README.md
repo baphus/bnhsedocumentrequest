@@ -1,13 +1,12 @@
 
 # Bato National High School E-Document Request System
 
-A production-ready web application built with Laravel 12 for managing document requests online, featuring OTP verification, request tracking, and an admin dashboard. Now deployed on Render with Neon as the database. Email notifications are no longer used.
+A production-ready web application built with Laravel 12 for managing document requests online, featuring request tracking and an admin dashboard. Now deployed on Render with Neon as the database. Email notifications are no longer used.
 
 
 ## Features
 
 ### Public Features
-- **OTP Verification** - Secure access with one-time passwords
 - **Online Document Request** - Multi-step form with digital signature
 - **Request Tracking** - Real-time status updates with activity timeline
 
@@ -19,8 +18,6 @@ A production-ready web application built with Laravel 12 for managing document r
 - **Status Management** - Pending, Processing, Ready, Completed
 
 ### Security Features
-- **Rate-Limited OTP** - Protection against abuse
-- **Session-Based Verification** - Secure request submission
 - **Staff-Only Authentication** - Laravel Breeze integration
 - **Automatic Audit Trails** - All changes logged
 
@@ -128,11 +125,10 @@ The system comes pre-seeded with:
 
 1. Visit the homepage
 2. Click "Request a Document"
-3. Verify your email with OTP
-4. Fill out the request form
-5. Provide digital signature
-6. Submit and receive tracking ID
-7. Track your request anytime using the tracking ID
+3. Fill out the request form
+4. Provide digital signature
+5. Submit and **take a screenshot of your tracking ID**
+6. Track your request anytime using the tracking ID
 
 ### For Registrars/Admins
 
@@ -164,21 +160,16 @@ The system comes pre-seeded with:
 - **documents** - Available document types
 - **tracks** - Academic tracks/strands
 - **requests** - Document requests with tracking
-- **otps** - One-time passwords for verification
 - **request_logs** - Audit trail of all changes
 
 ## API Routes
 
 ### Public Routes
 - `GET /` - Homepage
-- `GET /otp/request` - OTP request form
-- `POST /otp/send` - Send OTP
-- `GET /otp/verify` - OTP verification form
-- `POST /otp/verify` - Verify OTP
-- `GET /request/create` - Request form (OTP protected)
+- `GET /request/create` - Request form
 - `POST /request/store` - Submit request
-- `GET /tracking/form` - Tracking form (no OTP required)
-- `POST /tracking/track` - Track request (requires tracking code + email)
+- `GET /tracking/form` - Tracking form
+- `POST /tracking/track` - Track request (requires tracking code)
 
 ### Admin Routes (Authentication Required)
 - `GET /admin/dashboard` - Dashboard
@@ -188,15 +179,6 @@ The system comes pre-seeded with:
 - `DELETE /admin/requests/{id}` - Delete request
 
 ## Key Features Explained
-
-### OTP System
-- 6-digit numeric codes
-- 10-minute expiration
-- One-time use
-- Rate-limited (3 requests per 10 minutes)
-- 5 failed verification attempts before lockout
-- Required for document submission only
-- **Not required for tracking** - users can track with tracking code + email
 
 ### Tracking ID Format
 - Format: `DOC-XXXXXX`
@@ -217,15 +199,7 @@ The system comes pre-seeded with:
 - Links actions to users
 
 
-### Notifications
-- OTP codes are shown in-app only. No email notifications are sent.
-
 ## Configuration
-
-### Rate Limiting
-OTP requests are rate-limited to prevent abuse:
-- 3 OTP requests per 10 minutes per email
-- 5 verification attempts before lockout
 
 ### Processing Times
 Default processing days by document type:
@@ -236,12 +210,6 @@ Default processing days by document type:
 Modify in `database/seeders/DocumentSeeder.php`
 
 ## Troubleshooting
-
-
-
-### OTP Not Working
-- Clear browser cache and cookies
-- Verify session is working
 
 ### Database Errors
 - Run `php artisan migrate:fresh --seed`

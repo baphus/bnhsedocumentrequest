@@ -46,6 +46,7 @@ class RequestModal extends Component
                 $this->form->lrn = $request->lrn;
                 $this->form->grade_level = $request->grade_level;
                 $this->form->section = $request->section ?? '';
+                $this->form->advisor = $request->advisor ?? '';
                 $this->form->track_strand = $request->track_strand ?? 'N/A';
                 $this->form->school_year_last_attended = $request->school_year_last_attended;
                 $this->form->document_type_id = $request->document_type_id;
@@ -84,6 +85,7 @@ class RequestModal extends Component
                 'lrn' => $this->form->lrn,
                 'grade_level' => $this->form->grade_level,
                 'section' => $this->form->section,
+                'advisor' => $this->form->advisor,
                 'track_strand' => $this->form->track_strand,
                 'school_year_last_attended' => $this->form->school_year_last_attended,
                 'document_type_id' => $this->form->document_type_id,

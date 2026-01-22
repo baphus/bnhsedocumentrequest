@@ -98,6 +98,13 @@
                     <x-input-error :messages="$errors->get('form.section')" class="mt-2" />
                 </div>
 
+                <!-- Class Adviser -->
+                <div>
+                    <x-input-label for="advisor" value="Class Adviser" />
+                    <x-text-input id="advisor" type="text" class="mt-1 block w-full" wire:model="form.advisor" />
+                    <x-input-error :messages="$errors->get('form.advisor')" class="mt-2" />
+                </div>
+
                 <!-- Track/Strand -->
                 <div>
                     <x-input-label for="track_strand" value="Track/Strand" />
